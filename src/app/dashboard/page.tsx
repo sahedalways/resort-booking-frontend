@@ -1,106 +1,280 @@
+"use client";
+import React, { useState, useRef } from "react";
+import Link from "next/link";
 
-const DashboardPage = () => {
+export function Dashboard() {
+  const [activeSection, setActiveSection] = useState("profile");
+
+  const profileRef = useRef(null);
+  const travelersRef = useRef(null);
+  const settingsRef = useRef(null);
+
+  const SCROLL_OFFSET = 90;
+
+  /**
+   * @param {string} section - The name of the section ('profile', 'travelers', 'settings').
+   * @param {React.MutableRefObject} ref - The ref object pointing to the target element.
+   */
+  const handleNavClick = (section, ref) => {
+    setActiveSection(section);
+
+    if (ref.current) {
+      const elementTop = ref.current.getBoundingClientRect().top;
+
+      const absoluteElementTop = elementTop + window.scrollY;
+
+      const newScrollPosition = absoluteElementTop - SCROLL_OFFSET;
+
+      window.scrollTo({
+        top: newScrollPosition > 0 ? newScrollPosition : 0,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const ContentHeader = ({ title, subtitle, showEdit = true }) => (
+    <div className="d-flex justify-content-between align-items-end pb-3 border-bottom">
+      <div>
+        <h3 className="card-title fw-bold mb-0">{title}</h3>
+        <p className="text-muted mb-0 small">{subtitle}</p>
+      </div>
+      {showEdit && (
+        <Link
+          href="#"
+          className="secondary-color text-decoration-none text-block-16 py-0"
+        >
+          <i className="bi bi-pencil-fill edit-icon me-1"></i> Edit
+        </Link>
+      )}
+    </div>
+  );
+
   return (
-    <section id="dashboard" className="page" data-aos="fade-up">
-      <div className="container dashboard">
-        <h2>Resort Management Dashboard</h2>
-        <div className="dashboard-container" data-aos="fade-up">
-          <div className="sidebar">
-            <h3>Management</h3>
-            <ul className="sidebar-menu">
-              <li><a href="#" className="active"><i className="fas fa-tachometer-alt"></i> Dashboard</a></li>
-              <li><a href="#"><i className="fas fa-bed"></i> Room Management</a></li>
-              <li><a href="#"><i className="fas fa-calendar-check"></i> Bookings</a></li>
-              <li><a href="#"><i className="fas fa-users"></i> Guests</a></li>
-              <li><a href="#"><i className="fas fa-concierge-bell"></i> Services</a></li>
-              <li><a href="#"><i className="fas fa-chart-line"></i> Reports</a></li>
-              <li><a href="#"><i className="fas fa-cog"></i> Settings</a></li>
-            </ul>
-          </div>
-          <div className="dashboard-content">
-            <h3>Today's Overview</h3>
-            <div className="stats-grid">
-              <div className="stat-card">
-                <h4>Total Bookings</h4>
-                <div className="number">142</div>
-                <p>This Month</p>
+    <div className="container custom-container">
+      <div className="row g-4">
+        {/* Left Sidebar Navigation (col-md-4) */}
+        <div className="col-md-4 sidebar-card-wrapper">
+          <div className="card sidebar-card">
+            <div className="card-body d-flex flex-column align-items-center">
+              {/* Avatar & Edit */}
+              <div className="d-flex align-items-center mb-4 w-100 justify-content-center position-relative">
+                <div className="avatar-container">
+                  <i className="bi bi-person-fill avatar-icon"></i>
+                </div>
+
+                <Link
+                  href="#"
+                  className="text-decoration-none avatar-edit-btn secondary-color"
+                >
+                  <i className="bi bi-pencil-fill me-1"></i> Edit
+                </Link>
               </div>
-              <div className="stat-card">
-                <h4>Occupancy Rate</h4>
-                <div className="number">87%</div>
-                <p>Current Status</p>
+
+              <div className="my-4">
+                <span className="badge custom-badge-style py-2 px-3 rounded-pill">
+                  <i className="bi bi-shield-fill me-1"></i> Bronze
+                </span>
               </div>
-              <div className="stat-card">
-                <h4>Revenue</h4>
-                <div className="number">$84,320</div>
-                <p>This Month</p>
-              </div>
-              <div className="stat-card">
-                <h4>Check-ins Today</h4>
-                <div className="number">18</div>
-                <p>Guests Arriving</p>
+
+              {/* Navigation List */}
+              <div className="w-100 text-start">
+                <a
+                  href="#profile"
+                  className={`nav-link-custom ${
+                    activeSection === "profile" ? "nav-link-active" : ""
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick("profile", profileRef);
+                  }}
+                >
+                  <i className="bi bi-person-circle"></i> Personal Info
+                </a>
+
+                <a
+                  href="#travelers"
+                  className={`nav-link-custom ${
+                    activeSection === "travelers" ? "nav-link-active" : ""
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick("travelers", travelersRef);
+                  }}
+                >
+                  <i className="bi bi-people-fill"></i> Travelers
+                </a>
+
+                <a
+                  href="#settings"
+                  className={`nav-link-custom ${
+                    activeSection === "settings" ? "nav-link-active" : ""
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick("settings", settingsRef);
+                  }}
+                >
+                  <i className="bi bi-gear-fill"></i> Settings
+                </a>
+
+                <a href="#" className="nav-link-custom text-danger">
+                  <i className="bi bi-box-arrow-right"></i> Log Out
+                </a>
               </div>
             </div>
-            <h3 style={{ marginTop: '40px' }}>Recent Bookings</h3>
-            <table>
-              <thead>
-                <tr>
-                  <th>Booking ID</th>
-                  <th>Guest</th>
-                  <th>Room Type</th>
-                  <th>Check-in</th>
-                  <th>Check-out</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>#RES-1024</td>
-                  <td>Michael Johnson</td>
-                  <td>Deluxe Suite</td>
-                  <td>Jul 15, 2023</td>
-                  <td>Jul 22, 2023</td>
-                  <td><span className="status confirmed">Confirmed</span></td>
-                </tr>
-                <tr>
-                  <td>#RES-1025</td>
-                  <td>Sarah Williams</td>
-                  <td>Ocean View Villa</td>
-                  <td>Jul 16, 2023</td>
-                  <td>Jul 20, 2023</td>
-                  <td><span className="status confirmed">Confirmed</span></td>
-                </tr>
-                <tr>
-                  <td>#RES-1026</td>
-                  <td>Robert Chen</td>
-                  <td>Premium Bungalow</td>
-                  <td>Jul 18, 2023</td>
-                  <td>Jul 25, 2023</td>
-                  <td><span className="status pending">Pending</span></td>
-                </tr>
-                <tr>
-                  <td>#RES-1027</td>
-                  <td>Emily Rodriguez</td>
-                  <td>Family Suite</td>
-                  <td>Jul 20, 2023</td>
-                  <td>Jul 27, 2023</td>
-                  <td><span className="status confirmed">Confirmed</span></td>
-                </tr>
-                <tr>
-                  <td>#RES-1028</td>
-                  <td>David Kim</td>
-                  <td>Presidential Suite</td>
-                  <td>Jul 22, 2023</td>
-                  <td>Jul 29, 2023</td>
-                  <td><span className="status pending">Pending</span></td>
-                </tr>
-              </tbody>
-            </table>
+          </div>
+        </div>
+
+        {/* Right Profile Content (col-md-8) */}
+        <div className="col-md-8">
+          {/* 1. Profile Card (Personal Info) */}
+          <div ref={profileRef} className="mb-4">
+            {/* Profile Details List */}
+            <div className="profile-details profile-content-card mb-4">
+              <ContentHeader
+                title="Profile"
+                subtitle="Basic info, for a faster booking experience"
+              />
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Name</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Gender</span>
+                <span className="value-text text-dark col-6 text-end">
+                  Male
+                </span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Present Address</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Permanent Address</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Marital Status</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Date of Birth</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Passport Country</span>
+                <span className="value-text text-dark col-6 text-end">
+                  Bangladesh
+                </span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Passport Number</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Passport Expiry Date</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">National ID</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Nationality</span>
+                <span className="value-text text-dark col-6 text-end">
+                  Bangladesh
+                </span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Emergency Contact</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Religion</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+              <div className="d-flex justify-content-between profile-list-item">
+                <span className="label-text col-6">Language Preference</span>
+                <span className="value-text text-dark col-6 text-end">N/A</span>
+              </div>
+            </div>
+
+            {/* Traveler Info Card */}
+            <div ref={travelersRef} className="profile-content-card mb-4">
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                  <h3 className="card-title fw-bold mb-0">Traveler Info</h3>
+                  <small className="text-muted">You have 1 traveler</small>
+                </div>
+              </div>
+
+              <div className="border rounded p-3 mb-2">
+                <div className="d-flex align-items-center justify-content-between">
+                  <div>
+                    <h6 className="mb-1">
+                      GoZayaan User
+                      <span className="badge bg-light primary-color border ms-2">
+                        Primary Traveler
+                      </span>
+                    </h6>
+                    <small className="text-muted">
+                      shawonmahmud5001@gmail.com
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <a
+                href="#"
+                className="primary-color small fw-medium text-decoration-none"
+              >
+                + Add traveller
+              </a>
+            </div>
+
+            {/* Settings Card */}
+            <div ref={settingsRef} className="profile-content-card mb-4">
+              <div className="mb-3">
+                <h3 className="card-title fw-bold mb-0">Settings</h3>
+                <small className="text-muted">
+                  Manage your email address, mobile number and password
+                </small>
+              </div>
+
+              <ul className="list-group list-group-flush border rounded">
+                {/* Email */}
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  <span className="text-muted">Email</span>
+                  <span className="fw-semibold">user@gmail.com</span>
+                </li>
+
+                {/* Phone */}
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  <span className="text-muted">Phone</span>
+                  <span className="fw-semibold">8800123456789</span>
+                </li>
+
+                {/* Password */}
+                <li className="list-group-item d-flex justify-content-between align-items-center">
+                  <span className="text-muted">Password</span>
+                  <a href="#" className="primary-color fw-semibold">
+                    Change Password ?
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
-};
+}
 
-export default DashboardPage;
+const App = () => (
+  <div className="app-background">
+    <Dashboard />
+  </div>
+);
+
+export default App;

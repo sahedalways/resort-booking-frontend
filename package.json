@@ -1,5 +1,5 @@
 {
-  "name": "my-next-app",
+  "name": "resort-booking",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,12 +9,17 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@types/aos": "^3.0.7",
-    "aos": "^2.3.4",
+    "@fortawesome/free-solid-svg-icons": "^7.0.1",
+    "@fortawesome/react-fontawesome": "^3.0.2",
+    "@iconify/react": "^6.0.1",
+    "@types/react-date-range": "^1.4.10",
+    "bootstrap": "^5.3.8",
     "next": "15.5.2",
     "react": "19.1.0",
+    "react-bootstrap": "^2.10.10",
+    "react-date-range": "^2.0.1",
     "react-dom": "19.1.0",
-    "swiper": "^11.2.10"
+    "swiper": "^12.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
