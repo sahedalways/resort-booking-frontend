@@ -103,167 +103,167 @@ export default function EventDetails() {
         </div>
       </section>
 
-    <section className="section-gap">
-  <div className="container">
-    <div className="row g-4">
-      <div className="col">
-        <div className="text-center">
-          <h3 className="text-block-32 position-relative primary-color">
-            Flawless Wedding Planning for Your Dream Day
-          </h3>
-          <p className="subtitle text-dark">
-            We provide exceptional service to make your vacation perfect
-          </p>
-        </div>
-      </div>
+      <section className="section-gap">
+        <div className="container">
+          <div className="row g-4">
+            <div className="col">
+              <div className="text-center">
+                <h3 className="text-block-32 position-relative primary-color">
+                  Flawless Wedding Planning for Your Dream Day
+                </h3>
+                <p className="subtitle text-dark">
+                  We provide exceptional service to make your vacation perfect
+                </p>
+              </div>
+            </div>
 
-      {/* ✅ Replace inner row with a column */}
-      <div className="col-12">
-        <LightGallery
-          speed={500}
-          plugins={[lgThumbnail, lgZoom]}
-          elementClassNames="row g-4"
-        >
-          {images.map((image, idx) => (
-            <a href={image.src} className="col-md-3" key={idx}>
-              <Image
-                src={image.src}
-                alt={image.alt}
-                width={500}
-                height={500}
-                className="img-fluid"
-              />
-            </a>
-          ))}
-        </LightGallery>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-	    <section className="section-gap">
-      <div className="container">
-        <div className="row">
-          <div className="col-12">
-            <div className="section-header-container">
-              <h1 className="main-title">
-                Ready to Make It Happen? Let’s Talk!
-              </h1>
-              <p className="primary-color fw-semibold col-md-8 col-12">
-                Let us help you find the venue of your dreams. Contact us today
-                to start your journey to an unforgettable
-              </p>
+            {/* ✅ Replace inner row with a column */}
+            <div className="col-12">
+              <LightGallery
+                showCloseIcon={true}
+                speed={500}
+                plugins={[lgThumbnail, lgZoom]}
+                elementClassNames="row g-4"
+              >
+                {images.map((image, idx) => (
+                  <a href={image.src} className="col-md-3" key={idx}>
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      width={500}
+                      height={500}
+                      className="img-fluid"
+                    />
+                  </a>
+                ))}
+              </LightGallery>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="col-md-8 mx-auto">
-            <form>
-              <div className="row mb-3">
-                <div className="col-md-6 mb-3 mb-md-0">
-                  <input
-                    type="text"
-                    className="form-control shadow-none"
-                    id="yourName"
-                    placeholder="Your Name *"
-                    required
-                  />
-                </div>
-                <div className="col-md-6">
-                  <input
-                    type="tel"
-                    className="form-control shadow-none"
-                    id="yourPhone"
-                    placeholder="Your Phone *"
-                    required
-                  />
-                </div>
+      <section className="section-gap">
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="section-header-container">
+                <h1 className="main-title">
+                  Ready to Make It Happen? Let’s Talk!
+                </h1>
+                <p className="primary-color fw-semibold col-md-8 col-12">
+                  Let us help you find the venue of your dreams. Contact us
+                  today to start your journey to an unforgettable
+                </p>
               </div>
+            </div>
 
-              <div className="row mb-3">
-                <div className="col-md-6 mb-3 mb-md-0">
-                  <input
-                    type="text"
-                    className="form-control shadow-none"
-                    id="dateOfFunction"
-                    placeholder="Date of Function *"
-                    required
-                  />
-                </div>
-                <div className="col-md-6">
-                  <input
-                    type="number"
-                    className="form-control shadow-none"
-                    id="gatheringSize"
-                    placeholder="Gathering Size *"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="row mb-3">
-                <div className="col-md-6 mb-3 mb-md-0">
-                  <input
-                    type="text"
-                    className="form-control shadow-none"
-                    id="preferredLocation"
-                    placeholder="Preferred Location *"
-                    required
-                  />
-                </div>
-                <div className="col-md-6">
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-outline-secondary dropdown-toggle custom-dropdown-style"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                    >
-                      Select Budget
-                    </button>
-                    <ul className="dropdown-menu w-100">
-                      <li>
-                        <Link className="dropdown-item" href="#">
-                          $100 - $500
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" href="#">
-                          $500 - $1,000
-                        </Link>
-                      </li>
-                      <li>
-                        <Link className="dropdown-item" href="#">
-                          $1,000+
-                        </Link>
-                      </li>
-                    </ul>
+            <div className="col-md-8 mx-auto">
+              <form>
+                <div className="row mb-3">
+                  <div className="col-md-6 mb-3 mb-md-0">
+                    <input
+                      type="text"
+                      className="form-control shadow-none"
+                      id="yourName"
+                      placeholder="Your Name *"
+                      required
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <input
+                      type="tel"
+                      className="form-control shadow-none"
+                      id="yourPhone"
+                      placeholder="Your Phone *"
+                      required
+                    />
                   </div>
                 </div>
-              </div>
 
-              <div className="row mb-4">
-                <div className="col-12">
-                  <textarea
-                    className="form-control shadow-none"
-                    id="tellUsMore"
-                    rows={5}
-                    placeholder="Tell Us More"
-                  ></textarea>
+                <div className="row mb-3">
+                  <div className="col-md-6 mb-3 mb-md-0">
+                    <input
+                      type="text"
+                      className="form-control shadow-none"
+                      id="dateOfFunction"
+                      placeholder="Date of Function *"
+                      required
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <input
+                      type="number"
+                      className="form-control shadow-none"
+                      id="gatheringSize"
+                      placeholder="Gathering Size *"
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="row">
-                <div className="col-12 text-center">
-                  <button type="submit" className="btn btn-custom">
-                    SEND YOUR MESSAGE
-                  </button>
+                <div className="row mb-3">
+                  <div className="col-md-6 mb-3 mb-md-0">
+                    <input
+                      type="text"
+                      className="form-control shadow-none"
+                      id="preferredLocation"
+                      placeholder="Preferred Location *"
+                      required
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <div className="dropdown">
+                      <button
+                        className="btn btn-outline-secondary dropdown-toggle custom-dropdown-style"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                      >
+                        Select Budget
+                      </button>
+                      <ul className="dropdown-menu w-100">
+                        <li>
+                          <Link className="dropdown-item" href="#">
+                            $100 - $500
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="dropdown-item" href="#">
+                            $500 - $1,000
+                          </Link>
+                        </li>
+                        <li>
+                          <Link className="dropdown-item" href="#">
+                            $1,000+
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </form>
+
+                <div className="row mb-4">
+                  <div className="col-12">
+                    <textarea
+                      className="form-control shadow-none"
+                      id="tellUsMore"
+                      rows={5}
+                      placeholder="Tell Us More"
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-12 text-center">
+                    <button type="submit" className="btn btn-custom">
+                      SEND YOUR MESSAGE
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 }
