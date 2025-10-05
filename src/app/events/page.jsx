@@ -1,4 +1,4 @@
-"use client"; // if you’re in App Router (app/ folder)
+'use client'; // if you’re in App Router (app/ folder)
 
 import Image from "next/image";
 import Link from "next/link";

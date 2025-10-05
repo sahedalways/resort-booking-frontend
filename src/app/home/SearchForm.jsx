@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import React, { useState, useRef, useEffect } from "react";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
@@ -69,7 +69,7 @@ const SearchForm = () => {
     },
   ];
 
-const handleSearchForChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+const handleSearchForChange = (e) => {
   const { value, checked } = e.target;
   setSearchFor((prev) =>
     checked ? [...prev, value] : prev.filter((item) => item !== value)
