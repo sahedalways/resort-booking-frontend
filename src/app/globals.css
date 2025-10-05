@@ -84,7 +84,11 @@ body {
   font-family: "inter" !important;
   font-size: var(--font-16);
 }
-
+.form-control,
+.custom-dropdown-style,
+.dropdown-menu{
+  font-size: var(--font-16);
+}
 /*************** common style ******************/
 /************************************************/
 /************************************************/
@@ -1239,7 +1243,6 @@ button.btn-link.active {
   color: var(--white);
   padding: 5px 10px;
   font-size: var(--font-12);
-  border-top-left-radius: 5px;
   cursor: pointer;
 }
 
@@ -1672,6 +1675,11 @@ img.payment-icon-table {
   max-width: 40px;
 }
 
+.lg-react-element img {
+    height: 300px;
+    object-fit: cover;
+}
+
 /* ###event details page */
 
 
@@ -1954,3 +1962,4 @@ img.payment-icon-table {
 }
 
 /* ###dashborard sytle */
+

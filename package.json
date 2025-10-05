@@ -14,6 +14,7 @@
     "@iconify/react": "^6.0.1",
     "@types/react-date-range": "^1.4.10",
     "bootstrap": "^5.3.8",
+    "lightgallery": "^2.9.0",
     "next": "15.5.2",
     "react": "19.1.0",
     "react-bootstrap": "^2.10.10",
