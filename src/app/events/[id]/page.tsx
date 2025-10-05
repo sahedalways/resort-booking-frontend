@@ -107,8 +107,8 @@ export default function EventDetails() {
         <div className="container">
           <div className="row g-4">
             <div className="col">
-              <div className="text-center">
-                <h3 className="text-block-32 position-relative primary-color">
+              <div className="section-header-container">
+                <h3 className="text-block-32 position-relative primary-color mb-0">
                   Flawless Wedding Planning for Your Dream Day
                 </h3>
                 <p className="subtitle text-dark">
