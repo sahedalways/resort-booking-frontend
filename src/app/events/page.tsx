@@ -292,7 +292,9 @@ export default function Events() {
               <h2 className="main-title">
                 What we <br className="d-lg-block d-none" /> offer
               </h2>
-              <button className="btn btn-custom mt-3">MORE SERVICE</button>
+              <Link href="/events/1">
+                <button className="btn btn-custom mt-3">MORE SERVICE</button>
+              </Link>
             </div>
           </div>
         </div>

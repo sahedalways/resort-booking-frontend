@@ -102,6 +102,9 @@ body {
   font-size: var(--font-50);
 }
 
+.text-block-32 {
+  font-size: var(--font-32);
+}
 .text-block-24 {
   font-size: var(--font-24);
   font-weight: 600
@@ -1641,6 +1644,35 @@ img.payment-icon-table {
 }
 
 /* ###refund policy */
+
+
+/* event details page */
+.event-details-header {
+  background-image: url("/img/event_img.png");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+  color: var(--white);
+  padding: 100px 0;
+  text-align: center;
+}
+
+
+.underLine::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: var(--primary);
+  width: 40px;
+  max-width: 40px;
+}
+
+/* ###event details page */
 
 
 /****************************************/
