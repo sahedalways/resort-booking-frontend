@@ -5,31 +5,6 @@ import Link from 'next/link';
 
 const ForgotPassword = () => {
   return (
-    //<Container className="d-flex justify-content-center align-items-center vh-100">
-    //  <Row>
-    //    <Col>
-    //      <div className="card p-4" style={{ width: '400px' }}>
-    //        <h2 className="text-center mb-4">Forgot Password</h2>
-    //        <p className="text-center text-muted mb-4">
-    //          Enter your email address to receive a password reset link.
-    //        </p>
-    //        <Form>
-    //          <Form.Group className="mb-3" controlId="formBasicEmail">
-    //            <Form.Label>Email address</Form.Label>
-    //            <Form.Control type="email" placeholder="Enter your email" />
-    //          </Form.Group>
-
-    //          <Button variant="primary" type="submit" className="w-100">
-    //            Send Reset Link
-    //          </Button>
-    //        </Form>
-    //        <div className="text-center mt-3">
-    //          <Link href="/login">Back to Login</Link>
-    //        </div>
-    //      </div>
-    //    </Col>
-    //  </Row>
-    //</Container>
  <section className="section-gap">
   <div className="container">
     <div className="row justify-content-center">

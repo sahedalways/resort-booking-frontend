@@ -11,10 +11,6 @@ export function Dashboard() {
 
   const SCROLL_OFFSET = 90;
 
-  /**
-   * @param {string} section - The name of the section ('profile', 'travelers', 'settings').
-   * @param {React.MutableRefObject} ref - The ref object pointing to the target element.
-   */
   const handleNavClick = (section, ref) => {
     setActiveSection(section);
 

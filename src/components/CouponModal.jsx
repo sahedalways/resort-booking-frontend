@@ -1,12 +1,8 @@
 import React from "react";
 import Image from "next/image";
 
-interface CouponModalProps {
-  onClose: () => void;
-}
-
-const CouponModal: React.FC<CouponModalProps> = ({ onClose }) => {
-  const copyCode = (code: string) => {
+const CouponModal = ({ onClose }) => {
+  const copyCode = (code) => {
     navigator.clipboard.writeText(code);
     alert(`Copied: ${code}`);
   };
