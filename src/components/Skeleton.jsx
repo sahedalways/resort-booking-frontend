@@ -21,6 +21,7 @@ const Skeleton = ({ type, className = "" }) => {
             </div>
           </nav>
         );
+
       case "footer":
         return (
           <footer className="footer bg-light mt-auto">
@@ -205,6 +206,43 @@ const Skeleton = ({ type, className = "" }) => {
                 </div>
               ))}
             </div>
+          </div>
+        );
+
+      case "resorts":
+        return (
+          <div className={`resorts-content ${className}`}>
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="resort-card row mb-4">
+                <div className="resort-image col-lg-3">
+                  <div className="skeleton skeleton-img"></div>
+                </div>
+                <div className="resort-info col-lg-7">
+                  <div className="skeleton skeleton-text mb-2"></div>
+                  <div className="d-flex gap-2">
+                    <div className="skeleton skeleton-text small me-2"></div>
+                    <div className="skeleton skeleton-text small"></div>
+                  </div>
+                  <div className="resort-amenities my-3 d-flex gap-2 flex-wrap">
+                    {[...Array(6)].map((_, j) => (
+                      <div key={j} className="skeleton skeleton-badge"></div>
+                    ))}
+                  </div>
+                  <div className="d-flex align-items-center gap-3 mt-2">
+                    <div className="skeleton skeleton-icon"></div>
+                    <div>
+                      <div className="skeleton skeleton-text small mb-1"></div>
+                      <div className="skeleton skeleton-text tiny"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="resort-price text-end col-lg-2 rounded p-3">
+                  <div className="skeleton skeleton-text mb-2"></div>
+                  <div className="skeleton skeleton-text mb-2"></div>
+                  <div className="skeleton skeleton-btn"></div>
+                </div>
+              </div>
+            ))}
           </div>
         );
 

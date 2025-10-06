@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import fetchHomeData from "../services/homeService";
 
-export const revalidate = 10;
+export const revalidate = 100;
 
 const HomePage = dynamic(() => import("./Home"));
 
