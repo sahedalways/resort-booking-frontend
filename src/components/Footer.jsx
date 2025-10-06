@@ -1,8 +1,12 @@
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Skeleton from "./Skeleton";
 
-const Footer = () => {
+const Footer = ({ data }) => {
+  if (!data) return <Skeleton type="footer" />;
+
+  const { site_info, contact_info, social_info } = data;
+
   return (
     <footer className="footer text-center text-lg-start mt-auto">
       <div className="container p-4">
@@ -25,21 +29,6 @@ const Footer = () => {
                   Contact Us
                 </Link>
               </li>
-              <li>
-                <Link href="/refund-policy" className="text-dark">
-                  Refund Policy
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-dark">
-                  Customer Service
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-dark">
-                  Admin Login
-                </Link>
-              </li>
             </ul>
           </div>
           <div className="col-lg-3 col-md-6">
@@ -55,11 +44,7 @@ const Footer = () => {
                   Event
                 </Link>
               </li>
-              <li>
-                <Link href="/events" className="text-dark">
-                  Trips
-                </Link>
-              </li>
+
               <li>
                 <Link href="/contact" className="text-dark">
                   Dashboard
@@ -71,78 +56,99 @@ const Footer = () => {
             <h5 className="text-uppercase">Contact</h5>
             <ul className="list-unstyled mb-0 d-grid gap-1">
               <li>
-                <Link href="tel:+8801877556633" className="text-dark">
+                <Link href={`tel:${contact_info?.phone}`} className="text-dark">
                   <i className="bi bi-telephone-fill me-2"></i>
-                  +8801877556633
+                  {contact_info?.phone}
                 </Link>
               </li>
               <li>
-                <Link href="mailto:info@bookingxpart.com" className="text-dark">
+                <Link
+                  href={`mailto:${contact_info?.email}`}
+                  className="text-dark"
+                >
                   <i className="bi bi-envelope-fill me-2"></i>
-                  info@bookingxpart.com
+                  {contact_info?.email}
                 </Link>
               </li>
               <li className="mt-2 contact-social-links">
-                <Link href="https://facebook.com" className="text-dark me-3">
-                  <i className="bi bi-facebook"></i>
-                </Link>
-                <Link href="https://twitter.com" className="text-dark me-3">
-                  <i className="bi bi-twitter"></i>
-                </Link>
-                <Link href="https://instagram.com" className="text-dark me-3">
-                  <i className="bi bi-instagram"></i>
-                </Link>
-                <Link href="https://youtube.com" className="text-dark">
-                  <i className="bi bi-youtube"></i>
-                </Link>
+                {social_info?.facebook && (
+                  <Link href={social_info.facebook} className="text-dark me-3">
+                    <i className="bi bi-facebook"></i>
+                  </Link>
+                )}
+                {social_info?.twitter && (
+                  <Link href={social_info.twitter} className="text-dark me-3">
+                    <i className="bi bi-twitter"></i>
+                  </Link>
+                )}
+                {social_info?.instagram && (
+                  <Link href={social_info.instagram} className="text-dark me-3">
+                    <i className="bi bi-instagram"></i>
+                  </Link>
+                )}
+                {social_info?.youtube && (
+                  <Link href={social_info.youtube} className="text-dark">
+                    <i className="bi bi-youtube"></i>
+                  </Link>
+                )}
               </li>
             </ul>
           </div>
+
           <div className="col-lg-3 col-md-6">
             <h5 className="text-uppercase">We accept</h5>
             <div className="payment-grid">
-              <Image width={100} height={60} src="/img/bkash.png" alt="Bkash" className="payment-icon" />
-              <Image width={100} height={60} src="/img/nagad.png" alt="Nagad" className="payment-icon" />
               <Image
-              width={100} height={60}
-                src="/img/rocket.png"
-                alt="Rocket"
+                width={100}
+                height={60}
+                src="/img/bkash.png"
+                alt="Bkash"
                 className="payment-icon"
               />
-              <Image width={100} height={60} src="/img/Upay.png" alt="Upai" className="payment-icon" />
             </div>
           </div>
         </div>
 
         <div className="row mt-3 pt-3 border-top g-4">
+          {/* Dhaka Office */}
           <div className="col-lg-3 col-md-6">
             <div className="contact-card">
               <h5>BookingXpart (Dhaka)</h5>
-              <p>
-                6th Floor, House 168,
-                <br />
-                Block B, Sayednagar
-                <br />
-                Gulshan, Dhaka 1212,
-                <br />
-                Bangladesh
-              </p>
-              <Link href="#" className="map-link">
+              <p>{contact_info?.dhaka_office_address}</p>
+              <Link
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  contact_info?.dhaka_office_address
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="map-link"
+              >
                 <i className="bi bi-geo-alt-fill"></i> View Map
               </Link>
             </div>
           </div>
+
+          {/* Gazipur Office */}
           <div className="col-lg-3 col-md-6">
             <div className="contact-card">
               <h5>Gazipur Office</h5>
-              <p>
-               6th Floor, House 168, <br /> Block B, Sayednagar <br /> Gulsan, Dhaka 1212, <br /> Bangladesh
-              </p>
-              <Link href="#" className="map-link">
+              <p>{contact_info?.gazipur_office_address}</p>
+              <Link
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  contact_info?.gazipur_office_address
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="map-link"
+              >
                 <i className="bi bi-geo-alt-fill"></i> View Map
               </Link>
             </div>
           </div>
+        </div>
+
+        <div className="text-center mt-3 pt-3 border-top">
+          <small>{site_info?.copyright_text}</small>
         </div>
       </div>
     </footer>

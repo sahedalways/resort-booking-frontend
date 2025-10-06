@@ -3,19 +3,34 @@ import "./globals.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
+
 import BootstrapClient from "../components/BootstrapClient";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-export const metadata = {
-  title: "Zorana - Resort Booking",
-  description: "Luxury Hotel & Best Resort",
-};
+import fetchHeaderData from "./services/headerService";
+import fetchFooterData from "./services/FooterService";
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const [headerData, footerData] = await Promise.all([
+    fetchHeaderData(),
+    fetchFooterData(),
+  ]);
+
+  const siteTitle =
+    (headerData?.header_info?.site_title || "BookingXpart") + " | Home";
+
+  const faviconUrl = headerData?.header_info?.favicon_url || "/favicon.ico";
+
   return (
     <html lang="en">
       <head>
+        <title>{siteTitle}</title>
+
+        <meta name="description" content="Home page of this site" />
+        {faviconUrl && <link rel="icon" href={faviconUrl} />}
+
+        {/* Fonts & icons */}
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
@@ -33,9 +48,9 @@ export default function RootLayout({ children }) {
       </head>
 
       <body>
-        <Header />
+        <Header data={headerData?.header_info} />
         {children}
-        <Footer />
+        <Footer data={footerData} />
         <BootstrapClient />
       </body>
     </html>

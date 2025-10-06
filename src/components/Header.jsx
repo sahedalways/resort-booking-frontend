@@ -1,11 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
+import Skeleton from "./Skeleton";
 
-const Header = () => {
+const Header = ({ data }) => {
+  if (!data) return <Skeleton type="header" />;
+
   const pathname = usePathname();
   const [showMenu, setShowMenu] = useState(false);
 
@@ -16,9 +19,15 @@ const Header = () => {
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
         <div className="container">
-          <Link href="/" className="navbar-brand">
-            BookingXpart
+          <Link href="/" className="navbar-brand d-flex align-items-center">
+            <img
+              src={data?.logo_url || "/default-logo.png"}
+              alt={data?.site_title || "BookingXpart"}
+              style={{ height: "40px", marginRight: "10px" }}
+            />
+            <span>{data?.site_title || "BookingXpart"}</span>
           </Link>
+
           <button
             className="navbar-toggler d-lg-none shadow-none"
             type="button"
@@ -28,7 +37,10 @@ const Header = () => {
               <Icon icon="garden:menu-fill-16" width="24" height="24" />
             </span>
           </button>
-          <div className="collapse navbar-collapse d-none d-lg-block" id="navbarNav">
+          <div
+            className="collapse navbar-collapse d-none d-lg-block"
+            id="navbarNav"
+          >
             <ul className="navbar-nav mx-auto">
               <li className="nav-item">
                 <Link
@@ -80,14 +92,17 @@ const Header = () => {
               </li>
             </ul>
             {pathname !== "/dashboard" && (
-            <div className="d-flex justify-content-center">
-              <button className="btn secondary-bg me-2 custom-btn-style" type="button">
-                Book
-              </button>
-              <Link href="/login" className="btn primary-bg custom-btn-style">
-                Log In
-              </Link>
-            </div>
+              <div className="d-flex justify-content-center">
+                <button
+                  className="btn secondary-bg me-2 custom-btn-style"
+                  type="button"
+                >
+                  Book
+                </button>
+                <Link href="/login" className="btn primary-bg custom-btn-style">
+                  Log In
+                </Link>
+              </div>
             )}
           </div>
         </div>
@@ -134,9 +149,7 @@ const Header = () => {
             <li className="nav-item">
               <Link
                 href="/events"
-                className={`nav-link ${
-                  pathname === "/events" ? "active" : ""
-                }`}
+                className={`nav-link ${pathname === "/events" ? "active" : ""}`}
                 onClick={handleClose}
               >
                 Events
@@ -166,19 +179,27 @@ const Header = () => {
             </li>
           </ul>
           {pathname !== "/dashboard" && (
-          <div className="mt-3 text-center">
-            <button className="btn secondary-bg me-2 custom-btn-style" type="button">
-              Book
-            </button>
-            <Link href="/login" className="btn primary-bg custom-btn-style">
-              Log In
-            </Link>
-          </div>
+            <div className="mt-3 text-center">
+              <button
+                className="btn secondary-bg me-2 custom-btn-style"
+                type="button"
+              >
+                Book
+              </button>
+              <Link href="/login" className="btn primary-bg custom-btn-style">
+                Log In
+              </Link>
+            </div>
           )}
         </div>
       </div>
 
-      {showMenu && <div className="offcanvas-backdrop fade show" onClick={handleClose}></div>}
+      {showMenu && (
+        <div
+          className="offcanvas-backdrop fade show"
+          onClick={handleClose}
+        ></div>
+      )}
     </>
   );
 };
