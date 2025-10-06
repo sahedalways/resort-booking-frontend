@@ -74,6 +74,140 @@ const Skeleton = ({ type, className = "" }) => {
             <div className="skeleton skeleton-card-body"></div>
           </div>
         );
+
+      case "searchForm":
+        return (
+          <div className="search-container">
+            {/* Tabs */}
+            <div className="tab-buttons col-lg-4 col-md-6 col-10 d-flex gap-2 mb-3">
+              {[...Array(2)].map((_, i) => (
+                <div
+                  key={i}
+                  className="skeleton skeleton-tab"
+                  style={{
+                    width: "100px",
+                    height: "40px",
+                    borderRadius: "8px",
+                  }}
+                ></div>
+              ))}
+            </div>
+
+            {/* Form Fields */}
+            <div className="form-content">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="row g-3 mb-3">
+                  {[...Array(3)].map((__, j) => (
+                    <div key={j} className="col-lg-4 col-12">
+                      <div
+                        className="skeleton"
+                        style={{
+                          width: "100%",
+                          height: "50px",
+                          borderRadius: "6px",
+                        }}
+                      ></div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+
+              {/* Rooms & Guests / Calendar Dropdown Skeleton */}
+              <div
+                className="skeleton"
+                style={{
+                  height: "100px",
+                  borderRadius: "8px",
+                  marginBottom: "15px",
+                }}
+              ></div>
+
+              {/* Search Button Skeleton */}
+              <div className="text-center mt-3">
+                <div
+                  className="skeleton"
+                  style={{
+                    width: "150px",
+                    height: "45px",
+                    borderRadius: "6px",
+                    margin: "0 auto",
+                  }}
+                ></div>
+              </div>
+            </div>
+          </div>
+        );
+
+      case "features":
+        return (
+          <section className="features-section section-gap">
+            <div className="container">
+              {/* Section header skeleton */}
+              <div className="row mb-4">
+                <div className="col">
+                  <div
+                    className="skeleton"
+                    style={{
+                      width: "150px",
+                      height: "30px",
+                      marginBottom: "10px",
+                    }}
+                  ></div>
+                  <div
+                    className="skeleton"
+                    style={{
+                      width: "300px",
+                      height: "40px",
+                      marginBottom: "8px",
+                    }}
+                  ></div>
+                  <div
+                    className="skeleton"
+                    style={{ width: "250px", height: "20px" }}
+                  ></div>
+                </div>
+              </div>
+
+              {/* Features cards skeleton */}
+              <div className="row g-4">
+                {[...Array(2)].map((_, i) => (
+                  <div className="col-12 col-md-6" key={i}>
+                    <div
+                      className={`card skeleton-card ${className}`}
+                      style={{ height: "400px", position: "relative" }}
+                    >
+                      <div
+                        className="skeleton"
+                        style={{ width: "100%", height: "100%" }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+
+      case "slider":
+        return (
+          <div className={`slider-skeleton ${className}`}>
+            <div className="row g-3">
+              {[...Array(5)].map((_, i) => (
+                <div key={i} className="col-6 col-md-3">
+                  <div
+                    className="skeleton skeleton-slider-card"
+                    style={{
+                      width: "100%",
+                      height: "150px",
+                      borderRadius: "8px",
+                    }}
+                  ></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+
       default:
         return (
           <div className={`skeleton ${className}`} style={{ height: "20px" }} />

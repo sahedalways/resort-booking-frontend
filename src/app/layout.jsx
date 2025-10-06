@@ -11,6 +11,8 @@ import Footer from "../components/Footer";
 import fetchHeaderData from "./services/headerService";
 import fetchFooterData from "./services/FooterService";
 
+export const revalidate = 100;
+
 export default async function RootLayout({ children }) {
   const [headerData, footerData] = await Promise.all([
     fetchHeaderData(),

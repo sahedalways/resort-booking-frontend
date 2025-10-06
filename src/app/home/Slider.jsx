@@ -6,19 +6,10 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { EffectCoverflow, Pagination, Autoplay } from "swiper/modules";
+import Skeleton from "@/src/components/Skeleton";
 
-const Slider = () => {
-  // Move images to public/img folder
-  const slides = [
-    { img: "Bangkok.jpeg", title: "Bangkok" },
-    { img: "Chennai.jpeg", title: "Chennai" },
-    { img: "Kathamandu.jpeg", title: "Kathmandu" },
-    { img: "Kuala_Lumpur.jpeg", title: "Kuala Lumpur" },
-    { img: "Maafushi.jpeg", title: "Maafushi" },
-    { img: "Singapore.jpeg", title: "Singapore" },
-    { img: "Singapore.jpeg", title: "Singapore" },
-    { img: "Singapore.jpeg", title: "Singapore" },
-  ];
+const Slider = ({ resortData }) => {
+  if (!resortData) return <Skeleton type="slider" />;
 
   return (
     <section className="slider-section section-gap">
@@ -52,13 +43,15 @@ const Slider = () => {
               modules={[EffectCoverflow, Pagination, Autoplay]}
               className="mySwiper"
             >
-              {slides.map((item, index) => (
+              {resortData.map((item, index) => (
                 <SwiperSlide key={index}>
-                  <Link href="#">
+                  <Link href={`/resorts/${item.id}`}>
                     <div className="slider-card">
                       <Image
-                        src={`/img/${item.img}`} // correct path from public folder
-                        alt={item.title}
+                        src={
+                          item.images?.[0]?.image || "/img/default-resort.jpg"
+                        }
+                        alt={item.name}
                         className="slider-image"
                         width={100}
                         height={100}
@@ -66,7 +59,7 @@ const Slider = () => {
 
                       <div className="slider-overlay">
                         <div className="slider-card-content">
-                          <h3>{item.title}</h3>
+                          <h3>{item.name}</h3>
                         </div>
                       </div>
                     </div>

@@ -8,5 +8,5 @@ const HomePage = dynamic(() => import("./Home"));
 export default async function HomeServerWrapper() {
   const homeData = await fetchHomeData();
 
-  return <HomePage initialData={homeData} />;
+  return <HomePage homeData={homeData} />;
 }

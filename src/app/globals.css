@@ -1974,3 +1974,50 @@ img.payment-icon-table {
     opacity: 0.6;
   }
 }
+
+.tab-btn {
+  text-decoration: none !important;
+  color: inherit;
+}
+
+.tab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: #000;
+  text-decoration: none !important;
+}
+
+/* Resort Hover */
+.tab-btn.resort-tab:hover {
+  background-color: #f0f8ff;
+  color: #000 !important;
+  border-color: #0083bb;
+}
+
+/* Event Hover */
+.tab-btn.event-tab:hover {
+  background-color: #fff0f5;
+  color: #e83e8c;
+  border-color: #e83e8c;
+}
+
+/* Active States */
+.tab-btn.active {
+  background-color: #0083bb;
+  color: #fff !important;
+  border-color: #0083bb;
+}
+
+.custom-overlay-card img {
+  transition: transform 0.3s ease;
+}
+
+.custom-overlay-card:hover img {
+  transform: scale(1.05);
+}
