@@ -1,22 +1,22 @@
 :root {
   /*colors*/
 
-  --primary: #164F84;
-  --primary-deep: #0F3A63;
+  --primary: #164f84;
+  --primary-deep: #0f3a63;
   --secondary: #0083bb;
   --secondary-deep: #006993;
   --white: #fff;
   --black: #000;
-  --gray: #8C8C8C;
+  --gray: #8c8c8c;
   --light-gray: #f0f0f0;
   --success: #28a745;
   --danger: #dc3545;
   --warning: #ffc107;
   --info: #17a2b8;
 
-  --hero-bg: #E5FAFF;
-  --tab-shadow: rgba(0, 117, 255, .09);
-  --tab-active-bg: #00A5E9;
+  --hero-bg: #e5faff;
+  --tab-shadow: rgba(0, 117, 255, 0.09);
+  --tab-active-bg: #00a5e9;
   --shadow-light: rgba(0, 0, 0, 0.1);
   --shadow-extra-light: rgba(0, 0, 0, 0.06);
   --form-checked-bg: #3b82f6;
@@ -26,17 +26,17 @@
   --danger-light: red;
   --border-color: #ccc;
   --text-light: #666;
-  --feature-pill-bg: #F0F6FF;
-  --feature-pill-text: #0052CC;
+  --feature-pill-bg: #f0f6ff;
+  --feature-pill-text: #0052cc;
   --subtitle-text: #989898;
-  --custom-overlay-bg: #FFFFFF80;
+  --custom-overlay-bg: #ffffff80;
   --rating-color: gold;
-  --discount-section-bg: #EBF0F4;
-  --discount-shadow: rgba(114, 114, 114, 0.50);
+  --discount-section-bg: #ebf0f4;
+  --discount-shadow: rgba(114, 114, 114, 0.5);
   --overlay-bg-dark: rgba(0, 0, 0, 0.3);
   --overlay-bg-darker: rgba(0, 0, 0, 0.7);
   --map-icon-color: #d63333;
-  --footer-border-color: #A9A9A9BF;
+  --footer-border-color: #a9a9a9bf;
   --toggle-icon-color: #777;
   --custom-budget-text: #555;
   --breadcrumb-bg: #eee;
@@ -60,8 +60,8 @@
   --amenity-chip-border: #d1d5db;
   --feature-card-border: #e9ecef;
   --feature-card-shadow: rgba(0, 0, 0, 0.03);
-  --feature-card-bg: #FAFBFC;
-  --feature-icon-color: #0AA630;
+  --feature-card-bg: #fafbfc;
+  --feature-icon-color: #0aa630;
   --feature-item-text: #5f5f5f;
   --payment-icon-border: #ededed;
 
@@ -86,21 +86,16 @@ body {
 }
 .form-control,
 .custom-dropdown-style,
-.dropdown-menu{
+.dropdown-menu {
   font-size: var(--font-16);
 }
 /*************** common style ******************/
 /************************************************/
 /************************************************/
 
-
-
-
-
 /*********** text block ***************/
 /*************************************/
 /*************************************/
-
 
 .text-block-50 {
   font-size: var(--font-50);
@@ -111,12 +106,12 @@ body {
 }
 .text-block-24 {
   font-size: var(--font-24);
-  font-weight: 600
+  font-weight: 600;
 }
 
 .text-block-20 {
   font-size: var(--font-20);
-  font-weight: 600
+  font-weight: 600;
 }
 
 .paragraph-md {
@@ -133,7 +128,7 @@ body {
 
 .text-block-18-fw-md {
   font-size: var(--font-18);
-  font-weight: 500
+  font-weight: 500;
 }
 
 .text-block-16 {
@@ -142,7 +137,7 @@ body {
 
 .text-block-18-fw-light {
   font-size: var(--font-18);
-  font-weight: 400
+  font-weight: 400;
 }
 
 .text-block-14-fw-md {
@@ -207,8 +202,6 @@ a.primary-color:hover {
 /************************************************/
 /************************************************/
 
-
-
 .navbar-toggler {
   border: none;
   box-shadow: none;
@@ -262,7 +255,6 @@ nav.navbar {
   color: var(--secondary);
 }
 
-
 .search-container {
   background-color: var(--white);
   border-radius: 1.5rem;
@@ -310,7 +302,8 @@ nav.navbar {
 .tab-btn.active {
   background-color: var(--tab-active-bg);
   color: var(--white);
-  box-shadow: 0 4px 6px -1px var(--shadow-light), 0 2px 4px -1px var(--shadow-extra-light);
+  box-shadow: 0 4px 6px -1px var(--shadow-light),
+    0 2px 4px -1px var(--shadow-extra-light);
 }
 
 .tab-btn svg {
@@ -332,7 +325,6 @@ nav.navbar {
 .form-field-wrapper .label {
   font-size: var(--font-16);
   font-weight: 400;
-  ;
 }
 
 .form-field-wrapper .value {
@@ -345,7 +337,7 @@ nav.navbar {
   align-items: center;
   flex-wrap: wrap;
   margin-top: 25px;
-  gap: 22px
+  gap: 22px;
 }
 
 .search-for-wrapper .form-label {
@@ -373,7 +365,6 @@ nav.navbar {
   cursor: pointer;
   box-shadow: none;
 }
-
 
 .form-field-wrapper .form-control {
   border: none;
@@ -424,10 +415,6 @@ nav.navbar {
   font-weight: 600;
   padding: 13px 41px;
 }
-
-
-
-
 
 .tab-btn.active {
   background-color: unset;
@@ -550,9 +537,6 @@ button.btn-link.active {
   width: calc(100% + 100px);
 }
 
-
-
-
 .offcanvas-start {
   width: 300px;
 }
@@ -576,7 +560,7 @@ button.btn-link.active {
 }
 
 .feature-pill::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 70%;
   border-radius: 20px;
@@ -648,7 +632,6 @@ button.btn-link.active {
   align-items: center;
   gap: 5px;
   color: var(--rating-color);
-
 }
 
 .rating-container svg {
@@ -657,8 +640,6 @@ button.btn-link.active {
 }
 
 /* ###our features */
-
-
 
 /* discount section */
 .discount-section {
@@ -676,7 +657,6 @@ button.btn-link.active {
   justify-content: end;
 }
 
-
 .discount-button button {
   border-radius: 24px;
   background: var(--primary);
@@ -684,7 +664,7 @@ button.btn-link.active {
   padding: 8px 16px;
   color: var(--white);
   display: flex;
-  box-shadow: 0 4px 10px 0 rgba(114, 114, 114, 0.50);
+  box-shadow: 0 4px 10px 0 rgba(114, 114, 114, 0.5);
 }
 
 .discount-text {
@@ -785,7 +765,11 @@ button.btn-link.active {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, var(--overlay-bg-dark), var(--overlay-bg-darker));
+  background: linear-gradient(
+    to bottom,
+    var(--overlay-bg-dark),
+    var(--overlay-bg-darker)
+  );
   display: flex;
   align-items: flex-end;
   padding: 15px;
@@ -834,7 +818,6 @@ button.btn-link.active {
   object-fit: cover;
   justify-self: center;
 }
-
 
 .contact-card h5 {
   margin-bottom: 10px;
@@ -892,11 +875,11 @@ button.btn-link.active {
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  transition: .3s;
-  -webkit-transition: .3s;
-  -moz-transition: .3s;
-  -ms-transition: .3s;
-  -o-transition: .3s;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
 }
 
 .contact-social-links i:hover {
@@ -906,8 +889,6 @@ button.btn-link.active {
 }
 
 /*###footer*/
-
-
 
 /* resort */
 .price-filter {
@@ -988,11 +969,11 @@ button.btn-link.active {
   transition: 0.3s;
 }
 
-.switch input:checked+.slider {
+.switch input:checked + .slider {
   background-color: var(--primary);
 }
 
-.switch input:checked+.slider:before {
+.switch input:checked + .slider:before {
   transform: translateX(16px);
 }
 
@@ -1041,7 +1022,6 @@ button.btn-link.active {
   min-width: 24px;
   height: 24px;
 }
-
 
 .resort-amenities {
   display: grid;
@@ -1129,7 +1109,7 @@ button.btn-link.active {
   align-items: center;
 }
 
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
   content: none !important;
 }
 
@@ -1145,7 +1125,6 @@ button.btn-link.active {
   color: var(--primary);
   text-decoration: none;
 }
-
 
 .resort-info {
   padding: 20px;
@@ -1182,7 +1161,6 @@ button.btn-link.active {
   color: var(--separator-color);
 }
 
-
 .gallery-container {
   display: flex;
   gap: 10px;
@@ -1192,7 +1170,6 @@ button.btn-link.active {
 .main-photo {
   flex: 2;
   min-width: 0;
-
 }
 
 .main-photo img {
@@ -1302,7 +1279,6 @@ iframe {
   font-size: var(--font-16);
 }
 
-
 @media (min-width: 480px) {
   .facilities-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1321,7 +1297,6 @@ iframe {
     padding: 0;
   }
 }
-
 
 /* Custom styling for the time boxes */
 .custom-time-box {
@@ -1391,11 +1366,11 @@ iframe {
 
 .custom-tab-header .nav-link.active {
   color: var(--primary);
-  font-weight: bold
+  font-weight: bold;
 }
 
 .custom-tab-header .nav-link.active::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: -5px;
@@ -1405,14 +1380,13 @@ iframe {
   border-radius: 2px;
 }
 
-
 .overview-content {
   background: var(--white);
-  box-shadow: var(--overview-shadow-light) 0px 13px 27px -5px, var(--overlay-bg-dark) 0px 8px 16px -8px;
+  box-shadow: var(--overview-shadow-light) 0px 13px 27px -5px,
+    var(--overlay-bg-dark) 0px 8px 16px -8px;
   border-radius: 15px;
   overflow: hidden;
 }
-
 
 .main-img {
   height: 300px;
@@ -1421,7 +1395,6 @@ iframe {
 .thumb-img {
   height: 128px;
 }
-
 
 .spec-item {
   display: grid;
@@ -1522,7 +1495,6 @@ img.payment-icon-table {
 
 .carousel-indicators [data-bs-target] {
   background-color: var(--white);
-
 }
 
 .carousel-item img {
@@ -1611,7 +1583,6 @@ img.payment-icon-table {
 
 /* about us style */
 
-
 .aboutus-header {
   background-image: url("https://img.freepik.com/free-vector/realistic-travel-background-with-elements_52683-77784.jpg?semt=ais_hybrid&w=740&q=80");
   background-size: cover;
@@ -1648,7 +1619,6 @@ img.payment-icon-table {
 
 /* ###refund policy */
 
-
 /* event details page */
 .event-details-header {
   background-image: url("/img/event_img.png");
@@ -1661,7 +1631,6 @@ img.payment-icon-table {
   padding: 100px 0;
   text-align: center;
 }
-
 
 .underLine::after {
   content: "";
@@ -1676,12 +1645,11 @@ img.payment-icon-table {
 }
 
 .lg-react-element img {
-    height: 300px;
-    object-fit: cover;
+  height: 300px;
+  object-fit: cover;
 }
 
 /* ###event details page */
-
 
 /****************************************/
 /****************************************/
@@ -1715,7 +1683,7 @@ img.payment-icon-table {
   }
 
   .form-check-group {
-    gap: .5rem;
+    gap: 0.5rem;
   }
 
   .payment-grid {
@@ -1757,14 +1725,10 @@ img.payment-icon-table {
     gap: 15px;
   }
 
-
-
   .small {
     font-size: 13px;
   }
 }
-
-
 
 @media (max-width: 768px) {
   .tab-buttons button {
@@ -1793,17 +1757,13 @@ img.payment-icon-table {
   .separator {
     display: none;
   }
-
 }
-
-
 
 /****************************************/
 /****************************************/
 /******************* ###media query *********************/
 /****************************************/
 /****************************************/
-
 
 .border-dashed {
   border-style: dashed !important;
@@ -1830,10 +1790,7 @@ img.payment-icon-table {
   }
 }
 
-
-
 /* dashborard sytle */
-
 
 .app-background {
   background-color: #f5f7fa;
@@ -1963,3 +1920,11 @@ img.payment-icon-table {
 
 /* ###dashborard sytle */
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
