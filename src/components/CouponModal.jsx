@@ -1,4 +1,5 @@
-import React from "react";
+"use client";
+
 import Image from "next/image";
 
 const CouponModal = ({ onClose }) => {
@@ -15,7 +16,6 @@ const CouponModal = ({ onClose }) => {
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content rounded-3 shadow">
           <div className="modal-header border-0">
-            
             <button
               type="button"
               className="btn-close shadow-none"

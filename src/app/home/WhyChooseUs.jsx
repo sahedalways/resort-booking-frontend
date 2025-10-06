@@ -1,5 +1,3 @@
-import React from "react";
-
 const WhyChooseUs = () => {
   return (
     <section className="why-choose-us-section section-gap">

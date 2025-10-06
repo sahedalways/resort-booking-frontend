@@ -1,4 +1,4 @@
-import React from "react";
+"use client";
 
 const RefundPolicy = () => {
   return (
@@ -27,7 +27,9 @@ const RefundPolicy = () => {
               </p>
 
               <div className="mb-4">
-                <h3 className="text-block-20 mb-3 text-decoration-underline">Cancellation & Refunds</h3>
+                <h3 className="text-block-20 mb-3 text-decoration-underline">
+                  Cancellation & Refunds
+                </h3>
                 <p className="mb-0">
                   You may cancel your booking according to the terms specified
                   during your reservation. Refunds, if applicable, will be
@@ -38,7 +40,9 @@ const RefundPolicy = () => {
               </div>
 
               <div className="mb-4">
-                <h3 className="text-block-20 mb-3 text-decoration-underline">Non-Refundable Cases</h3>
+                <h3 className="text-block-20 mb-3 text-decoration-underline">
+                  Non-Refundable Cases
+                </h3>
                 <p className="mb-0">
                   Certain bookings may be non-refundable or partially refundable
                   based on the resort's policies or promotional offers. Always
@@ -47,7 +51,9 @@ const RefundPolicy = () => {
               </div>
 
               <div className="mb-4">
-                <h3 className="text-block-20 mb-3 text-decoration-underline">Refund Process</h3>
+                <h3 className="text-block-20 mb-3 text-decoration-underline">
+                  Refund Process
+                </h3>
                 <p className="mb-0">
                   Our team will verify your refund request and notify you once
                   it's approved. You can track the status through your
@@ -57,7 +63,9 @@ const RefundPolicy = () => {
               </div>
 
               <div>
-                <h3 className="text-block-20 mb-3 text-decoration-underline">Contact Us</h3>
+                <h3 className="text-block-20 mb-3 text-decoration-underline">
+                  Contact Us
+                </h3>
                 <p className="mb-0">
                   For any questions or assistance regarding refunds, please
                   reach out to our support team at{" "}

@@ -1,5 +1,6 @@
-'use client';
-import React, { useState, useRef, useEffect } from "react";
+"use client";
+
+import { useState, useRef, useEffect } from "react";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
@@ -69,13 +70,12 @@ const SearchForm = () => {
     },
   ];
 
-const handleSearchForChange = (e) => {
-  const { value, checked } = e.target;
-  setSearchFor((prev) =>
-    checked ? [...prev, value] : prev.filter((item) => item !== value)
-  );
-};
-
+  const handleSearchForChange = (e) => {
+    const { value, checked } = e.target;
+    setSearchFor((prev) =>
+      checked ? [...prev, value] : prev.filter((item) => item !== value)
+    );
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -117,14 +117,6 @@ const handleSearchForChange = (e) => {
       (total, room) => total + room.adults + room.children,
       0
     );
-  };
-
-  const getTotalAdults = () => {
-    return rooms.reduce((total, room) => total + room.adults, 0);
-  };
-
-  const getTotalChildren = () => {
-    return rooms.reduce((total, room) => total + room.children, 0);
   };
 
   useEffect(() => {
@@ -397,7 +389,7 @@ const handleSearchForChange = (e) => {
                                 </Link>
                                 <span className="mx-2">{room.adults}</span>
                                 <Link
-                                href="#"
+                                  href="#"
                                   type="button"
                                   onClick={() =>
                                     handleGuestChange(index, "adults", 1)
@@ -424,7 +416,7 @@ const handleSearchForChange = (e) => {
                                 </Link>
                                 <span className="mx-2">{room.children}</span>
                                 <Link
-                                href="#"
+                                  href="#"
                                   type="button"
                                   onClick={() =>
                                     handleGuestChange(index, "children", 1)

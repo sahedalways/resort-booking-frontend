@@ -1,12 +1,12 @@
 "use client";
 
+import CouponModal from "@/src/components/CouponModal";
 import { useState, useEffect } from "react";
 import SearchForm from "./SearchForm";
 import Features from "./Features";
 import Discount from "./Discount";
 import Slider from "./Slider";
 import WhyChooseUs from "./WhyChooseUs";
-import CouponModal from "@/components/CouponModal";
 
 export default function Home({ homeData }) {
   const [showModal, setShowModal] = useState(false);
@@ -23,15 +23,15 @@ export default function Home({ homeData }) {
   return (
     <>
       {showModal && <CouponModal onClose={handleCloseModal} />}
-      <div>{homeData.feature_images}</div>
+
       <div className="hero-section">
         <div className="container">
-          <SearchForm heroData={homeData.site_info} />
+          <SearchForm />
         </div>
       </div>
-      <Features featureData={homeData.feature_images} />
-      <Discount coupons={homeData.coupons} />
-      <Slider resorts={homeData.resort_info} />
+      <Features />
+      <Discount />
+      <Slider />
       <WhyChooseUs />
     </>
   );
