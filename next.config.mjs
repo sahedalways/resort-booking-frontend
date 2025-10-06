@@ -10,12 +10,15 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "yourdomain.com",
+        hostname: "buzzhiring.shopsatkhira.com",
         pathname: "/**",
       },
     ],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 

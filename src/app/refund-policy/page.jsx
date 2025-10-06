@@ -45,8 +45,8 @@ const RefundPolicy = () => {
                 </h3>
                 <p className="mb-0">
                   Certain bookings may be non-refundable or partially refundable
-                  based on the resort's policies or promotional offers. Always
-                  check the booking details before confirming.
+                  based on the resort&apos;s policies or promotional offers.
+                  Always check the booking details before confirming.
                 </p>
               </div>
 
@@ -56,7 +56,7 @@ const RefundPolicy = () => {
                 </h3>
                 <p className="mb-0">
                   Our team will verify your refund request and notify you once
-                  it's approved. You can track the status through your
+                  it&apos;s approved. You can track the status through your
                   <strong> BookingXpart account</strong>. Refunds will be issued
                   using the same payment method used during the booking.
                 </p>

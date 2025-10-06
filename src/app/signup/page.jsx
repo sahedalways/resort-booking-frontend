@@ -1,4 +1,3 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -18,8 +17,8 @@ const SignupPage = () => {
                 <div className="d-flex gap-2 mb-3">
                   <button className="btn btn-light border w-50 d-flex align-items-center justify-content-center">
                     <Image
-                    width={16}
-                    height={16}
+                      width={16}
+                      height={16}
                       src="/img/google-logo.png"
                       alt="Google"
                       className="me-2"
@@ -28,8 +27,8 @@ const SignupPage = () => {
                   </button>
                   <button className="btn btn-light border w-50 d-flex align-items-center justify-content-center">
                     <Image
-                    width={16}
-                    height={16}
+                      width={16}
+                      height={16}
                       src="/img/facebook-new.png"
                       alt="Facebook"
                       className="me-2"
@@ -57,7 +56,10 @@ const SignupPage = () => {
                 </div>
 
                 <div className="mb-2">
-                  <label htmlFor="password" className="form-label text-block-16">
+                  <label
+                    htmlFor="password"
+                    className="form-label text-block-16"
+                  >
                     Password
                   </label>
                   <input
@@ -69,7 +71,10 @@ const SignupPage = () => {
                 </div>
 
                 <div className="mb-2">
-                  <label htmlFor="password" className="form-label text-block-16">
+                  <label
+                    htmlFor="password"
+                    className="form-label text-block-16"
+                  >
                     Confirm Password
                   </label>
                   <input
@@ -86,7 +91,10 @@ const SignupPage = () => {
 
                 <p className="text-center small my-3">
                   Already have an account?{" "}
-                  <Link href="/login" className="text-decoration-none primary-color">
+                  <Link
+                    href="/login"
+                    className="text-decoration-none primary-color"
+                  >
                     Sign in
                   </Link>
                 </p>

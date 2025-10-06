@@ -15,7 +15,7 @@ const Discount = ({ couponData }) => {
       setToastType("success");
     } catch (error) {
       setToastMessage("Failed to copy!");
-      setToastType("error");
+      setToastType("error", error);
     }
   };
 

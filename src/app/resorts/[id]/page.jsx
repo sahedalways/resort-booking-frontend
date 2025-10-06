@@ -1,5 +1,5 @@
-'use client';
-import React, { useState } from "react";
+"use client";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
@@ -134,10 +134,10 @@ const ResortDetailsPage = () => {
                   Description
                 </h2>
                 <p className="paragraph-md">
-                  Set in Cox's Bazar, 400 metres from Cox's Bazar Sea Beach,
-                  **Hotel Auster echo** offers accommodation with a restaurant
-                  and free private parking. The accommodation provides a 24-hour
-                  front desk as well as free WiFi
+                  Set in Cox&apos;s Bazar, 400 metres from Cox&apos;s Bazar Sea
+                  Beach, **Hotel Auster echo** offers accommodation with a
+                  restaurant and free private parking. The accommodation
+                  provides a 24-hour front desk as well as free WiFi
                 </p>
               </div>
             </div>
@@ -1023,7 +1023,6 @@ const ResortDetailsPage = () => {
                           />
                         </td>
                       </tr>
-
                     </tbody>
                   </table>
                 </div>
