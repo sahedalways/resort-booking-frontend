@@ -2021,3 +2021,53 @@ img.payment-icon-table {
 .custom-overlay-card:hover img {
   transform: scale(1.05);
 }
+
+.skeleton {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-title {
+  height: 24px;
+}
+.skeleton-text {
+  height: 16px;
+}
+.skeleton-image {
+  height: 400px;
+  width: 100%;
+}
+.skeleton-thumb {
+  height: 100px;
+}
+.skeleton-chip {
+  height: 32px;
+  border-radius: 16px;
+}
+.skeleton-box {
+  height: 80px;
+}
+.skeleton-tab {
+  height: 40px;
+  border-radius: 8px;
+}
+.skeleton-card {
+  border-radius: 12px;
+}
+.skeleton-map {
+  border-radius: 8px;
+}
+.skeleton-table {
+  border-radius: 8px;
+}
