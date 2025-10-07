@@ -5,34 +5,29 @@ export default function ResortFacilities({ facilities }) {
 
   if (!facilities || facilities.length === 0) return null;
 
-  // Make type_name unique
-  const uniqueFacilitiesMap = new Map();
-  facilities.forEach((f) => {
-    if (!uniqueFacilitiesMap.has(f.type_name)) {
-      uniqueFacilitiesMap.set(f.type_name, f);
-    }
-  });
-  const uniqueFacilities = Array.from(uniqueFacilitiesMap.values());
+  // Flatten all child facilities into a single array
+  const allChildFacilities = facilities.flatMap((f) => f.facility || []);
 
   const visibleFacilities = showAll
-    ? uniqueFacilities
-    : uniqueFacilities.slice(0, 5);
+    ? allChildFacilities
+    : allChildFacilities.slice(0, 5);
 
   return (
     <div className="resort-amenities my-3">
-      {visibleFacilities.map((f) => (
-        <span key={f.id} className="me-2 d-inline-block">
-          <i className={`${f.icon} me-1`}></i>
-          {f.type_name}
+      {visibleFacilities.map((child, index) => (
+        <span key={index} className="me-2 d-inline-block">
+          <i className={`${child.icon} me-1`}></i>
+          {child.type_name}
         </span>
       ))}
 
-      {uniqueFacilities.length > 5 && (
+      {allChildFacilities.length > 5 && (
         <p
           onClick={() => setShowAll((prev) => !prev)}
-          className="more-btn cursor-pointer"
+          style={{ cursor: "pointer" }}
+          className="more-btn mt-2"
         >
-          {showAll ? "Show Less" : `+ ${uniqueFacilities.length - 5} more`}
+          {showAll ? "Show Less" : `+ ${allChildFacilities.length - 5} more`}
         </p>
       )}
     </div>

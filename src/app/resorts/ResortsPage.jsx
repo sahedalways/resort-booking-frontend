@@ -97,13 +97,11 @@ export default function ResortsPage({ resortData: initialData }) {
                         <hr />
 
                         <div className="d-flex align-items-center gap-3">
-                          <Image
-                            width={24}
-                            height={24}
-                            src="/img/bed.png"
-                            alt="Bed Icon"
-                            className="bed-icon"
-                          />
+                          {resort.package_type?.icon && (
+                            <i
+                              className={`${resort.package_type.icon} fa-lg text-primary`}
+                            ></i>
+                          )}
                           <div>
                             <div className="room-quality">
                               {resort.package_type?.type_name}
