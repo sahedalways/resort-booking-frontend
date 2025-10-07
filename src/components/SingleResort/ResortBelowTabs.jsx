@@ -92,53 +92,82 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
               <div>
                 {activeTab === "overview" && (
                   <>
-                    {resortData?.rooms?.map((room) => (
-                      <Room key={room.id} room={room} />
-                    ))}
+                    {resortData?.rooms?.length > 0 ? (
+                      resortData.rooms.map((room) => (
+                        <Room key={room.id} room={room} />
+                      ))
+                    ) : (
+                      <p>No rooms available.</p>
+                    )}
 
                     {/* hotel and room facilities */}
-                    <HotelRoomFacilities resortData={resortData} />
+                    {resortData?.facilities?.length > 0 ? (
+                      <HotelRoomFacilities resortData={resortData} />
+                    ) : (
+                      <p>No facilities available.</p>
+                    )}
 
                     {/* full width map */}
-                    <Map mapUrl={mapUrl} />
+                    {mapUrl ? (
+                      <Map mapUrl={mapUrl} />
+                    ) : (
+                      <p>Map not available.</p>
+                    )}
 
                     {/* note section */}
-                    <ResortPolicyTable
-                      resort={resortData}
-                      sectionTitle="Important - Please Note:"
-                    />
+                    {resortData ? (
+                      <ResortPolicyTable
+                        resort={resortData}
+                        sectionTitle="Important - Please Note:"
+                      />
+                    ) : (
+                      <p>No policies available.</p>
+                    )}
                   </>
                 )}
 
                 {activeTab === "rooms" && (
                   <>
-                    {resortData?.rooms?.map((room) => (
-                      <Room key={room.id} room={room} />
-                    ))}
+                    {resortData?.rooms?.length > 0 ? (
+                      resortData.rooms.map((room) => (
+                        <Room key={room.id} room={room} />
+                      ))
+                    ) : (
+                      <p>No rooms available.</p>
+                    )}
                   </>
                 )}
 
                 {activeTab === "amenities" && (
                   <>
-                    {/* hotel and room facilities */}
-                    <HotelRoomFacilities resortData={resortData} />
+                    {resortData?.facilities?.length > 0 ? (
+                      <HotelRoomFacilities resortData={resortData} />
+                    ) : (
+                      <p>No facilities available.</p>
+                    )}
                   </>
                 )}
 
                 {activeTab === "location" && (
                   <>
-                    {/* full width map */}
-                    <Map mapUrl={mapUrl} />
+                    {mapUrl ? (
+                      <Map mapUrl={mapUrl} />
+                    ) : (
+                      <p>Map not available.</p>
+                    )}
                   </>
                 )}
 
                 {activeTab === "policies" && (
                   <>
-                    {/* note section */}
-                    <ResortPolicyTable
-                      resort={resortData}
-                      sectionTitle="Important - Please Note:"
-                    />
+                    {resortData ? (
+                      <ResortPolicyTable
+                        resort={resortData}
+                        sectionTitle="Important - Please Note:"
+                      />
+                    ) : (
+                      <p>No policies available.</p>
+                    )}
                   </>
                 )}
               </div>

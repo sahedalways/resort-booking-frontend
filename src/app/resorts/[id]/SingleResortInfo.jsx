@@ -34,7 +34,9 @@ const SingleResortInfo = ({ resortData }) => {
       <ResortDescription resort={resort} mapUrl={mapUrl} />
 
       {/* Facilities */}
-      <ResortFacilities facilities={resort.facilities} />
+      {resort?.facilities?.length > 0 && (
+        <ResortFacilities facilities={resort.facilities} />
+      )}
 
       <ResortPolicyTable resort={resortData} sectionTitle="Resort Policy" />
 

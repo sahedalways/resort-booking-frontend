@@ -67,12 +67,16 @@ const ResortPolicyTable = ({ resort, sectionTitle }) => {
                       Facts
                     </td>
                     <td className="p-3">
-                      <ul className="mb-0 ps-3 gray-text d-grid gap-2">
-                        {resort.additional_facts &&
-                          resort.additional_facts.map((fact) => (
+                      {resort.additional_facts &&
+                      resort.additional_facts.length > 0 ? (
+                        <ul className="mb-0 ps-3 gray-text d-grid gap-2">
+                          {resort.additional_facts.map((fact) => (
                             <li key={fact.id}>{fact.name}</li>
                           ))}
-                      </ul>
+                        </ul>
+                      ) : (
+                        <span>N/A</span>
+                      )}
                     </td>
                   </tr>
 
