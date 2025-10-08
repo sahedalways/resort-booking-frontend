@@ -14,6 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [isRegisterSuccessMsg, setIsRegisterSuccessMsg] = useState(false);
   const [isRegisterErrorMsg, setIsRegisterErrorMsg] = useState("");
   const [isLogoutMessage, setLogoutMessage] = useState("");
+  const [isLoginSuccessMsg, setIsLoginSuccessMsg] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [isRegisteringLoading, setIsRegisteringLoading] = useState(false);
@@ -133,13 +134,14 @@ export const AuthProvider = ({ children }) => {
           setIsMatchOtpLoading(false);
           setFAuthIdentifier(null);
           setAllowVerifyEmail(false);
-          let userToken = userData.token;
+          let userToken = userData.token.plainTextToken;
           let userId = userData.id;
 
           Cookies.set("bx_auth_token", userToken, { expires: 7 });
 
           setAuthUserData(userData);
           setUserId(userId);
+          setIsLoginSuccessMsg("You have logged in successfully.");
           router.push("/user/dashboard");
         } else {
           setIsLoginErrorMsg("Unexpected response from server.");
@@ -265,6 +267,7 @@ export const AuthProvider = ({ children }) => {
 
         setAuthUserData(userData);
         setUserId(userId);
+        setIsLoginSuccessMsg("You have logged in successfully.");
         router.push("/user/dashboard");
       })
       .catch((error) => {
@@ -371,6 +374,8 @@ export const AuthProvider = ({ children }) => {
         isLogoutMessage,
         setLogoutMessage,
         setIsLoginErrorMsg,
+        isLoginSuccessMsg,
+        setIsLoginSuccessMsg,
       }}
     >
       {children}

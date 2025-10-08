@@ -1,8 +1,11 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext } from "react";
 import Link from "next/link";
+import Toast from "@/src/components/Toast";
+import { AuthContext } from "../../hooks/api/AuthContext";
 
 export function Dashboard() {
+  const { isLoginSuccessMsg, setIsLoginSuccessMsg } = useContext(AuthContext);
   const [activeSection, setActiveSection] = useState("profile");
 
   const profileRef = useRef(null);
@@ -263,6 +266,11 @@ export function Dashboard() {
           </div>
         </div>
       </div>
+      <Toast
+        message={isLoginSuccessMsg}
+        type="success"
+        onClose={() => setIsLoginSuccessMsg("")}
+      />
     </div>
   );
 }
