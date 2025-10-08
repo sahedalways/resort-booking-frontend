@@ -2071,3 +2071,12 @@ img.payment-icon-table {
 .skeleton-table {
   border-radius: 8px;
 }
+
+.service-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.4);
+}

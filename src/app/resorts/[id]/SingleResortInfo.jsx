@@ -18,7 +18,7 @@ const SingleResortInfo = ({ resortData }) => {
   )}&output=embed`;
 
   if (!resortData) return <ResortSkeleton type="resorts" />;
-  console.log("resortData", resortData);
+
   return (
     <div className="resort-details">
       <div className="breadcrumb-container">
