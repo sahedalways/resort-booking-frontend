@@ -5,55 +5,37 @@ import { createContext, useEffect, useState } from "react";
 export const LocalStoreContext = createContext();
 
 export const LocalStoreProvider = ({ children }) => {
-  const ISSERVER = typeof window !== "undefined";
+  const [authUserData, setAuthUserData] = useState(null);
+  const [userId, setUserId] = useState(null);
 
-  // Retrieve from localStorage and parse the JSON string into an object
-  const [homeData, setHomeData] = useState(
-    ISSERVER
-      ? JSON.parse(localStorage.getItem("lotus_home_data")) || null
-      : null
-  );
-
-  const [authUserData, setAuthUserData] = useState(
-    ISSERVER
-      ? JSON.parse(localStorage.getItem("lotus_auth_user_data")) || null
-      : null
-  );
-
-  const [userId, setUserId] = useState(
-    ISSERVER ? localStorage.getItem("lotus_user_id") || null : null
-  );
-
-  const [propertyId, setIsPropertyId] = useState(
-    ISSERVER ? localStorage.getItem("lotus_property_id") || null : null
-  );
-
-  const [forgotPasswordIdentifier, setForgotPasswordIdentifier] = useState(
-    ISSERVER ? sessionStorage.getItem("lotus_fp_identifier") || null : null
-  );
-
-  // Update localStorage whenever authUserData or userId changes
+  // Load from localStorage once on the client side
   useEffect(() => {
-    if (authUserData) {
-      localStorage.setItem(
-        "lotus_auth_user_data",
-        JSON.stringify(authUserData)
-      );
-    } else {
-      localStorage.removeItem("lotus_auth_user_data");
+    const storedUserData = localStorage.getItem("bx_user_data");
+    const storedUserId = localStorage.getItem("bx_user_id");
+
+    if (storedUserData) {
+      setAuthUserData(JSON.parse(storedUserData));
     }
 
-    if (homeData) {
-      localStorage.setItem("lotus_home_data", JSON.stringify(homeData));
+    if (storedUserId) {
+      setUserId(JSON.parse(storedUserId));
+    }
+  }, []);
+
+  // Save to localStorage whenever these values change
+  useEffect(() => {
+    if (authUserData !== null) {
+      localStorage.setItem("bx_user_data", JSON.stringify(authUserData));
     } else {
-      localStorage.removeItem("lotus_home_data");
+      localStorage.removeItem("bx_user_data");
     }
 
-    localStorage.setItem("lotus_user_id", userId);
-    localStorage.setItem("lotus_property_id", propertyId);
-
-    sessionStorage.setItem("lotus_fp_identifier", forgotPasswordIdentifier);
-  }, [authUserData, userId, homeData, forgotPasswordIdentifier, propertyId]);
+    if (userId !== null) {
+      localStorage.setItem("bx_user_id", JSON.stringify(userId));
+    } else {
+      localStorage.removeItem("bx_user_id");
+    }
+  }, [authUserData, userId]);
 
   return (
     <LocalStoreContext.Provider
@@ -62,12 +44,6 @@ export const LocalStoreProvider = ({ children }) => {
         setAuthUserData,
         userId,
         setUserId,
-        homeData,
-        setHomeData,
-        forgotPasswordIdentifier,
-        setForgotPasswordIdentifier,
-        setIsPropertyId,
-        propertyId,
       }}
     >
       {children}

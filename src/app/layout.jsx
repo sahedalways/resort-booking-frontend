@@ -8,28 +8,21 @@ import BootstrapClient from "../components/BootstrapClient";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-import fetchHeaderData from "./services/headerService";
 import fetchFooterData from "./services/FooterService";
+import { AuthProvider } from "./hooks/api/AuthContext";
+import { LocalStoreProvider } from "./hooks/localstorage/LocalStoreContext";
+import { getSiteHeaderData } from "./helper/getSiteHeaderData";
 
-export const revalidate = 100;
+export const revalidate = 300;
 
 export default async function RootLayout({ children }) {
-  const [headerData, footerData] = await Promise.all([
-    fetchHeaderData(),
-    fetchFooterData(),
-  ]);
-
-  const siteTitle =
-    (headerData?.header_info?.site_title || "BookingXpart") + " | Home";
-
+  const [footerData] = await Promise.all([fetchFooterData()]);
+  const headerData = await getSiteHeaderData();
   const faviconUrl = headerData?.header_info?.favicon_url || "/favicon.ico";
 
   return (
     <html lang="en">
       <head>
-        <title>{siteTitle}</title>
-
-        <meta name="description" content="Home page of this site" />
         {faviconUrl && <link rel="icon" href={faviconUrl} />}
 
         {/* Fonts & icons */}
@@ -56,10 +49,23 @@ export default async function RootLayout({ children }) {
 
       <body>
         <Header data={headerData?.header_info} />
-        {children}
+        <LocalStoreProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </LocalStoreProvider>
         <Footer data={footerData} />
         <BootstrapClient />
       </body>
     </html>
   );
+}
+
+export async function generateMetadata() {
+  const headerData = await getSiteHeaderData();
+
+  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
+
+  return {
+    title: `${siteTitle} | Home`,
+    description: `Welcome to ${siteTitle} — your go-to platform for booking services.`,
+  };
 }

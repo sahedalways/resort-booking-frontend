@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
@@ -14,6 +14,11 @@ const Header = ({ data }) => {
 
   const handleShow = () => setShowMenu(true);
   const handleClose = () => setShowMenu(false);
+
+  useEffect(() => {
+    const title = data?.site_title || "BookingXpart";
+    localStorage.setItem("siteTitle", title);
+  }, [data]);
 
   return (
     <>
@@ -91,19 +96,23 @@ const Header = ({ data }) => {
                 </Link>
               </li>
             </ul>
-            {pathname !== "/dashboard" && (
-              <div className="d-flex justify-content-center">
+
+            <div className="d-flex justify-content-center">
+              <Link href="/auth/signup">
                 <button
                   className="btn secondary-bg me-2 custom-btn-style"
                   type="button"
                 >
-                  Book
+                  Sign Up
                 </button>
-                <Link href="/login" className="btn primary-bg custom-btn-style">
-                  Log In
-                </Link>
-              </div>
-            )}
+              </Link>
+              <Link
+                href="/auth/login"
+                className="btn primary-bg custom-btn-style"
+              >
+                Log In
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
@@ -115,9 +124,20 @@ const Header = ({ data }) => {
         aria-labelledby="offcanvasExampleLabel"
       >
         <div className="offcanvas-header">
-          <h5 className="offcanvas-title" id="offcanvasExampleLabel">
-            BookingXpart
-          </h5>
+          <Link href="/" className="navbar-brand d-flex align-items-center">
+            <img
+              src={data?.logo_url || "/default-logo.png"}
+              alt={data?.site_title || "BookingXpart"}
+              style={{ height: "30px", marginRight: "8px" }}
+            />
+            <span
+              className="offcanvas-title"
+              style={{ fontSize: "14px", fontWeight: "500" }}
+            >
+              {data?.site_title || "BookingXpart"}
+            </span>
+          </Link>
+
           <button
             type="button"
             className="btn-close text-reset shadow-none"
@@ -178,19 +198,24 @@ const Header = ({ data }) => {
               </Link>
             </li>
           </ul>
-          {pathname !== "/dashboard" && (
-            <div className="mt-3 text-center">
+
+          <div className="mt-3 text-center">
+            <Link href="/auth/signup">
               <button
                 className="btn secondary-bg me-2 custom-btn-style"
                 type="button"
               >
-                Book
+                Sign Up
               </button>
-              <Link href="/login" className="btn primary-bg custom-btn-style">
-                Log In
-              </Link>
-            </div>
-          )}
+            </Link>
+
+            <Link
+              href="/auth/login"
+              className="btn primary-bg custom-btn-style"
+            >
+              Log In
+            </Link>
+          </div>
         </div>
       </div>
 

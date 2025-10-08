@@ -1,12 +1,12 @@
 "use client";
 
-import CouponModal from "@/src/components/CouponModal";
 import { useState, useEffect } from "react";
 import SearchForm from "./SearchForm";
 import Features from "./Features";
 import Discount from "./Discount";
 import Slider from "./Slider";
 import WhyChooseUs from "./WhyChooseUs";
+import CouponModal from "@/src/components/CouponModal";
 
 export default function Home({ homeData }) {
   const [showModal, setShowModal] = useState(false);
