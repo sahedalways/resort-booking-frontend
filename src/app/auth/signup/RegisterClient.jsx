@@ -6,6 +6,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../../hooks/api/AuthContext";
 import InputField from "@/src/components/InputField";
 import SubmitButton from "@/src/components/SubmitButton";
+import Toast from "@/src/components/Toast";
 
 const RegisterClient = () => {
   const {
@@ -14,6 +15,7 @@ const RegisterClient = () => {
     isRegisteringLoading,
     emailError,
     phoneNumberError,
+    setIsRegisterErrorMsg,
   } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
@@ -226,9 +228,11 @@ const RegisterClient = () => {
                     isRequired={true}
                   />
 
-                  <p className="text-danger mt-2 text-center">
-                    {isRegisterErrorMsg}
-                  </p>
+                  <Toast
+                    message={isRegisterErrorMsg}
+                    type="error"
+                    onClose={() => setIsRegisterErrorMsg("")}
+                  />
 
                   <SubmitButton
                     type="submit"

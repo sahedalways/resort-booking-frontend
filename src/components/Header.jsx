@@ -1,12 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon } from "@iconify/react";
 import Skeleton from "./Skeleton";
+import { LocalStoreContext } from "../app/hooks/localstorage/LocalStoreContext";
+import { AuthContext } from "../app/hooks/api/AuthContext";
+import { isLoggedIn } from "../app/helper/auth";
 
 const Header = ({ data }) => {
+  const { authUserData } = useContext(LocalStoreContext);
+  const { handleLogout } = useContext(AuthContext);
+  const isLoggedInToken = isLoggedIn();
+
+  const logoutSubmit = () => {
+    handleLogout(isLoggedInToken);
+  };
+
   if (!data) return <Skeleton type="header" />;
 
   const pathname = usePathname();
@@ -85,33 +96,47 @@ const Header = ({ data }) => {
                   Contact
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link
-                  href="/dashboard"
-                  className={`nav-link ${
-                    pathname === "/dashboard" ? "active" : ""
-                  }`}
-                >
-                  Dashboard
-                </Link>
-              </li>
+              {isLoggedInToken && (
+                <li className="nav-item">
+                  <Link
+                    href="/user/dashboard"
+                    className={`nav-link ${
+                      pathname === "/user/dashboard" ? "active" : ""
+                    }`}
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              )}
             </ul>
 
             <div className="d-flex justify-content-center">
-              <Link href="/auth/signup">
-                <button
-                  className="btn secondary-bg me-2 custom-btn-style"
-                  type="button"
-                >
-                  Sign Up
-                </button>
-              </Link>
-              <Link
-                href="/auth/login"
-                className="btn primary-bg custom-btn-style"
-              >
-                Log In
-              </Link>
+              {isLoggedInToken ? (
+                <>
+                  <button
+                    className="btn secondary-bg custom-btn-style"
+                    onClick={logoutSubmit}
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link href="/auth/signup">
+                    <button
+                      className="btn secondary-bg me-2 custom-btn-style"
+                      type="button"
+                    >
+                      Sign Up
+                    </button>
+                  </Link>
+                  <Link href="/auth/login">
+                    <button className="btn primary-bg custom-btn-style">
+                      Log In
+                    </button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -186,35 +211,45 @@ const Header = ({ data }) => {
                 Contact
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                href="/dashboard"
-                className={`nav-link ${
-                  pathname === "/dashboard" ? "active" : ""
-                }`}
-                onClick={handleClose}
-              >
-                Dashboard
-              </Link>
-            </li>
+            {isLoggedInToken && (
+              <li className="nav-item">
+                <Link
+                  href="/user/dashboard"
+                  className={`nav-link ${
+                    pathname === "/user/dashboard" ? "active" : ""
+                  }`}
+                  onClick={handleClose}
+                >
+                  Dashboard
+                </Link>
+              </li>
+            )}
           </ul>
 
           <div className="mt-3 text-center">
-            <Link href="/auth/signup">
-              <button
-                className="btn secondary-bg me-2 custom-btn-style"
-                type="button"
-              >
-                Sign Up
-              </button>
-            </Link>
-
-            <Link
-              href="/auth/login"
-              className="btn primary-bg custom-btn-style"
-            >
-              Log In
-            </Link>
+            {isLoggedInToken ? (
+              <>
+                <button
+                  className="btn secondary-bg custom-btn-style"
+                  onClick={logoutSubmit}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/auth/signup">
+                  <button className="btn secondary-bg me-2 custom-btn-style">
+                    Sign Up
+                  </button>
+                </Link>
+                <Link href="/auth/login">
+                  <button className="btn primary-bg custom-btn-style">
+                    Log In
+                  </button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>

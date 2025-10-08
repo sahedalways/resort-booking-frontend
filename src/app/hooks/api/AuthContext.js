@@ -13,6 +13,7 @@ export const AuthProvider = ({ children }) => {
   const router = useRouter();
   const [isRegisterSuccessMsg, setIsRegisterSuccessMsg] = useState(false);
   const [isRegisterErrorMsg, setIsRegisterErrorMsg] = useState("");
+  const [isLogoutMessage, setLogoutMessage] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [isRegisteringLoading, setIsRegisteringLoading] = useState(false);
@@ -23,27 +24,24 @@ export const AuthProvider = ({ children }) => {
   const [isSearchAccErrorMsg, setIsSearchAccErrorMsg] = useState("");
   const [isFindingAccountLoading, setIsSearchAccountLoading] = useState(false);
 
+  const [isResendOtpSuccessMsg, setIsResendOtpSuccessMsg] = useState("");
   const [isMatchOtpErrorMsg, setIsMatchOtpErrorMsg] = useState("");
   const [isMatchOtpLoading, setIsMatchOtpLoading] = useState(false);
+  const [isResendOtpLoading, setIsResendOtpLoading] = useState(false);
 
   const [isChangePasswordSuccessMsg, setIsChangePasswordSuccessMsg] =
     useState("");
   const [isChangePasswordErrorMsg, setIsChangePasswordErrorMsg] = useState("");
   const [isChangePasswordLoading, setIsChangePasswordLoading] = useState(false);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
   const {
     setAuthUserData,
     setUserId,
     setForgotPasswordIdentifier,
     forgotPasswordIdentifier,
+    authIdentifier,
+    setFAuthIdentifier,
   } = useContext(LocalStoreContext);
-
-  useEffect(() => {
-    const token = Cookies.get("bx_auth_token");
-    setIsLoggedIn(!!token);
-  }, []);
 
   const register = async function (
     f_name,
@@ -71,6 +69,9 @@ export const AuthProvider = ({ children }) => {
       .then((res) => {
         setIsRegisterSuccessMsg(res.data.message);
         setIsRegisteringLoading(false);
+        setFAuthIdentifier(res.data.data.email);
+
+        router.push("/auth/verify-email");
       })
       .catch((error) => {
         setIsRegisteringLoading(false);
@@ -133,20 +134,34 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
-  const handleLogout = () => {
-    http
-      .post("logout")
+  const handleLogout = async (authToken) => {
+    if (!authToken) {
+      console.error("No auth token found");
+      return;
+    }
 
-      .then((res) => {
-        console.log("Logout successful", res);
-        localStorage.clear();
-        Cookies.remove("bx_auth_token");
-        setIsLoggedIn(false);
-        router.push("/auth/login");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      await http.post(
+        "logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+
+      // Clear client-side storage
+      localStorage.clear();
+      Cookies.remove("bx_auth_token");
+
+      setLogoutMessage("You have successfully logged out.");
+
+      // Redirect to login page
+      router.push("/auth/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   const searchAccount = async function (identity) {
@@ -201,21 +216,27 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const matchOtp = async function (otp) {
+  const verifyEmail = async function (otp) {
     setIsMatchOtpErrorMsg("");
     setIsMatchOtpLoading(true);
     http
-      .post("match-otp", {
+      .post("verify-email-otp", {
         otp: otp,
+        email: authIdentifier,
       })
 
       .then((res) => {
         setIsMatchOtpLoading(false);
-        let userData = res.data;
+        setFAuthIdentifier(null);
+        let userData = res.data.data;
+        let userToken = userData.token;
+        let userId = userData.id;
 
-        setForgotPasswordIdentifier(userData.identifier);
+        Cookies.set("bx_auth_token", userToken, { expires: 7 });
 
-        router.push("/login/forgot-password/change-password");
+        setAuthUserData(userData);
+        setUserId(userId);
+        router.push("/user/dashboard");
       })
       .catch((error) => {
         const errorData = error.response.data;
@@ -225,6 +246,31 @@ export const AuthProvider = ({ children }) => {
           setIsMatchOtpErrorMsg("");
         }, 5000);
       });
+  };
+
+  const resendOtp = async function () {
+    setIsMatchOtpErrorMsg("");
+    setIsResendOtpLoading(true);
+
+    try {
+      const res = await http.post("resend-otp", {
+        email: authIdentifier,
+      });
+
+      setIsResendOtpLoading(false);
+      setIsResendOtpSuccessMsg("OTP has been resent successfully!");
+
+      setTimeout(() => {
+        setIsResendOtpSuccessMsg("");
+      }, 5000);
+
+      return true;
+    } catch (err) {
+      setIsResendOtpLoading(false);
+      setIsMatchOtpErrorMsg("Failed to resend OTP. Please try again.");
+      console.error(err);
+      return false;
+    }
   };
 
   const changePassword = async function (password, confirmPassword) {
@@ -278,17 +324,23 @@ export const AuthProvider = ({ children }) => {
         isLoginErrorMsg,
         isLoginLoading,
         handleLogout,
-        isLoggedIn,
         searchAccount,
         isSearchAccErrorMsg,
         isFindingAccountLoading,
-        matchOtp,
         isMatchOtpLoading,
         isMatchOtpErrorMsg,
         changePassword,
         isChangePasswordLoading,
         isChangePasswordErrorMsg,
         isChangePasswordSuccessMsg,
+        verifyEmail,
+        resendOtp,
+        isResendOtpSuccessMsg,
+        isResendOtpLoading,
+        setIsResendOtpSuccessMsg,
+        setIsMatchOtpErrorMsg,
+        isLogoutMessage,
+        setLogoutMessage,
       }}
     >
       {children}

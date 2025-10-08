@@ -1,7 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import Toast from "@/src/components/Toast";
+import { AuthContext } from "../../hooks/api/AuthContext";
+import { useContext } from "react";
 
 const LoginPage = () => {
+  const { isLogoutMessage, setLogoutMessage } = useContext(AuthContext);
+
   return (
     <section className="section-gap">
       <div className="container ">
@@ -96,6 +103,11 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      <Toast
+        message={isLogoutMessage}
+        type="error"
+        onClose={() => setLogoutMessage("")}
+      />
     </section>
   );
 };

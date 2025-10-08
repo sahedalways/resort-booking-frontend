@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-const Toast = ({ message, type = "success", onClose, duration = 3000 }) => {
+const Toast = ({ message, type = "success", onClose, duration = 5000 }) => {
   useEffect(() => {
     if (message) {
       const timer = setTimeout(() => {

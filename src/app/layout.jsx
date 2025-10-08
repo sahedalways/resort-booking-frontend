@@ -48,11 +48,15 @@ export default async function RootLayout({ children }) {
       </head>
 
       <body>
-        <Header data={headerData?.header_info} />
         <LocalStoreProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <Header data={headerData?.header_info} />
+
+            {children}
+
+            <Footer data={footerData} />
+          </AuthProvider>
         </LocalStoreProvider>
-        <Footer data={footerData} />
         <BootstrapClient />
       </body>
     </html>
