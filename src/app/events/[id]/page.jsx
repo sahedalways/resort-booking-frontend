@@ -1,3 +1,4 @@
+import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
 import SingleEventsServerWrapper from "./SingleEventsServerWrapper";
 
 export default function EventDetails({ params }) {
@@ -6,4 +7,14 @@ export default function EventDetails({ params }) {
       <SingleEventsServerWrapper params={params} />
     </>
   );
+}
+
+export async function generateMetadata() {
+  const headerData = await getSiteHeaderData();
+  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
+
+  return {
+    title: `${siteTitle} | Event Services`,
+    description: `Explore our event services on ${siteTitle}. Find and book services for your events easily and conveniently.`,
+  };
 }
