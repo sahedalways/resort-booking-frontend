@@ -33,7 +33,7 @@ const VerifyEmailWrapper = () => {
 
   useEffect(() => {
     if (!allowVerifyEmail || !authIdentifier) {
-      router.push("/auth/signup");
+      router.push("/auth/login");
     }
   }, [router]);
 

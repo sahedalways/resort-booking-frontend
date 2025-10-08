@@ -14,7 +14,7 @@ export async function generateMetadata() {
 
   const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
   return {
-    title: `${siteTitle} | Register`,
-    description: `Register an account on ${siteTitle}`,
+    title: `${siteTitle} | Login`,
+    description: `Log in to your ${siteTitle} account to access your bookings, events, and more.`,
   };
 }

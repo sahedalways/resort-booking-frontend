@@ -120,6 +120,30 @@ export const AuthProvider = ({ children }) => {
 
       .then((res) => {
         setIsLoginLoading(false);
+
+        let userData = res.data.data;
+
+        if (
+          res.data.message === "Email not verified. OTP sent to your email."
+        ) {
+          setFAuthIdentifier(userData.email);
+          setAllowVerifyEmail(true);
+          router.push(`/auth/verify-email`);
+        } else if (res.data.message === "User login successfully.") {
+          setIsMatchOtpLoading(false);
+          setFAuthIdentifier(null);
+          setAllowVerifyEmail(false);
+          let userToken = userData.token;
+          let userId = userData.id;
+
+          Cookies.set("bx_auth_token", userToken, { expires: 7 });
+
+          setAuthUserData(userData);
+          setUserId(userId);
+          router.push("/user/dashboard");
+        } else {
+          setIsLoginErrorMsg("Unexpected response from server.");
+        }
       })
       .catch((error) => {
         setIsLoginLoading(false);
@@ -346,6 +370,7 @@ export const AuthProvider = ({ children }) => {
         setIsMatchOtpErrorMsg,
         isLogoutMessage,
         setLogoutMessage,
+        setIsLoginErrorMsg,
       }}
     >
       {children}
