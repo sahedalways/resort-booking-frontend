@@ -96,17 +96,21 @@ const Header = ({ data }) => {
                   Contact
                 </Link>
               </li>
-              {isLoggedInToken && (
-                <li className="nav-item">
-                  <Link
-                    href="/user/dashboard"
-                    className={`nav-link ${
-                      pathname === "/user/dashboard" ? "active" : ""
-                    }`}
-                  >
-                    Dashboard
-                  </Link>
-                </li>
+
+              {/* Dashboard + User name */}
+              {isLoggedInToken && authUserData && (
+                <>
+                  <li className="nav-item">
+                    <Link
+                      href="/user/dashboard"
+                      className={`nav-link ${
+                        pathname === "/user/dashboard" ? "active" : ""
+                      }`}
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                </>
               )}
             </ul>
 
@@ -119,6 +123,14 @@ const Header = ({ data }) => {
                   >
                     Logout
                   </button>
+                  <li className="nav-item d-flex align-items-center mt-2 ms-5">
+                    <span
+                      className="nav-link disabled"
+                      style={{ color: "#7f8a96d8" }}
+                    >
+                      {authUserData.f_name} {authUserData.l_name}
+                    </span>
+                  </li>
                 </>
               ) : (
                 <>
@@ -211,18 +223,20 @@ const Header = ({ data }) => {
                 Contact
               </Link>
             </li>
-            {isLoggedInToken && (
-              <li className="nav-item">
-                <Link
-                  href="/user/dashboard"
-                  className={`nav-link ${
-                    pathname === "/user/dashboard" ? "active" : ""
-                  }`}
-                  onClick={handleClose}
-                >
-                  Dashboard
-                </Link>
-              </li>
+            {isLoggedInToken && authUserData && (
+              <>
+                <li className="nav-item">
+                  <Link
+                    href="/user/dashboard"
+                    className={`nav-link ${
+                      pathname === "/user/dashboard" ? "active" : ""
+                    }`}
+                    onClick={handleClose}
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              </>
             )}
           </ul>
 
@@ -235,6 +249,15 @@ const Header = ({ data }) => {
                 >
                   Logout
                 </button>
+
+                <li className="nav-item d-flex align-items-center mt-3  justify-content-center">
+                  <span
+                    className="nav-link disabled"
+                    style={{ color: "#7f8a96d8" }}
+                  >
+                    {authUserData.f_name} {authUserData.l_name}
+                  </span>
+                </li>
               </>
             ) : (
               <>
