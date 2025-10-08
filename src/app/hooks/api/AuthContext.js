@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }) => {
     forgotPasswordIdentifier,
     authIdentifier,
     setFAuthIdentifier,
+    setAllowVerifyEmail,
   } = useContext(LocalStoreContext);
 
   const register = async function (
@@ -70,10 +71,12 @@ export const AuthProvider = ({ children }) => {
         setIsRegisterSuccessMsg(res.data.message);
         setIsRegisteringLoading(false);
         setFAuthIdentifier(res.data.data.email);
+        setAllowVerifyEmail(true);
 
         router.push("/auth/verify-email");
       })
       .catch((error) => {
+        setAllowVerifyEmail(false);
         setIsRegisteringLoading(false);
 
         const errorData = error.response?.data;
@@ -153,6 +156,7 @@ export const AuthProvider = ({ children }) => {
 
       // Clear client-side storage
       localStorage.clear();
+      sessionStorage.clear();
       Cookies.remove("bx_auth_token");
 
       setLogoutMessage("You have successfully logged out.");
@@ -228,6 +232,7 @@ export const AuthProvider = ({ children }) => {
       .then((res) => {
         setIsMatchOtpLoading(false);
         setFAuthIdentifier(null);
+        setAllowVerifyEmail(false);
         let userData = res.data.data;
         let userToken = userData.token;
         let userId = userData.id;

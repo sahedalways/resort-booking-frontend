@@ -10,6 +10,7 @@ export const LocalStoreProvider = ({ children }) => {
   const [forgotPasswordIdentifier, setForgotPasswordIdentifier] =
     useState(null);
   const [authIdentifier, setFAuthIdentifier] = useState(null);
+  const [allowVerifyEmail, setAllowVerifyEmail] = useState(null);
 
   // Load from localStorage once on the client side
   useEffect(() => {
@@ -18,7 +19,8 @@ export const LocalStoreProvider = ({ children }) => {
     const forgotPasswordIdentifier = localStorage.getItem(
       "bx_forgot_password_identifier"
     );
-    const authIdentifier = localStorage.getItem("bx_auth_identifier");
+    const authIdentifier = sessionStorage.getItem("bx_auth_identifier");
+    const allowVerEm = sessionStorage.getItem("bx_allow_verify_email");
 
     if (storedUserData) {
       setAuthUserData(JSON.parse(storedUserData));
@@ -34,6 +36,10 @@ export const LocalStoreProvider = ({ children }) => {
 
     if (authIdentifier) {
       setFAuthIdentifier(JSON.parse(authIdentifier));
+    }
+
+    if (allowVerEm) {
+      setAllowVerifyEmail(JSON.parse(allowVerEm));
     }
   }, []);
 
@@ -61,14 +67,29 @@ export const LocalStoreProvider = ({ children }) => {
     }
 
     if (authIdentifier !== null) {
-      localStorage.setItem(
+      sessionStorage.setItem(
         "bx_auth_identifier",
         JSON.stringify(authIdentifier)
       );
     } else {
-      localStorage.removeItem("bx_auth_identifier");
+      sessionStorage.removeItem("bx_auth_identifier");
     }
-  }, [authUserData, userId, forgotPasswordIdentifier, authIdentifier]);
+
+    if (allowVerifyEmail !== null) {
+      localStorage.setItem(
+        "bx_allow_verify_email",
+        JSON.stringify(allowVerifyEmail)
+      );
+    } else {
+      localStorage.removeItem("bx_allow_verify_email");
+    }
+  }, [
+    authUserData,
+    userId,
+    forgotPasswordIdentifier,
+    authIdentifier,
+    allowVerifyEmail,
+  ]);
 
   return (
     <LocalStoreContext.Provider
@@ -81,6 +102,8 @@ export const LocalStoreProvider = ({ children }) => {
         forgotPasswordIdentifier,
         authIdentifier,
         setFAuthIdentifier,
+        setAllowVerifyEmail,
+        allowVerifyEmail,
       }}
     >
       {children}

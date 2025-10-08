@@ -5,6 +5,8 @@ import SubmitButton from "@/src/components/SubmitButton";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../hooks/api/AuthContext";
 import Toast from "@/src/components/Toast";
+import { useRouter } from "next/navigation";
+import { LocalStoreContext } from "../../hooks/localstorage/LocalStoreContext";
 
 const VerifyEmailPage = () => {
   const {
@@ -24,6 +26,15 @@ const VerifyEmailPage = () => {
   const [resendTimer, setResendTimer] = useState(120);
   const [canResend, setCanResend] = useState(false);
   const [isHover, setIsHover] = useState(false);
+  const { authIdentifier, allowVerifyEmail } = useContext(LocalStoreContext);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!allowVerifyEmail || !authIdentifier) {
+      router.push("/auth/signup");
+    }
+  }, [router]);
 
   // Countdown timer effect
   useEffect(() => {
