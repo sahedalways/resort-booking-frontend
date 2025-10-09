@@ -84,7 +84,6 @@ const VerifyEmailWrapper = () => {
     try {
       const success = await resendOtp();
       if (success) {
-        console.log("hello");
         setResendTimer(120);
         setCanResend(false);
       }

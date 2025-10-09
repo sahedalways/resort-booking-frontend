@@ -272,7 +272,6 @@ export const AuthProvider = ({ children }) => {
       })
 
       .then((res) => {
-        console.log("matched!!!!");
         setIsMatchOtpLoading(false);
         setFAuthIdentifier(null);
         setForgotPasswordIdentifier(res.data.data.identifier);

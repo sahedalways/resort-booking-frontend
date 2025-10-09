@@ -74,7 +74,6 @@ const ProfileContent = React.forwardRef(({ userData }, ref) => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Updated Profile Data:", profileData);
       setIsEditMode(false);
       await saveProfileData(profileData);
     }

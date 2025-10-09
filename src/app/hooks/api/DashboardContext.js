@@ -94,8 +94,6 @@ export const DashboardProvider = ({ children }) => {
         },
       });
 
-      console.log("response.data.data", response.data.data);
-
       if (response.data.data) {
         setBookingData(response.data.data);
       }
@@ -104,6 +102,38 @@ export const DashboardProvider = ({ children }) => {
       const errorData = error.response?.data;
       console.log(errorData.error);
       setIsLoadingBooking(false);
+      return false;
+    }
+  };
+
+  const changePassword = async (passwordData) => {
+    setIsLoadingSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append("current_password", passwordData.current_password);
+      formData.append("new_password", passwordData.new_password);
+      formData.append("c_password", passwordData.confirm_password);
+
+      const response = await http.post("profile/change-password", formData, {
+        headers: {
+          Authorization: `Bearer ${isLoggedInToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      setIsLoadingSubmitting(false);
+      if (response.data?.success) {
+        setIsSuccessMsg("Password changed successfully.");
+        return true;
+      } else {
+        setIsErrorMsg(response.data?.message || "Failed to change password.");
+        return false;
+      }
+    } catch (error) {
+      const errorData = error.response?.data;
+      setIsErrorMsg(
+        errorData?.message || "Something went wrong. Please try again."
+      );
+      setIsLoadingSubmitting(false);
       return false;
     }
   };
@@ -121,6 +151,7 @@ export const DashboardProvider = ({ children }) => {
         getBookingHistory,
         bookingData,
         isLoadingBooking,
+        changePassword,
       }}
     >
       {children}

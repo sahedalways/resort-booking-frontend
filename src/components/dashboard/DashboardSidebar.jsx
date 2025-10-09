@@ -69,28 +69,56 @@ const DashboardSidebar = ({
       <div className="card sidebar-card">
         <div className="card-body d-flex flex-column align-items-center">
           {/* Avatar & Edit */}
-          <div className="d-flex align-items-center mb-4 w-100 justify-content-center position-relative">
+          <div className="d-flex justify-content-center mb-4 w-100 position-relative">
             <div
-              className="avatar-container"
+              className="avatar-container position-relative"
               style={{
                 backgroundImage: avatarPreview ? `url(${avatarPreview})` : "",
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 cursor: "pointer",
+                width: "140px",
+                height: "140px",
+                borderRadius: "50%",
               }}
+              onClick={handleAvatarClick}
             >
               {!avatarPreview && (
-                <i className="bi bi-person-fill avatar-icon"></i>
+                <i
+                  className="bi bi-person-fill avatar-icon"
+                  style={{
+                    fontSize: "60px",
+                    color: "#ccc",
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                  }}
+                ></i>
               )}
-            </div>
 
-            <button
-              type="button"
-              onClick={handleAvatarClick}
-              className="text-decoration-none avatar-edit-btn secondary-color btn btn-link"
-            >
-              <i className="bi bi-pencil-fill me-1"></i> Edit
-            </button>
+              <button
+                type="button"
+                className="btn btn-link p-1 m-0 position-absolute"
+                style={{
+                  bottom: "0",
+                  right: "0",
+                  backgroundColor: "#0083bb",
+                  color: "#fff",
+                  borderRadius: "50%",
+                  width: "35px",
+                  height: "35px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <i
+                  className="bi bi-pencil-fill"
+                  style={{ fontSize: "16px" }}
+                ></i>
+              </button>
+            </div>
           </div>
 
           {/* Navigation List */}

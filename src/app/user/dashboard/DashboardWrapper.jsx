@@ -14,7 +14,7 @@ export function DashboardWrapper() {
   const { authUserData } = useContext(LocalStoreContext);
   const { isLoginSuccessMsg, setIsLoginSuccessMsg } = useContext(AuthContext);
   const [activeSection, setActiveSection] = useState("profile");
-  console.log("authUserData", authUserData);
+
   const profileRef = useRef(null);
   const bookingInfoRef = useRef(null);
   const settingsRef = useRef(null);
@@ -111,7 +111,7 @@ export function DashboardWrapper() {
           <BookingHistoryContent ref={bookingInfoRef} bookings={bookings} />
 
           {/* Settings Section */}
-          <SettingsContent ref={settingsRef} user="jd" />
+          <SettingsContent ref={settingsRef} userData={authUserData} />
         </div>
       </div>
 
