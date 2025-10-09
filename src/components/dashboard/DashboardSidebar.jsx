@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import SubmitButton from "../SubmitButton";
 import { DashboardContext } from "@/src/app/hooks/api/DashboardContext";
 import Toast from "../Toast";
+import { AuthContext } from "@/src/app/hooks/api/AuthContext";
 
 const DashboardSidebar = ({
   activeSection,
@@ -26,6 +27,8 @@ const DashboardSidebar = ({
     setIsErrorMsg,
     setIsSuccessMsg,
   } = useContext(DashboardContext);
+
+  const { handleLogout } = useContext(AuthContext);
 
   // Open modal
   const handleAvatarClick = () => {
@@ -55,6 +58,10 @@ const DashboardSidebar = ({
 
     await changeAvatar(formData);
     setIsModalOpen(false);
+  };
+
+  const logoutSubmit = () => {
+    handleLogout();
   };
 
   return (
@@ -127,7 +134,15 @@ const DashboardSidebar = ({
               <i className="bi bi-gear-fill"></i> Settings
             </a>
 
-            <a href="#" className="nav-link-custom text-danger">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                logoutSubmit();
+              }}
+              className="nav-link-custom text-danger"
+              style={{ cursor: "pointer" }}
+            >
               <i className="bi bi-box-arrow-right"></i> Log Out
             </a>
           </div>
