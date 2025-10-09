@@ -6,11 +6,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { LocalStoreContext } from "../localstorage/LocalStoreContext";
 import { http } from "../../services/httpService";
+import { isLoggedIn } from "../../helper/auth";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
+  const isLoggedInToken = isLoggedIn();
   const [isRegisterSuccessMsg, setIsRegisterSuccessMsg] = useState(false);
   const [isRegisterErrorMsg, setIsRegisterErrorMsg] = useState("");
   const [isLogoutMessage, setLogoutMessage] = useState("");
@@ -163,19 +165,14 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
-  const handleLogout = async (authToken) => {
-    if (!authToken) {
-      console.error("No auth token found");
-      return;
-    }
-
+  const handleLogout = async () => {
     try {
       await http.post(
         "logout",
         {},
         {
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${isLoggedInToken}`,
           },
         }
       );

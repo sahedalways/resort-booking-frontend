@@ -15,7 +15,7 @@ const Header = ({ data }) => {
   const isLoggedInToken = isLoggedIn();
 
   const logoutSubmit = () => {
-    handleLogout(isLoggedInToken);
+    handleLogout();
   };
 
   if (!data) return <Skeleton type="header" />;
