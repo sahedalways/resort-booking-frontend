@@ -23,6 +23,7 @@ const CheckoutClient = () => {
                         <Image
                           width={500}
                           height={500}
+                          alt="cart img"
                           className="img-fluid object-fit-cover cart-side-img"
                           src={"/img/bathroom.png"}
                         />
