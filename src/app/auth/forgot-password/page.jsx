@@ -1,10 +1,10 @@
 import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
-import VerifyEmailWrapper from "./VerifyEmailWrapper";
+import ForgotPasswordWrapper from "./ForgotPasswordWrapper";
 
 const page = () => {
   return (
     <>
-      <VerifyEmailWrapper />
+      <ForgotPasswordWrapper />
     </>
   );
 };
@@ -13,11 +13,10 @@ export default page;
 
 export async function generateMetadata() {
   const headerData = await getSiteHeaderData();
-
   const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
 
   return {
-    title: `${siteTitle} | Email Verification`,
-    description: `Verify your email address to complete your registration on ${siteTitle}.`,
+    title: `${siteTitle} | Forgot Password`,
+    description: `Reset your password on ${siteTitle} by entering your registered email.`,
   };
 }

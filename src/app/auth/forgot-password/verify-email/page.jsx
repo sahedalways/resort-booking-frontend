@@ -1,4 +1,4 @@
-import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
+import { getSiteHeaderData } from "@/src/app/helper/getSiteHeaderData";
 import VerifyEmailWrapper from "./VerifyEmailWrapper";
 
 const page = () => {
@@ -18,6 +18,6 @@ export async function generateMetadata() {
 
   return {
     title: `${siteTitle} | Email Verification`,
-    description: `Verify your email address to complete your registration on ${siteTitle}.`,
+    description: `Verify your email address to change password on ${siteTitle}.`,
   };
 }

@@ -123,14 +123,17 @@ const Header = ({ data }) => {
                   >
                     Logout
                   </button>
-                  <li className="nav-item d-flex align-items-center mt-2 ms-5">
-                    <span
-                      className="nav-link disabled"
-                      style={{ color: "#7f8a96d8" }}
-                    >
-                      {authUserData.f_name} {authUserData.l_name}
-                    </span>
-                  </li>
+
+                  {authUserData && (
+                    <li className="nav-item d-flex align-items-center mt-2 ms-5">
+                      <span
+                        className="nav-link disabled"
+                        style={{ color: "#7f8a96d8" }}
+                      >
+                        {authUserData?.f_name} {authUserData?.l_name}
+                      </span>
+                    </li>
+                  )}
                 </>
               ) : (
                 <>
@@ -250,14 +253,16 @@ const Header = ({ data }) => {
                   Logout
                 </button>
 
-                <li className="nav-item d-flex align-items-center mt-3  justify-content-center">
-                  <span
-                    className="nav-link disabled"
-                    style={{ color: "#7f8a96d8" }}
-                  >
-                    {authUserData.f_name} {authUserData.l_name}
-                  </span>
-                </li>
+                {authUserData && (
+                  <li className="nav-item d-flex align-items-center mt-3  justify-content-center">
+                    <span
+                      className="nav-link disabled"
+                      style={{ color: "#7f8a96d8" }}
+                    >
+                      {authUserData?.f_name} {authUserData?.l_name}
+                    </span>
+                  </li>
+                )}
               </>
             ) : (
               <>

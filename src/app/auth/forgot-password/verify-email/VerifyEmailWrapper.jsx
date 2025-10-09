@@ -1,22 +1,22 @@
 "use client";
 
+import { getSiteHeaderData } from "@/src/app/helper/getSiteHeaderData";
+import { AuthContext } from "@/src/app/hooks/api/AuthContext";
+import { LocalStoreContext } from "@/src/app/hooks/localstorage/LocalStoreContext";
 import OtpInput from "@/src/components/OtpInput";
 import SubmitButton from "@/src/components/SubmitButton";
-import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../../hooks/api/AuthContext";
 import Toast from "@/src/components/Toast";
+import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { LocalStoreContext } from "../../hooks/localstorage/LocalStoreContext";
-import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
 
 const VerifyEmailWrapper = () => {
   const {
-    verifyEmail,
-    resendOtp,
+    verifyEmailForForgotPassword,
+
     isMatchOtpLoading,
     isMatchOtpErrorMsg,
     isResendOtpSuccessMsg,
-    isResendOtpLoading,
+
     setIsResendOtpSuccessMsg,
     setIsMatchOtpErrorMsg,
   } = useContext(AuthContext);
@@ -24,9 +24,7 @@ const VerifyEmailWrapper = () => {
   const OTP_LENGTH = 6;
   const [otpValue, setOtpValue] = useState(new Array(OTP_LENGTH).fill(null));
   const [error, setError] = useState("");
-  const [resendTimer, setResendTimer] = useState(120);
-  const [canResend, setCanResend] = useState(false);
-  const [isHover, setIsHover] = useState(false);
+
   const { authIdentifier, allowVerifyEmail } = useContext(LocalStoreContext);
 
   const router = useRouter();
@@ -36,19 +34,6 @@ const VerifyEmailWrapper = () => {
       router.push("/auth/login");
     }
   }, [router]);
-
-  // Countdown timer effect
-  useEffect(() => {
-    if (resendTimer > 0) {
-      const timerId = setInterval(() => {
-        setResendTimer((prev) => prev - 1);
-      }, 1000);
-
-      return () => clearInterval(timerId);
-    } else {
-      setCanResend(true);
-    }
-  }, [resendTimer]);
 
   // Clear error automatically when OTP is complete
   useEffect(() => {
@@ -69,7 +54,7 @@ const VerifyEmailWrapper = () => {
     setError("");
 
     try {
-      const isRegisteredUser = await verifyEmail(otp);
+      const isRegisteredUser = await verifyEmailForForgotPassword(otp);
 
       if (isRegisteredUser) {
         setOtpValue(new Array(OTP_LENGTH).fill(null));
@@ -78,28 +63,6 @@ const VerifyEmailWrapper = () => {
     } catch (error) {
       console.error("Email verification failed:", error);
     }
-  };
-
-  const handleResendOtp = async () => {
-    try {
-      const success = await resendOtp();
-      if (success) {
-        console.log("hello");
-        setResendTimer(120);
-        setCanResend(false);
-      }
-    } catch (err) {
-      console.error("Failed to resend OTP:", err);
-    }
-  };
-
-  // Format timer as MM:SS
-  const formatTimer = (seconds) => {
-    const min = Math.floor(seconds / 60)
-      .toString()
-      .padStart(2, "0");
-    const sec = (seconds % 60).toString().padStart(2, "0");
-    return `${min}:${sec}`;
   };
 
   return (
@@ -113,8 +76,11 @@ const VerifyEmailWrapper = () => {
                 style={{ maxWidth: "700px" }}
               >
                 <h4 className="text-center mb-2 fw-bold">Verify Your Email</h4>
-                <p className="text-center text-muted small mb-4">
-                  Enter the 6-digit OTP sent to your email
+                <p className="text-center text-muted small mb-2">
+                  Enter the 6-digit OTP sent to your email.
+                </p>
+                <p className="text-center text-danger small mb-4">
+                  ⚠️ This OTP will expire in <strong>2 minutes</strong>.
                 </p>
 
                 <form className="w-100" onSubmit={handleSubmit}>
@@ -150,41 +116,6 @@ const VerifyEmailWrapper = () => {
                     >
                       {isMatchOtpLoading ? "Processing" : "Verify"}
                     </SubmitButton>
-
-                    {/* Resend OTP Section */}
-                    <button
-                      type="button"
-                      className="btn btn-link mt-3"
-                      disabled={!canResend || isResendOtpLoading}
-                      onClick={handleResendOtp}
-                      onMouseEnter={() => setIsHover(true)}
-                      onMouseLeave={() => setIsHover(false)}
-                      style={{
-                        textDecoration: "none",
-                        color: canResend ? "#fff" : "#555",
-                        padding: "0.5rem 1.5rem",
-                        borderRadius: "8px",
-                        border: "none",
-                        background: canResend
-                          ? isResendOtpLoading
-                            ? "#164f84"
-                            : isHover
-                            ? "linear-gradient(90deg, #164f84 0%, #0083bb 100%)"
-                            : "#164f84"
-                          : "#eee",
-                        cursor:
-                          canResend && !isResendOtpLoading
-                            ? "pointer"
-                            : "not-allowed",
-                        transition: "all 0.3s ease",
-                      }}
-                    >
-                      {isResendOtpLoading
-                        ? "Sending..."
-                        : canResend
-                        ? "Resend OTP"
-                        : `Resend OTP in ${formatTimer(resendTimer)}`}
-                    </button>
                   </div>
                 </form>
               </div>

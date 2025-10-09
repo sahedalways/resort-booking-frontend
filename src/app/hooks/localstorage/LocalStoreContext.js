@@ -16,7 +16,7 @@ export const LocalStoreProvider = ({ children }) => {
   useEffect(() => {
     const storedUserData = localStorage.getItem("bx_user_data");
     const storedUserId = localStorage.getItem("bx_user_id");
-    const forgotPasswordIdentifier = localStorage.getItem(
+    const forgotPasswordIdentifier = sessionStorage.getItem(
       "bx_forgot_password_identifier"
     );
     const authIdentifier = sessionStorage.getItem("bx_auth_identifier");
@@ -58,12 +58,12 @@ export const LocalStoreProvider = ({ children }) => {
     }
 
     if (forgotPasswordIdentifier !== null) {
-      localStorage.setItem(
+      sessionStorage.setItem(
         "bx_forgot_password_identifier",
         JSON.stringify(forgotPasswordIdentifier)
       );
     } else {
-      localStorage.removeItem("bx_forgot_password_identifier");
+      sessionStorage.removeItem("bx_forgot_password_identifier");
     }
 
     if (authIdentifier !== null) {

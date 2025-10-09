@@ -198,31 +198,16 @@ export const AuthProvider = ({ children }) => {
     setIsSearchAccErrorMsg("");
     setIsSearchAccountLoading(true);
 
-    let email = null;
-    let phoneNumber = null;
-
-    if (/\S+@\S+\.\S+/.test(identity)) {
-      email = identity;
-    } else if (/^\d{10,15}$/.test(identity)) {
-      phoneNumber = identity;
-    } else {
-      setIsSearchAccountLoading(false);
-      setIsSearchAccErrorMsg("Invalid email or phone number.");
-      setTimeout(() => {
-        setIsSearchAccErrorMsg("");
-      }, 5000);
-
-      return;
-    }
-
     try {
       const res = await http.post("forgot-password", {
-        email: email,
-        phone_number: phoneNumber,
+        email: identity,
       });
-      console.log("successful", res);
       setIsSearchAccountLoading(false);
-      router.push("/login/forgot-password/match-otp");
+
+      setFAuthIdentifier(res.data.data.email);
+      setAllowVerifyEmail(true);
+
+      router.push("/auth/forgot-password/verify-email");
     } catch (error) {
       const errorData = error.response.data;
 
@@ -238,7 +223,7 @@ export const AuthProvider = ({ children }) => {
           setIsSearchAccErrorMsg("");
         }, 5000);
       } else {
-        setIsSearchAccErrorMsg(errorData.message);
+        setIsSearchAccErrorMsg(errorData.data.error);
         setTimeout(() => {
           setIsSearchAccErrorMsg("");
         }, 5000);
@@ -269,6 +254,33 @@ export const AuthProvider = ({ children }) => {
         setUserId(userId);
         setIsLoginSuccessMsg("You have logged in successfully.");
         router.push("/user/dashboard");
+      })
+      .catch((error) => {
+        const errorData = error.response.data;
+        setIsMatchOtpLoading(false);
+        setIsMatchOtpErrorMsg(errorData.message);
+        setTimeout(() => {
+          setIsMatchOtpErrorMsg("");
+        }, 5000);
+      });
+  };
+
+  const verifyEmailForForgotPassword = async function (otp) {
+    setIsMatchOtpErrorMsg("");
+    setIsMatchOtpLoading(true);
+    http
+      .post("forgot-password/match-otp", {
+        otp: otp,
+        email: authIdentifier,
+      })
+
+      .then((res) => {
+        console.log("matched!!!!");
+        setIsMatchOtpLoading(false);
+        setFAuthIdentifier(null);
+        setForgotPasswordIdentifier(res.data.data.identifier);
+
+        router.push("/auth/forgot-password/change-password");
       })
       .catch((error) => {
         const errorData = error.response.data;
@@ -318,6 +330,7 @@ export const AuthProvider = ({ children }) => {
 
       .then((res) => {
         setIsChangePasswordLoading(false);
+        setAllowVerifyEmail(false);
         let userData = res.data;
 
         setIsChangePasswordSuccessMsg(userData.message);
@@ -325,13 +338,13 @@ export const AuthProvider = ({ children }) => {
           setIsChangePasswordSuccessMsg("");
         }, 8000);
         setForgotPasswordIdentifier(null);
-        router.push("/login");
+        router.push("/auth/login");
       })
       .catch((error) => {
         const errorData = error.response.data;
         setIsChangePasswordSuccessMsg("");
         setIsChangePasswordLoading(false);
-        setIsChangePasswordErrorMsg(errorData.message);
+        setIsChangePasswordErrorMsg(errorData.data.error);
         setTimeout(() => {
           setIsChangePasswordErrorMsg("");
         }, 5000);
@@ -376,6 +389,10 @@ export const AuthProvider = ({ children }) => {
         setIsLoginErrorMsg,
         isLoginSuccessMsg,
         setIsLoginSuccessMsg,
+        setIsSearchAccErrorMsg,
+        verifyEmailForForgotPassword,
+        setIsChangePasswordErrorMsg,
+        setIsChangePasswordSuccessMsg,
       }}
     >
       {children}

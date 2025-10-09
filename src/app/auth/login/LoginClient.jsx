@@ -16,6 +16,8 @@ const LoginClient = () => {
     isLoginErrorMsg,
     isLoginLoading,
     setIsLoginErrorMsg,
+    isChangePasswordSuccessMsg,
+    setIsChangePasswordSuccessMsg,
   } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
@@ -169,7 +171,7 @@ const LoginClient = () => {
 
                 <div className="mb-3 text-end mt-2">
                   <Link
-                    href="/forget-password"
+                    href="/auth/forgot-password"
                     className="small text-decoration-none primary-color"
                   >
                     Forgot Password?
@@ -193,8 +195,14 @@ const LoginClient = () => {
 
       <Toast
         message={isLogoutMessage}
-        type="error"
+        type="success"
         onClose={() => setLogoutMessage("")}
+      />
+
+      <Toast
+        message={isChangePasswordSuccessMsg}
+        type="success"
+        onClose={() => setIsChangePasswordSuccessMsg("")}
       />
     </section>
   );

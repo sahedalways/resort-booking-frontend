@@ -1,31 +1,33 @@
 import { NextResponse } from "next/server";
 
-const publicPaths = [
-  "/",
-  "/contact",
-  "/about",
+const publicPaths = ["/", "/about", "/contact", "/resorts", "/events"];
+
+// List of auth pages that should be inaccessible after login
+const authPages = [
   "/auth/login",
   "/auth/signup",
-  "/forgot-password",
   "/auth/verify-email",
+  "/auth/forgot-password",
+  "/auth/forgot-password/verify-email",
+  "/auth/forgot-password/change-password",
 ];
 
-// Middleware
 export function middleware(request) {
-  const path = request.nextUrl.pathname;
+  const { pathname } = request.nextUrl;
   const token = request.cookies.get("bx_auth_token");
 
-  // Public paths + dynamic public routes
-  const isPublicPath =
-    publicPaths.includes(path) ||
-    path.startsWith("/resorts") ||
-    path.startsWith("/events");
+  // Check if the path is public
+  const isPublicPath = publicPaths.some(
+    (path) => pathname === path || pathname.startsWith(path)
+  );
 
-  if ((path === "/auth/login" || path === "/auth/signup") && token) {
+  // Redirect logged-in users away from auth pages
+  if (token && authPages.some((page) => pathname.startsWith(page))) {
     return NextResponse.redirect(new URL("/user/dashboard", request.url));
   }
 
-  if (!isPublicPath && !token) {
+  // Redirect non-logged-in users trying to access protected pages
+  if (!token && !isPublicPath) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
@@ -34,5 +36,7 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)",
+  ],
 };
