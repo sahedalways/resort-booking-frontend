@@ -2253,10 +2253,6 @@ img.payment-icon-table {
   display: block;
 }
 
-.date-info span {
-  text-align: center;
-}
-
 .btn-update-date {
   background-color: var(--white);
   color: var(--primary);
