@@ -26,8 +26,9 @@ export function middleware(request) {
     return NextResponse.redirect(new URL("/user/dashboard", request.url));
   }
 
-  // Redirect non-logged-in users trying to access protected pages
-  if (!token && !isPublicPath) {
+  // Redirect non-logged-in users trying to access protected pages (like dashboard)
+  const isProtectedPath = pathname.startsWith("/user");
+  if (!token && (isProtectedPath || !isPublicPath)) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 

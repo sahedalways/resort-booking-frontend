@@ -1,22 +1,23 @@
-import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
-import LoginClient from "./LoginClient";
+"use client";
 
-const page = () => {
-  return (
-    <>
-      <LoginClient />
-    </>
-  );
+import { useEffect } from "react";
+
+import LoginClient from "./LoginClient";
+import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
+
+const Page = () => {
+  useEffect(() => {
+    const fetchTitle = async () => {
+      const data = await getSiteHeaderData();
+      document.title = `${
+        data?.header_info?.site_title || "BookingXpart"
+      } | Login`;
+    };
+
+    fetchTitle();
+  }, []);
+
+  return <LoginClient />;
 };
 
-export default page;
-
-export async function generateMetadata() {
-  const headerData = await getSiteHeaderData();
-
-  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
-  return {
-    title: `${siteTitle} | Login`,
-    description: `Log in to your ${siteTitle} account to access your bookings, events, and more.`,
-  };
-}
+export default Page;

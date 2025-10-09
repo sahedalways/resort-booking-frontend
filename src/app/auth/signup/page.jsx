@@ -1,20 +1,24 @@
+"use client";
+
+import { useEffect } from "react";
 import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
 import RegisterClient from "./RegisterClient";
 
 export default function Register() {
+  useEffect(() => {
+    const fetchTitle = async () => {
+      const data = await getSiteHeaderData();
+      document.title = `${
+        data?.header_info?.site_title || "BookingXpart"
+      } | Register`;
+    };
+
+    fetchTitle();
+  }, []);
+
   return (
     <>
       <RegisterClient />
     </>
   );
-}
-
-export async function generateMetadata() {
-  const headerData = await getSiteHeaderData();
-
-  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
-  return {
-    title: `${siteTitle} | Register`,
-    description: `Register an account on ${siteTitle}`,
-  };
 }

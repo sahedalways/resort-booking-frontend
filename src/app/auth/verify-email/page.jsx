@@ -1,7 +1,21 @@
+"use client";
+
+import { useEffect } from "react";
 import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
 import VerifyEmailWrapper from "./VerifyEmailWrapper";
 
 const page = () => {
+  useEffect(() => {
+    const fetchTitle = async () => {
+      const data = await getSiteHeaderData();
+      document.title = `${
+        data?.header_info?.site_title || "BookingXpart"
+      } | Email Verification`;
+    };
+
+    fetchTitle();
+  }, []);
+
   return (
     <>
       <VerifyEmailWrapper />
@@ -10,14 +24,3 @@ const page = () => {
 };
 
 export default page;
-
-export async function generateMetadata() {
-  const headerData = await getSiteHeaderData();
-
-  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
-
-  return {
-    title: `${siteTitle} | Email Verification`,
-    description: `Verify your email address to complete your registration on ${siteTitle}.`,
-  };
-}

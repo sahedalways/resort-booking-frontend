@@ -4,18 +4,22 @@ export default function SubmitButton({
   children,
   submitBtnDisabled = false,
   submitLoading = false,
+  variant = "primary",
 }) {
+  const colors = {
+    primary: "linear-gradient(90deg, #164f84 0%, #0083bb 100%)",
+    danger: "linear-gradient(90deg, #d32f2f 0%, #f44336 100%)",
+  };
+
   const buttonStyle = {
     padding: "0.6rem 1.8rem",
-    background: submitBtnDisabled
-      ? "#164f84"
-      : "linear-gradient(90deg, #164f84 0%, #0083bb 100%)", // gradient
+    background: submitBtnDisabled ? "#aaa" : colors[variant] || colors.primary,
     color: "#ffffff",
     fontWeight: 600,
-    borderRadius: "999px", // pill shape
+    borderRadius: "999px",
     boxShadow: submitBtnDisabled
       ? "0 2px 4px rgba(0,0,0,0.1)"
-      : "0 6px 12px rgba(0,0,0,0.15)", // deeper shadow when active
+      : "0 6px 12px rgba(0,0,0,0.15)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

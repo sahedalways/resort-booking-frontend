@@ -152,8 +152,8 @@ export const AuthProvider = ({ children }) => {
         try {
           const errorData = error.response?.data;
 
-          if (errorData?.message === "Email or Password is incorrect!") {
-            setIsLoginErrorMsg(errorData?.message);
+          if (errorData.data.error) {
+            setIsLoginErrorMsg(errorData.data.error);
           } else {
             setIsLoginErrorMsg("Something went wrong. Please try again.");
           }

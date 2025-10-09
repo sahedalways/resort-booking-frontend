@@ -12,6 +12,7 @@ import fetchFooterData from "./services/FooterService";
 import { AuthProvider } from "./hooks/api/AuthContext";
 import { LocalStoreProvider } from "./hooks/localstorage/LocalStoreContext";
 import { getSiteHeaderData } from "./helper/getSiteHeaderData";
+import { DashboardProvider } from "./hooks/api/DashboardContext";
 
 export const revalidate = 300;
 
@@ -49,27 +50,19 @@ export default async function RootLayout({ children }) {
 
       <body>
         <LocalStoreProvider>
-          <AuthProvider>
-            <Header data={headerData?.header_info} />
+          <DashboardProvider>
+            <AuthProvider>
+              <Header data={headerData?.header_info} />
 
-            {children}
+              {children}
 
-            <Footer data={footerData} />
-          </AuthProvider>
+              <Footer data={footerData} />
+            </AuthProvider>
+          </DashboardProvider>
         </LocalStoreProvider>
+
         <BootstrapClient />
       </body>
     </html>
   );
-}
-
-export async function generateMetadata() {
-  const headerData = await getSiteHeaderData();
-
-  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
-
-  return {
-    title: `${siteTitle} | Home`,
-    description: `Welcome to ${siteTitle} — your go-to platform for booking services.`,
-  };
 }
