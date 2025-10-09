@@ -96,20 +96,20 @@ const Header = ({ data }) => {
                   Contact
                 </Link>
               </li>
-              <li className="nav-item">
-                <Link
-                  href="/checkout"
-                  className={`nav-link ${
-                    pathname === "/checkout" ? "active" : ""
-                  }`}
-                >
-                  Checkout
-                </Link>
-              </li>
 
               {/* Dashboard + User name */}
               {isLoggedInToken && authUserData && (
                 <>
+                  <li className="nav-item">
+                    <Link
+                      href="/user/checkout"
+                      className={`nav-link ${
+                        pathname === "/user/checkout" ? "active" : ""
+                      }`}
+                    >
+                      Checkout
+                    </Link>
+                  </li>
                   <li className="nav-item">
                     <Link
                       href="/user/dashboard"
@@ -236,19 +236,20 @@ const Header = ({ data }) => {
                 Contact
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                href="/checkout"
-                className={`nav-link ${
-                  pathname === "/checkout" ? "active" : ""
-                }`}
-                onClick={handleClose}
-              >
-                Checkout
-              </Link>
-            </li>
+
             {isLoggedInToken && authUserData && (
               <>
+                <li className="nav-item">
+                  <Link
+                    href="/user/checkout"
+                    className={`nav-link ${
+                      pathname === "/user/checkout" ? "active" : ""
+                    }`}
+                    onClick={handleClose}
+                  >
+                    Checkout
+                  </Link>
+                </li>
                 <li className="nav-item">
                   <Link
                     href="/user/dashboard"

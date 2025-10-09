@@ -113,7 +113,7 @@ const Footer = ({ data }) => {
           {/* Dhaka Office */}
           <div className="col-lg-3 col-md-6">
             <div className="contact-card">
-              <h5>BookingXpart (Dhaka)</h5>
+              <h5>Dhaka Office</h5>
               <p>{contact_info?.dhaka_office_address}</p>
               <Link
                 href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(

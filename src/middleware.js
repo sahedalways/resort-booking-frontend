@@ -10,7 +10,6 @@ const authPages = [
   "/auth/forgot-password",
   "/auth/forgot-password/verify-email",
   "/auth/forgot-password/change-password",
-  "/checkout",
 ];
 
 export function middleware(request) {
