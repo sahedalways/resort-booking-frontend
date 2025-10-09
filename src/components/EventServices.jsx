@@ -28,7 +28,7 @@ const EventServices = ({ eventData }) => {
                   href={`/events/${service.id}`}
                   className="text-decoration-none"
                 >
-                  <div className="card service-card h-100 shadow border-0 rounded-4 overflow-hidden">
+                  <div className="card service-card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
                     <div className="image-wrapper">
                       <Image
                         width={400}

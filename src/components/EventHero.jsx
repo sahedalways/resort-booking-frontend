@@ -6,7 +6,7 @@ const EventHero = ({ eventData }) => {
   return (
     <>
       <section
-        className="hero-section position-relative w-100"
+        className="position-relative w-100"
         style={{ overflow: "hidden" }}
       >
         <div className="position-relative w-100">

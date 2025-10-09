@@ -115,7 +115,7 @@ const ResortFilter = ({ onFilterChange }) => {
                     placeholder="Min BDT"
                     value={customRange.min}
                     onChange={handleCustomInput}
-                    className="form-control form-control-sm"
+                    className="form-control form-control-sm shadow-none"
                   />
                   <input
                     type="text"
@@ -123,7 +123,7 @@ const ResortFilter = ({ onFilterChange }) => {
                     placeholder="Max BDT"
                     value={customRange.max}
                     onChange={handleCustomInput}
-                    className="form-control form-control-sm"
+                    className="form-control form-control-sm shadow-none"
                   />
                 </div>
               </div>
