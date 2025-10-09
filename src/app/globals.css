@@ -84,11 +84,13 @@ body {
   font-family: "inter" !important;
   font-size: var(--font-16);
 }
+
 .form-control,
 .custom-dropdown-style,
 .dropdown-menu {
   font-size: var(--font-16);
 }
+
 /*************** common style ******************/
 /************************************************/
 /************************************************/
@@ -104,6 +106,7 @@ body {
 .text-block-32 {
   font-size: var(--font-32);
 }
+
 .text-block-24 {
   font-size: var(--font-24);
   font-weight: 600;
@@ -443,6 +446,7 @@ nav.navbar {
 }
 
 .rooms-dropdown {
+  z-index: 111;
   padding: 28px 25px;
   width: 100%;
   position: absolute;
@@ -495,6 +499,8 @@ button.btn-link.active {
 
 .location-dropdown {
   z-index: 100;
+  max-height: 400px;
+  overflow: auto;
 }
 
 .location-dropdown .btn {
@@ -605,7 +611,7 @@ button.btn-link.active {
 }
 
 .card-img-top-fit {
-  height: 100%;
+  height: 100% !important;
   object-fit: cover;
 }
 
@@ -694,27 +700,28 @@ button.btn-link.active {
   background: var(--hero-bg);
 }
 
-.swiper {
+.mySwiper.swiper {
   width: 100%;
   padding-top: 50px;
   padding-bottom: 50px;
 }
 
-.swiper-slide {
+.mySwiper .swiper-slide {
   background-position: center;
   background-size: cover;
 }
 
-.swiper-slide img {
+.mySwiper .swiper-slide img {
   display: block;
   width: 100%;
 }
 
-.swiper-slide {
+.mySwiper .swiper-slide {
+  height: 300px;
   transition: transform 0.5s ease;
 }
 
-.swiper-slide-duplicate {
+.mySwiper .swiper-slide-duplicate {
   opacity: 0;
   pointer-events: none;
 }
@@ -765,11 +772,9 @@ button.btn-link.active {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    var(--overlay-bg-dark),
-    var(--overlay-bg-darker)
-  );
+  background: linear-gradient(to bottom,
+      var(--overlay-bg-dark),
+      var(--overlay-bg-darker));
   display: flex;
   align-items: flex-end;
   padding: 15px;
@@ -806,10 +811,10 @@ button.btn-link.active {
 }
 
 .payment-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
   gap: 10px;
-  max-width: 200px;
+  max-width: 80px;
+  flex-wrap: wrap;
 }
 
 .payment-icon {
@@ -927,7 +932,8 @@ button.btn-link.active {
   border-top: 1px solid var(--breadcrumb-bg);
 }
 
-.price-options {
+.price-options,
+.custom-range-inputs {
   padding: 15px;
   padding-top: 0;
 }
@@ -969,11 +975,11 @@ button.btn-link.active {
   transition: 0.3s;
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background-color: var(--primary);
 }
 
-.switch input:checked + .slider:before {
+.switch input:checked+.slider:before {
   transform: translateX(16px);
 }
 
@@ -1030,7 +1036,7 @@ button.btn-link.active {
 }
 
 .resort-image img {
-  height: 100%;
+  height: 200px;
   object-fit: cover;
   object-position: center top;
   width: 100%;
@@ -1109,7 +1115,7 @@ button.btn-link.active {
   align-items: center;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
   content: none !important;
 }
 
@@ -1665,9 +1671,9 @@ img.payment-icon-table {
     --font-24: 20px;
     --font-20: 18px;
     --font-18: 16px;
-    --font-16: 14px;
-    --font-14: 12px;
-    --font-12: 10px;
+    --font-16: 15px;
+    --font-14: 13px;
+    --font-12: 11px;
   }
 
   .section-gap {
@@ -1727,6 +1733,10 @@ img.payment-icon-table {
 
   .small {
     font-size: 13px;
+  }
+
+  .location-dropdown {
+    max-height: 300px;
   }
 }
 
@@ -1924,6 +1934,7 @@ img.payment-icon-table {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -1967,9 +1978,11 @@ img.payment-icon-table {
   0% {
     opacity: 0.6;
   }
+
   50% {
     opacity: 1;
   }
+
   100% {
     opacity: 0.6;
   }
@@ -2033,6 +2046,7 @@ img.payment-icon-table {
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
@@ -2041,33 +2055,42 @@ img.payment-icon-table {
 .skeleton-title {
   height: 24px;
 }
+
 .skeleton-text {
   height: 16px;
 }
+
 .skeleton-image {
   height: 400px;
   width: 100%;
 }
+
 .skeleton-thumb {
   height: 100px;
 }
+
 .skeleton-chip {
   height: 32px;
   border-radius: 16px;
 }
+
 .skeleton-box {
   height: 80px;
 }
+
 .skeleton-tab {
   height: 40px;
   border-radius: 8px;
 }
+
 .skeleton-card {
   border-radius: 12px;
 }
+
 .skeleton-map {
   border-radius: 8px;
 }
+
 .skeleton-table {
   border-radius: 8px;
 }
@@ -2080,3 +2103,396 @@ img.payment-icon-table {
   transform: scale(1.05);
   box-shadow: 0 1rem 1.5rem rgba(0, 0, 0, 0.4);
 }
+
+/* --- Cart Header --- */
+.cart-icon {
+    font-size: var(--font-50);
+    color: #ffffff;
+    background-color: #4caf50;
+    border-radius: 50%;
+    padding: 15px;
+    width: 100px;
+    height: 100px;
+    min-width: 100px;
+    display: flex !important
+;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart-title {
+  font-weight: 300;
+  margin-bottom: 30px;
+  font-size: var(--font-32);
+}
+
+/* --- Cart Item Card Styles (Left Column) --- */
+.cart-item-card {
+  background-color: rgb(254, 254, 254);
+  border: 1px solid rgb(240, 240, 240);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 4px;
+}
+
+.cart-side-img{
+  width: 100%;
+  height: 200px;
+}
+.night-stay-no {
+  background: #ededed;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.room-title-checkout {
+  font-size: var(--font-18);
+  font-weight: 600;
+  color: var(--danger);
+}
+
+.price-per-night {
+  color: var(--primary);
+  font-size: var(--font-14);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.currency {
+  font-weight: bold;
+}
+
+/* --- Item Inputs and Updates --- */
+.item-label {
+  font-size: var(--font-14);
+  white-space: nowrap;
+  background: #ededed;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.item-input {
+  width: 60px !important;
+  padding: 0.25rem 0.5rem;
+  height: 30px;
+  font-size: var(--font-14);
+  text-align: center;
+  border: 0;
+}
+
+.btn-update {
+  background-color: #ff9800;
+  color: white;
+  font-size: var(--font-14);
+  padding: 0.2rem 0.6rem;
+  border: none;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.btn-update:hover {
+  background-color: #e08b0a;
+  color: var(--white);
+}
+
+.max-persons {
+  font-size: var(--font-14);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* --- Price and Date Styles --- */
+.price-total {
+  font-size: var(--font-24);
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.selected-night {
+  font-size: var(--font-14);
+  color: var(--secondary);
+}
+
+.date-arrow {
+  color: var(--danger);
+}
+
+.close-icon {
+  color: #f44336;
+  cursor: pointer;
+  font-size: var(--font-14);
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.date-range {
+  width: 100%;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.date-item {
+  line-height: 1.2;
+}
+
+.date-text {
+  font-size: var(--font-14);
+}
+
+.day-text {
+  color: #666;
+  font-size: var(--font-14);
+  display: block;
+}
+
+.date-arrow {
+  font-size: var(--font-14);
+  margin: 5px 0;
+}
+
+.btn-update-date {
+  background-color: var(--white);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  font-size: var(--font-14);
+  padding: 0.1rem 0.5rem;
+  border-radius: 3px;
+  align-self: flex-start;
+  transition: .3s;
+  -webkit-transition: .3s;
+  -moz-transition: .3s;
+  -ms-transition: .3s;
+  -o-transition: .3s;
+  line-height: 1.5;
+}
+
+.btn-update-date:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+/* --- Action Buttons --- */
+.btn-action-add {
+  background-color: #ff9800;
+  color: white;
+  border: none;
+  font-size: var(--font-16);
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-action-add:hover {
+  background-color: #f57c00;
+  color: white;
+}
+
+.btn-action-proceed {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  font-size: var(--font-16);
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.btn-action-proceed:hover {
+  background-color: #388E3C;
+  color: white;
+}
+
+.looking-for-title {
+  font-weight: 300;
+  color: #555;
+  font-size: var(--font-20);
+}
+
+/*.btn-secondary-action {
+  background-color: #fff;
+  color: #1a73e8;
+  border: 1px solid #ccc;
+  font-size: var(--font-14);
+  padding: 0.4rem 0.8rem;
+  white-space: nowrap;
+  margin-top: 5px;
+}*/
+/* Base style for all secondary actions */
+.btn-secondary-action {
+  background-color: #fff;
+  color: #1a73e8;
+  border: 1px solid #ccc;
+  font-size: var(--font-14);
+  padding: 0.4rem 0.8rem;
+  white-space: nowrap;
+  margin-top: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  /* For smooth transitions */
+}
+
+/* --- Specific Button Colors --- */
+
+/* 1. Blue Button (Lighter Blue Hover) */
+.btn-action-blue {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+  border-color: #1a73e8;
+}
+
+.btn-action-blue:hover {
+  background-color: #c5daff;
+  color: #0b4eaf;
+  border-color: #0b4eaf;
+}
+
+.btn-action-green {
+  background-color: #e6f4ea;
+  color: #0f9d58;
+  border-color: #0f9d58;
+}
+
+.btn-action-green:hover {
+  background-color: #c7eed8;
+  color: #097d41;
+  border-color: #097d41;
+}
+
+
+.btn-action-red {
+  background-color: #fce8e6;
+  color: #db4437;
+  border-color: #db4437;
+}
+
+.btn-action-red:hover {
+  background-color: #f8c9c4;
+  color: #b83329;
+  border-color: #b83329;
+}
+
+
+.btn-action-yellow {
+  background-color: #fef7e0;
+  color: #f4b400;
+  border-color: #f4b400;
+}
+
+.btn-action-yellow:hover {
+  background-color: #fddc68;
+  color: #c98c00;
+  border-color: #c98c00;
+}
+
+/* --- Booking Details Card (Right Column) --- */
+.booking-details-card {
+  background-color: #fefefe;
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+
+.booking-details-title {
+  font-size: var(--font-16);
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.booking-for p {
+  font-size: var(--font-14);
+  color: #666;
+  margin: 0;
+}
+
+.guest-count {
+  font-weight: bold;
+  color: var(--primary);
+}
+
+
+.room-name-detail {
+  font-weight: bold;
+  font-size: var(--font-14);
+  color: #333;
+}
+
+.room-details-text {
+  font-size: var(--font-14);
+  color: #666;
+  border-bottom: 1px solid #ededed;
+  padding-bottom: 5px;
+}
+
+/* --- Bill Summary --- */
+.bill-item {
+  font-size: var(--font-14);
+  color: #333;
+}
+
+.bill-item .value {
+  font-weight: 600;
+}
+
+.detail-text {
+  font-size: var(--font-14);
+  color: #888;
+}
+
+
+.date-info {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: space-between;
+}
+
+/* --- Grand Total --- */
+.grand-total {
+  font-size: var(--font-18);
+  font-weight: 600;
+  background: #ededed;
+}
+
+.total-label {
+  color: #333;
+}
+
+.total-value {
+  color: #f44336;
+  font-size: var(--font-20);
+  font-weight: bold;
+}
+.details-title {
+    background: #ededed;
+}
+/* --- Book Now Button --- */
+
+
+/* Responsive adjustments */
+/*@media (max-width: 991px) {
+
+  .cart-item-card .col-md-9,
+  .cart-item-card .col-md-3 {
+    padding-bottom: 15px;
+  }
+
+  .close-icon {
+    position: static;
+    margin-left: auto;
+    display: block;
+    width: fit-content;
+  }
+
+  .cart-item-card .row.g-0 {
+    flex-direction: column;
+  }
+
+  .cart-item-card .col-md-3 {
+    text-align: left !important;
+    align-items: flex-start !important;
+    width: 100%;
+  }
+}*/

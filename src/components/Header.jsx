@@ -96,6 +96,16 @@ const Header = ({ data }) => {
                   Contact
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link
+                  href="/checkout"
+                  className={`nav-link ${
+                    pathname === "/checkout" ? "active" : ""
+                  }`}
+                >
+                  Checkout
+                </Link>
+              </li>
 
               {/* Dashboard + User name */}
               {isLoggedInToken && authUserData && (
@@ -224,6 +234,17 @@ const Header = ({ data }) => {
                 onClick={handleClose}
               >
                 Contact
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                href="/checkout"
+                className={`nav-link ${
+                  pathname === "/checkout" ? "active" : ""
+                }`}
+                onClick={handleClose}
+              >
+                Checkout
               </Link>
             </li>
             {isLoggedInToken && authUserData && (
