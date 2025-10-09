@@ -13,11 +13,11 @@ const CheckoutClient = () => {
         </div>
 
         <div className="row">
-          <div className="col-lg-9">
+          <div className="col-xl-9 col-lg-8">
             <div className="card cart-item-card mb-4">
               <div className="card-body">
                 <div className="row g-0 align-items-center">
-                  <div className="col-md-9">
+                  <div className="col-lg-9 col-md-8">
                     <div className="row g-4">
                       <div className="col-md-4">
                         <Image
@@ -79,29 +79,25 @@ const CheckoutClient = () => {
                     </div>
                   </div>
 
-                  <div className="col-md-3 text-end d-flex flex-column justify-content-between align-items-end h-100">
+                  <div className="col-lg-3 col-md-4 text-end d-flex flex-column justify-content-between align-items-end h-100">
                     <div className="price-total mb-2">
-                      <span className="currency">৳</span> 50,000.00
+                      ৳50,000.00
                     </div>
                     <i className="fas fa-times close-icon"></i>
                     <div className="selected-night">[5 night]</div>
                     <div className="date-range mt-3 text-start">
-                      <div className="date-item">
-                        <span className="date-text">Sep 30, 2025</span>
-                      </div>
+                      <span className="date-text">Sep 30, 2025</span>
+
                       <i className="fas fa-arrow-right date-arrow"></i>
-                      <div className="date-item">
-                        <span className="date-text">Oct 5, 2025</span>
-                      </div>
+
+                      <span className="date-text">Oct 5, 2025</span>
                     </div>
                     <div className="date-range mt-3 text-start">
-                      <div className="date-item">
-                        <span className="date-text">Sep 30, 2025</span>
-                      </div>
+                      <span className="date-text">Sep 30, 2025</span>
+
                       <i className="fas fa-arrow-right date-arrow"></i>
-                      <div className="date-item">
-                        <span className="date-text">Oct 5, 2025</span>
-                      </div>
+
+                      <span className="date-text">Oct 5, 2025</span>
                     </div>
                     <button className="btn-update-date mt-3 mx-auto">
                       Update Date
@@ -139,7 +135,7 @@ const CheckoutClient = () => {
             </div>
           </div>
 
-          <div className="col-lg-3">
+          <div className="col-xl-3 col-lg-4">
             <div className="booking-details-card">
               <h5 className="details-title p-3">Booking Details</h5>
 
@@ -147,22 +143,20 @@ const CheckoutClient = () => {
                 <div className="booking-for mb-3">
                   <h6 className="booking-details-title">Booking For 5 Night</h6>
                   <div className="date-info">
-                    <span>Sep 30, 2025 </span>
-                    <i className="fas fa-arrow-right"></i>
-                    <span>Oct 5, 2025</span>
+                    <span>Sep 30, 2025 <br /> tue </span>
+                    <i className="fas fa-arrow-right date-arrow"></i>
+                    <span>Oct 5, 2025 <br /> wed</span>
                   </div>
-                  <div className="date-info">
+                  {/*<div className="date-info">
                     <span>tue </span>
-
+                    <span></span>
                     <span>fri</span>
-                  </div>
-
+                  </div>*/}
                 </div>
 
                 <div className="total-guest mb-3 d-flex gap-2 align-items-center">
-               
                   <h6 className="booking-details-title mb-0">Total Guest</h6>
-                  <i className="fas fa-arrow-right"></i>
+                  <i className="fas fa-arrow-right date-arrow"></i>
                   <p className="mb-0 guest-count">
                     1 <i className="fas fa-user"></i>
                   </p>
@@ -190,7 +184,7 @@ const CheckoutClient = () => {
                   </div>
                   <div className="bill-item detail-text d-flex justify-content-between border-bottom pb-3 mb-3">
                     <span>5 Night</span>
-                    <span className="currency"></span> ৳50,000.00
+                     ৳50,000.00
                   </div>
 
                   <div className="bill-item d-flex justify-content-between">
@@ -199,7 +193,7 @@ const CheckoutClient = () => {
                   </div>
                   <div className="bill-item detail-text d-flex justify-content-between border-bottom pb-3 mb-3">
                     <span>5 Night</span>
-                    <span className="currency"></span> ৳50,000.00
+                     ৳50,000.00
                   </div>
 
                   <div className="bill-item d-flex justify-content-between">
@@ -208,7 +202,7 @@ const CheckoutClient = () => {
                   </div>
                   <div className="bill-item detail-text d-flex justify-content-between border-bottom pb-3 mb-3">
                     <span>5 Night</span>
-                    <span className="currency"></span> ৳50,000.00
+                     ৳50,000.00
                   </div>
 
                   <div className="bill-item d-flex justify-content-between">
@@ -217,26 +211,23 @@ const CheckoutClient = () => {
                   </div>
                   <div className="bill-item detail-text d-flex justify-content-between border-bottom pb-3 mb-3">
                     <span>5 Night</span>
-                    <span className="currency"></span> ৳50,000.00
+                     ৳50,000.00
                   </div>
                 </div>
-
-             
               </div>
-                <div className="grand-total d-flex justify-content-between align-items-center p-3">
-                  <span className="total-label">Grand Total:</span>
-                  <span className="total-value">
-                    <span className="currency">৳</span> 50,000.00
-                  </span>
-                </div>
+              <div className="grand-total d-flex justify-content-between align-items-center p-3">
+                <span className="total-label">Grand Total:</span>
+                <span className="total-value">
+                   ৳50,000.00
+                </span>
+              </div>
             </div>
             <div className="text-center mt-4">
-                  <button className="btn btn-custom">
-                    <i className="fas fa-book-open"></i> Book Now
-                  </button>
-                </div>
+              <button className="btn btn-custom">
+                <i className="fas fa-book-open"></i> Book Now
+              </button>
+            </div>
           </div>
-          
         </div>
       </div>
     </section>

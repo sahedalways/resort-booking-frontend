@@ -1552,8 +1552,8 @@ img.payment-icon-table {
 .btn-custom:active,
 .btn-custom:focus,
 .btn-custom:hover {
-  background-color: var(--primary-deep);
-  color: var(--white);
+  background-color: var(--primary-deep) !important;
+  color: var(--white) !important;
 }
 
 .custom-padding {
@@ -2106,18 +2106,17 @@ img.payment-icon-table {
 
 /* --- Cart Header --- */
 .cart-icon {
-    font-size: var(--font-50);
-    color: #ffffff;
-    background-color: #4caf50;
-    border-radius: 50%;
-    padding: 15px;
-    width: 100px;
-    height: 100px;
-    min-width: 100px;
-    display: flex !important
-;
-    justify-content: center;
-    align-items: center;
+  font-size: var(--font-50);
+  color: #ffffff;
+  background-color: #4caf50;
+  border-radius: 50%;
+  padding: 15px;
+  width: 100px;
+  height: 100px;
+  min-width: 100px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
 }
 
 .cart-title {
@@ -2134,10 +2133,11 @@ img.payment-icon-table {
   box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 4px;
 }
 
-.cart-side-img{
+.cart-side-img {
   width: 100%;
   height: 200px;
 }
+
 .night-stay-no {
   background: #ededed;
   width: fit-content;
@@ -2204,7 +2204,7 @@ img.payment-icon-table {
 
 /* --- Price and Date Styles --- */
 .price-total {
-  font-size: var(--font-24);
+  font-size: var(--font-20);
   color: var(--primary);
   font-weight: bold;
 }
@@ -2233,7 +2233,9 @@ img.payment-icon-table {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
+  gap: 8px;
 }
 
 .date-item {
@@ -2242,6 +2244,7 @@ img.payment-icon-table {
 
 .date-text {
   font-size: var(--font-14);
+  text-align: center;
 }
 
 .day-text {
@@ -2250,9 +2253,8 @@ img.payment-icon-table {
   display: block;
 }
 
-.date-arrow {
-  font-size: var(--font-14);
-  margin: 5px 0;
+.date-info span {
+  text-align: center;
 }
 
 .btn-update-date {
@@ -2277,7 +2279,7 @@ img.payment-icon-table {
 }
 
 /* --- Action Buttons --- */
-.btn-action-add {
+.btn.btn-action-add {
   background-color: #ff9800;
   color: white;
   border: none;
@@ -2286,9 +2288,10 @@ img.payment-icon-table {
   transition: background-color 0.3s ease;
 }
 
-.btn-action-add:hover {
-  background-color: #f57c00;
-  color: white;
+.btn.btn-action-add:active,
+.btn.btn-action-add:hover{
+  background-color: #f57c00 !important;
+  color: white !important;
 }
 
 .btn-action-proceed {
@@ -2300,9 +2303,10 @@ img.payment-icon-table {
   transition: background-color 0.3s ease;
 }
 
-.btn-action-proceed:hover {
-  background-color: #388E3C;
-  color: white;
+.btn.btn-action-proceed:active,
+.btn.btn-action-proceed:hover {
+  background-color: #388E3C !important;
+  color: white !important;
 }
 
 .looking-for-title {
@@ -2336,16 +2340,17 @@ img.payment-icon-table {
 /* --- Specific Button Colors --- */
 
 /* 1. Blue Button (Lighter Blue Hover) */
-.btn-action-blue {
+.btn.btn-action-blue {
   background-color: #e8f0fe;
   color: #1a73e8;
   border-color: #1a73e8;
 }
 
-.btn-action-blue:hover {
-  background-color: #c5daff;
-  color: #0b4eaf;
-  border-color: #0b4eaf;
+.btn.btn-action-blue:active,
+.btn.btn-action-blue:hover {
+  background-color: #c5daff !important;
+  color: #0b4eaf !important;
+  border-color: #0b4eaf !important;
 }
 
 .btn-action-green {
@@ -2354,37 +2359,42 @@ img.payment-icon-table {
   border-color: #0f9d58;
 }
 
-.btn-action-green:hover {
-  background-color: #c7eed8;
-  color: #097d41;
-  border-color: #097d41;
+.btn.btn-action-green:active,
+.btn.btn-action-green:hover {
+  background-color: #c7eed8 !important;
+  color: #097d41 !important; 
+  border-color: #097d41 !important;
 }
 
 
-.btn-action-red {
+.btn.btn-action-red {
   background-color: #fce8e6;
   color: #db4437;
   border-color: #db4437;
 }
 
-.btn-action-red:hover {
-  background-color: #f8c9c4;
-  color: #b83329;
-  border-color: #b83329;
+.btn.btn-action-red:hover,
+.btn.btn-action-red:active {
+  background-color: #f8c9c4 !important;
+  color: #b83329 !important;
+  border-color: #b83329 !important;
 }
 
 
-.btn-action-yellow {
+
+.btn.btn-action-yellow {
   background-color: #fef7e0;
   color: #f4b400;
   border-color: #f4b400;
 }
 
-.btn-action-yellow:hover {
-  background-color: #fddc68;
-  color: #c98c00;
-  border-color: #c98c00;
+.btn.btn-action-yellow:hover,
+.btn.btn-action-yellow:active {
+  background-color: #fddc68 !important;
+  color: #c98c00 !important;
+  border-color: #c98c00 !important;
 }
+
 
 /* --- Booking Details Card (Right Column) --- */
 .booking-details-card {
@@ -2423,7 +2433,7 @@ img.payment-icon-table {
   font-size: var(--font-14);
   color: #666;
   border-bottom: 1px solid #ededed;
-  padding-bottom: 5px;
+  padding: 5px 0;
 }
 
 /* --- Bill Summary --- */
@@ -2447,6 +2457,7 @@ img.payment-icon-table {
   align-items: center;
   gap: 5px;
   justify-content: space-between;
+  font-size: var(--font-14);
 }
 
 /* --- Grand Total --- */
@@ -2465,9 +2476,11 @@ img.payment-icon-table {
   font-size: var(--font-20);
   font-weight: bold;
 }
+
 .details-title {
-    background: #ededed;
+  background: #ededed;
 }
+
 /* --- Book Now Button --- */
 
 
@@ -2496,3 +2509,11 @@ img.payment-icon-table {
     width: 100%;
   }
 }*/
+
+@media (max-width: 767px) {
+  .cart-icon {
+    width: 80px;
+    height: 80px;
+    min-width: 80px;
+  }
+}
