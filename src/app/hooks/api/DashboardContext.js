@@ -12,6 +12,8 @@ export const DashboardProvider = ({ children }) => {
   const [isSuccessMsg, setIsSuccessMsg] = useState("");
   const [isErrorMsg, setIsErrorMsg] = useState("");
   const [isLoadingSubmitting, setIsLoadingSubmitting] = useState(false);
+  const [isLoadingBooking, setIsLoadingBooking] = useState(false);
+  const [bookingData, setBookingData] = useState([]);
 
   const { setAuthUserData } = useContext(LocalStoreContext);
 
@@ -83,6 +85,29 @@ export const DashboardProvider = ({ children }) => {
     }
   };
 
+  const getBookingHistory = async () => {
+    setIsLoadingBooking(true);
+    try {
+      const response = await http.get("booking/history", {
+        headers: {
+          Authorization: `Bearer ${isLoggedInToken}`,
+        },
+      });
+
+      console.log("response.data.data", response.data.data);
+
+      if (response.data.data) {
+        setBookingData(response.data.data);
+      }
+      setIsLoadingBooking(false);
+    } catch (error) {
+      const errorData = error.response?.data;
+      console.log(errorData.error);
+      setIsLoadingBooking(false);
+      return false;
+    }
+  };
+
   return (
     <DashboardContext.Provider
       value={{
@@ -93,6 +118,9 @@ export const DashboardProvider = ({ children }) => {
         setIsErrorMsg,
         setIsSuccessMsg,
         saveProfileData,
+        getBookingHistory,
+        bookingData,
+        isLoadingBooking,
       }}
     >
       {children}

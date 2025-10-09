@@ -84,7 +84,10 @@ export function DashboardWrapper() {
   );
 
   return (
-    <div className="container custom-container">
+    <div
+      className="container custom-container"
+      style={{ maxWidth: "1800px", width: "100%" }}
+    >
       <div className="row g-4">
         {/* Left Sidebar Navigation */}
 
