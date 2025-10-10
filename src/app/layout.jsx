@@ -13,6 +13,7 @@ import { AuthProvider } from "./hooks/api/AuthContext";
 import { LocalStoreProvider } from "./hooks/localstorage/LocalStoreContext";
 import { getSiteHeaderData } from "./helper/getSiteHeaderData";
 import { DashboardProvider } from "./hooks/api/DashboardContext";
+import GlobalToast from "../components/GlobalToast";
 
 export const revalidate = 300;
 
@@ -53,9 +54,8 @@ export default async function RootLayout({ children }) {
           <DashboardProvider>
             <AuthProvider>
               <Header data={headerData?.header_info} />
-
+              <GlobalToast />
               {children}
-
               <Footer data={footerData} />
             </AuthProvider>
           </DashboardProvider>

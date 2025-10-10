@@ -8,6 +8,7 @@ import Skeleton from "./Skeleton";
 import { LocalStoreContext } from "../app/hooks/localstorage/LocalStoreContext";
 import { AuthContext } from "../app/hooks/api/AuthContext";
 import { isLoggedIn } from "../app/helper/auth";
+import CartBadge from "./CartIcon";
 
 const Header = ({ data }) => {
   const { authUserData } = useContext(LocalStoreContext);
@@ -31,6 +32,9 @@ const Header = ({ data }) => {
     localStorage.setItem("siteTitle", title);
   }, [data]);
 
+  // ✅ Default profile image
+  const profileImage = authUserData?.profilep?.avatar_url || "/img/avatar.webp";
+
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
@@ -53,6 +57,7 @@ const Header = ({ data }) => {
               <Icon icon="garden:menu-fill-16" width="24" height="24" />
             </span>
           </button>
+
           <div
             className="collapse navbar-collapse d-none d-lg-block"
             id="navbarNav"
@@ -102,16 +107,6 @@ const Header = ({ data }) => {
                 <>
                   <li className="nav-item">
                     <Link
-                      href="/user/checkout"
-                      className={`nav-link ${
-                        pathname === "/user/checkout" ? "active" : ""
-                      }`}
-                    >
-                      Checkout
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link
                       href="/user/dashboard"
                       className={`nav-link ${
                         pathname === "/user/dashboard" ? "active" : ""
@@ -124,7 +119,11 @@ const Header = ({ data }) => {
               )}
             </ul>
 
-            <div className="d-flex justify-content-center">
+            {/* ✅ Right-side buttons */}
+            <div className="d-flex justify-content-center align-items-center gap-3">
+              {/* ✅ Cart Icon for logged-in user */}
+              {isLoggedInToken && <CartBadge handleClose={handleClose} />}
+
               {isLoggedInToken ? (
                 <>
                   <button
@@ -135,14 +134,25 @@ const Header = ({ data }) => {
                   </button>
 
                   {authUserData && (
-                    <li className="nav-item d-flex align-items-center mt-2 ms-5">
+                    <div className="d-flex align-items-center ms-3">
+                      {/* ✅ Profile image */}
+                      <img
+                        src={profileImage}
+                        alt="Profile"
+                        className="rounded-circle me-2"
+                        style={{
+                          width: "35px",
+                          height: "35px",
+                          objectFit: "cover",
+                        }}
+                      />
                       <span
                         className="nav-link disabled"
                         style={{ color: "#7f8a96d8" }}
                       >
                         {authUserData?.f_name} {authUserData?.l_name}
                       </span>
-                    </li>
+                    </div>
                   )}
                 </>
               ) : (
@@ -167,6 +177,7 @@ const Header = ({ data }) => {
         </div>
       </nav>
 
+      {/* ✅ Mobile Offcanvas */}
       <div
         className={`offcanvas offcanvas-start ${showMenu ? "show" : ""}`}
         tabIndex="-1"
@@ -241,17 +252,6 @@ const Header = ({ data }) => {
               <>
                 <li className="nav-item">
                   <Link
-                    href="/user/checkout"
-                    className={`nav-link ${
-                      pathname === "/user/checkout" ? "active" : ""
-                    }`}
-                    onClick={handleClose}
-                  >
-                    Checkout
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
                     href="/user/dashboard"
                     className={`nav-link ${
                       pathname === "/user/dashboard" ? "active" : ""
@@ -260,6 +260,10 @@ const Header = ({ data }) => {
                   >
                     Dashboard
                   </Link>
+                </li>
+                {/* ✅ Cart icon in mobile menu */}
+                <li className="nav-item mt-2 text-center">
+                  <CartBadge handleClose={handleClose} />
                 </li>
               </>
             )}
@@ -276,14 +280,25 @@ const Header = ({ data }) => {
                 </button>
 
                 {authUserData && (
-                  <li className="nav-item d-flex align-items-center mt-3  justify-content-center">
+                  <div className="d-flex flex-column align-items-center mt-3">
+                    {/* ✅ Profile image mobile */}
+                    <img
+                      src={profileImage}
+                      alt="Profile"
+                      className="rounded-circle mb-2"
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        objectFit: "cover",
+                      }}
+                    />
                     <span
                       className="nav-link disabled"
                       style={{ color: "#7f8a96d8" }}
                     >
                       {authUserData?.f_name} {authUserData?.l_name}
                     </span>
-                  </li>
+                  </div>
                 )}
               </>
             ) : (

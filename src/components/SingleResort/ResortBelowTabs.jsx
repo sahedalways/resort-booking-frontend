@@ -94,7 +94,11 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
                   <>
                     {resortData?.rooms?.length > 0 ? (
                       resortData.rooms.map((room) => (
-                        <Room key={room.id} room={room} />
+                        <Room
+                          key={room.id}
+                          room={room}
+                          resortName={resortData.name}
+                        />
                       ))
                     ) : (
                       <p>No rooms available.</p>
@@ -130,7 +134,11 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
                   <>
                     {resortData?.rooms?.length > 0 ? (
                       resortData.rooms.map((room) => (
-                        <Room key={room.id} room={room} />
+                        <Room
+                          key={room.id}
+                          room={room}
+                          resortName={resortData.name}
+                        />
                       ))
                     ) : (
                       <p>No rooms available.</p>

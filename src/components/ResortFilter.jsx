@@ -95,7 +95,7 @@ const ResortFilter = ({ onFilterChange }) => {
                         type="radio"
                         name="priceRange"
                         checked={selectedRange === range}
-                        onClick={() => handleRangeSelect(range)}
+                        onChange={() => handleRangeSelect(range)}
                         className="me-2"
                       />
                       BDT {min.toLocaleString()} - BDT {max.toLocaleString()}

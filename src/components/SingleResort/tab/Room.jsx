@@ -1,10 +1,20 @@
+"use client";
+
 import { useState } from "react";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import ImageSliderModal from "../../ImageSliderModal";
 import Image from "next/image";
-import { faCheck, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCartPlus,
+  faCheck,
+  faTrash,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { addToCart, removeFromCart } from "@/src/redux/slices/cartSlice";
+import { store } from "@/src/redux/store/store";
 
-const Room = ({ room }) => {
+const RoomContent = ({ room, resortName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -12,6 +22,37 @@ const Room = ({ room }) => {
     setSelectedIndex(index);
     setIsModalOpen(true);
   };
+
+  const dispatch = useDispatch();
+
+  const cart = useSelector((state) => state.cart);
+
+  const cartItem = cart.items.find((item) => item.id === room.id);
+
+  const handleCartToggle = () => {
+    if (cartItem) {
+      dispatch(removeFromCart(room.id));
+    } else {
+      dispatch(
+        addToCart({
+          resortId: room.resort_id,
+          resortName: resortName,
+          room: {
+            id: room.id,
+            name: room.name,
+            price: room.price,
+            package_name: room.package_name,
+            view_type: room.view_type,
+            bed_type: room.bed_type,
+            adult_cap: room.adult_cap,
+            child_cap: room.child_cap,
+            images: room.images,
+          },
+        })
+      );
+    }
+  };
+
   return (
     <>
       <div key={room.id} className="overview-content mb-5">
@@ -179,8 +220,20 @@ const Room = ({ room }) => {
                       {room.desc ?? "N/A"}
                     </p>
 
-                    <button className="w-100 btn btn primary-bg custom-btn-style fw-bold rounded-3 shadow-sm">
-                      Book Now
+                    <button
+                      className="w-100 btn custom-btn-style fw-bold rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2"
+                      onClick={handleCartToggle}
+                      style={{
+                        background: cartItem
+                          ? "linear-gradient(90deg, #b71c1c, #f44336)"
+                          : "linear-gradient(90deg, #0083bb, #164f84)",
+                        border: "none",
+                        color: "#fff",
+                        position: "relative",
+                      }}
+                    >
+                      <FontAwesomeIcon icon={cartItem ? faTrash : faCartPlus} />
+                      {cartItem ? "Remove from Cart" : "Add to Cart"}
                     </button>
                   </div>
                 </div>
@@ -200,4 +253,10 @@ const Room = ({ room }) => {
   );
 };
 
-export default Room;
+export default function Room({ room, resortName }) {
+  return (
+    <Provider store={store}>
+      <RoomContent room={room} resortName={resortName} />
+    </Provider>
+  );
+}
