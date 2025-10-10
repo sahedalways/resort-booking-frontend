@@ -18,9 +18,10 @@ const cartSlice = createSlice({
     addToCart: (state, action) => {
       const { room, resortId, resortName } = action.payload;
 
-      if (state.resortId && state.resortId !== resortId) {
-        state.items = [];
-      }
+      state.items = [];
+      // if (state.resortId && state.resortId !== resortId) {
+      //   state.items = [];
+      // }
 
       state.resortId = resortId;
       state.resortName = resortName;
@@ -73,11 +74,27 @@ const cartSlice = createSlice({
       );
     },
 
+    setBookingDetails: (state, action) => {
+      state.bookingDetails = action.payload;
+
+      localStorage.setItem(
+        "bx_cart",
+        JSON.stringify({
+          resortId: state.resortId,
+          resortName: state.resortName,
+          items: state.items,
+          guestData: state.guestData,
+          bookingDetails: state.bookingDetails,
+        })
+      );
+    },
+
     clearLastAction: (state) => {
       state.lastAction = null;
     },
   },
 });
 
-export const { addToCart, removeFromCart, clearLastAction } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearLastAction, setBookingDetails } =
+  cartSlice.actions;
 export default cartSlice.reducer;

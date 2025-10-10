@@ -22,6 +22,10 @@ export default function Home({ homeData }) {
 
       return () => clearTimeout(timer);
     }
+
+    if (homeData?.coupons?.length > 0) {
+      localStorage.setItem("coupons", JSON.stringify(homeData.coupons));
+    }
   }, [homeData]);
 
   const handleCloseModal = () => setShowModal(false);

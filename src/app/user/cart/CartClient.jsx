@@ -1,6 +1,9 @@
 "use client";
 
-import { removeFromCart } from "@/src/redux/slices/cartSlice";
+import {
+  removeFromCart,
+  setBookingDetails,
+} from "@/src/redux/slices/cartSlice";
 import { store } from "@/src/redux/store/store";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -13,6 +16,7 @@ const CartComponent = () => {
   const cart = useSelector((state) => state.cart);
   const cartItems = cart.items;
   const resortName = cart.resortName;
+
   const [guestData, setGuestData] = useState(
     cartItems.map((item) => ({
       adultGuests: item.adult_guests || 1,
@@ -50,6 +54,30 @@ const CartComponent = () => {
 
   const handleRemoveItem = (rooomId) => {
     dispatch(removeFromCart(rooomId));
+  };
+
+  const handleBookNow = () => {
+    const today = new Date();
+    const dates = guestData.map((g) => {
+      const toDate = new Date(today);
+      toDate.setDate(today.getDate() + g.nightStay);
+      return { from: today.toISOString(), to: toDate.toISOString() };
+    });
+
+    const grandTotal = cartItems.reduce(
+      (sum, item, i) => sum + item.price * guestData[i].nightStay,
+      0
+    );
+
+    dispatch(
+      setBookingDetails({
+        guestData,
+        dates,
+        grandTotal,
+      })
+    );
+
+    router.push("/user/checkout");
   };
 
   if (cartItems.length === 0) {
@@ -253,11 +281,7 @@ const CartComponent = () => {
                 className="btn btn-action-add me-3"
                 onClick={() => router.back()}
               >
-                <i className="fas fa-plus"></i> Add More Room
-              </button>
-
-              <button className="btn btn-action-proceed">
-                <i className="fas fa-arrow-right"></i> Proceed Booking
+                <i className="fas fa-plus"></i> Add Another Room
               </button>
             </div>
           </div>
@@ -331,7 +355,7 @@ const CartComponent = () => {
               </div>
             </div>
             <div className="text-center mt-4">
-              <button className="btn btn-custom">
+              <button onClick={handleBookNow} className="btn btn-custom">
                 <i className="fas fa-book-open"></i> Book Now
               </button>
             </div>

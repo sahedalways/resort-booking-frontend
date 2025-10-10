@@ -772,9 +772,11 @@ button.btn-link.active {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom,
-      var(--overlay-bg-dark),
-      var(--overlay-bg-darker));
+  background: linear-gradient(
+    to bottom,
+    var(--overlay-bg-dark),
+    var(--overlay-bg-darker)
+  );
   display: flex;
   align-items: flex-end;
   padding: 15px;
@@ -975,11 +977,11 @@ button.btn-link.active {
   transition: 0.3s;
 }
 
-.switch input:checked+.slider {
+.switch input:checked + .slider {
   background-color: var(--primary);
 }
 
-.switch input:checked+.slider:before {
+.switch input:checked + .slider:before {
   transform: translateX(16px);
 }
 
@@ -1115,7 +1117,7 @@ button.btn-link.active {
   align-items: center;
 }
 
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
   content: none !important;
 }
 
@@ -2261,11 +2263,11 @@ img.payment-icon-table {
   padding: 0.1rem 0.5rem;
   border-radius: 3px;
   align-self: flex-start;
-  transition: .3s;
-  -webkit-transition: .3s;
-  -moz-transition: .3s;
-  -ms-transition: .3s;
-  -o-transition: .3s;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
   line-height: 1.5;
 }
 
@@ -2285,13 +2287,13 @@ img.payment-icon-table {
 }
 
 .btn.btn-action-add:active,
-.btn.btn-action-add:hover{
+.btn.btn-action-add:hover {
   background-color: #f57c00 !important;
   color: white !important;
 }
 
 .btn-action-proceed {
-  background-color: #4CAF50;
+  background-color: #4caf50;
   color: white;
   border: none;
   font-size: var(--font-16);
@@ -2301,7 +2303,7 @@ img.payment-icon-table {
 
 .btn.btn-action-proceed:active,
 .btn.btn-action-proceed:hover {
-  background-color: #388E3C !important;
+  background-color: #388e3c !important;
   color: white !important;
 }
 
@@ -2329,7 +2331,8 @@ img.payment-icon-table {
   padding: 0.4rem 0.8rem;
   white-space: nowrap;
   margin-top: 5px;
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
   /* For smooth transitions */
 }
 
@@ -2358,10 +2361,9 @@ img.payment-icon-table {
 .btn.btn-action-green:active,
 .btn.btn-action-green:hover {
   background-color: #c7eed8 !important;
-  color: #097d41 !important; 
+  color: #097d41 !important;
   border-color: #097d41 !important;
 }
-
 
 .btn.btn-action-red {
   background-color: #fce8e6;
@@ -2376,8 +2378,6 @@ img.payment-icon-table {
   border-color: #b83329 !important;
 }
 
-
-
 .btn.btn-action-yellow {
   background-color: #fef7e0;
   color: #f4b400;
@@ -2391,7 +2391,6 @@ img.payment-icon-table {
   border-color: #c98c00 !important;
 }
 
-
 /* --- Booking Details Card (Right Column) --- */
 .booking-details-card {
   background-color: #fefefe;
@@ -2399,7 +2398,6 @@ img.payment-icon-table {
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
-
 
 .booking-details-title {
   font-size: var(--font-16);
@@ -2417,7 +2415,6 @@ img.payment-icon-table {
   font-weight: bold;
   color: var(--primary);
 }
-
 
 .room-name-detail {
   font-weight: bold;
@@ -2446,7 +2443,6 @@ img.payment-icon-table {
   font-size: var(--font-14);
   color: #888;
 }
-
 
 .date-info {
   display: flex;
@@ -2477,39 +2473,48 @@ img.payment-icon-table {
   background: #ededed;
 }
 
-/* --- Book Now Button --- */
-
-
-/* Responsive adjustments */
-/*@media (max-width: 991px) {
-
-  .cart-item-card .col-md-9,
-  .cart-item-card .col-md-3 {
-    padding-bottom: 15px;
-  }
-
-  .close-icon {
-    position: static;
-    margin-left: auto;
-    display: block;
-    width: fit-content;
-  }
-
-  .cart-item-card .row.g-0 {
-    flex-direction: column;
-  }
-
-  .cart-item-card .col-md-3 {
-    text-align: left !important;
-    align-items: flex-start !important;
-    width: 100%;
-  }
-}*/
-
 @media (max-width: 767px) {
   .cart-icon {
     width: 80px;
     height: 80px;
     min-width: 80px;
+  }
+}
+
+.skeleton {
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  display: inline-block;
+  height: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: -100%;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
   }
 }
