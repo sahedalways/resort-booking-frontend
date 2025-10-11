@@ -1,14 +1,18 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import Link from "next/link";
 import Image from "next/image";
 import Skeleton from "@/src/components/Skeleton";
+import { toast } from "react-toastify";
+import { HomeContext } from "../hooks/api/HomeContext";
 
 const SearchForm = ({ resortData }) => {
+  const { isLoadingSubmitting, searchResort } = useContext(HomeContext);
+
   if (!resortData) return <Skeleton type="searchForm" />;
 
   const [activeTab, setActiveTab] = useState("resort");
@@ -17,8 +21,8 @@ const SearchForm = ({ resortData }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [dateRange, setDateRange] = useState([
     {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate: new Date("2025-10-15"),
+      endDate: new Date("2025-10-17"),
       key: "selection",
     },
   ]);
@@ -33,14 +37,6 @@ const SearchForm = ({ resortData }) => {
   const roomsRef = useRef(null);
   const locationRef = useRef(null);
   const calendarRef = useRef(null);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({
-      activeTab,
-      dateRange,
-    });
-  };
 
   const handleGuestChange = (index, type, value) => {
     const newRooms = [...rooms];
@@ -111,6 +107,24 @@ const SearchForm = ({ resortData }) => {
     setLocationOpen(false);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!selectedResort.id) {
+      toast.error("Please select a resort first.");
+      return;
+    }
+
+    const payload = {
+      resort_id: selectedResort.id,
+      check_in: dateRange[0].startDate.toISOString().split("T")[0],
+      check_out: dateRange[0].endDate.toISOString().split("T")[0],
+      rooms,
+    };
+
+    await searchResort(payload);
+  };
+
   return (
     <div className="search-container">
       {/* Tabs */}
@@ -132,24 +146,6 @@ const SearchForm = ({ resortData }) => {
           />
           Resort
         </button>
-
-        {/* Event Tab */}
-        <Link
-          href="/events"
-          className={`tab-btn event-tab no-underline ${
-            activeTab === "event" ? "active" : ""
-          }`}
-          onClick={() => setActiveTab("event")}
-        >
-          <Image
-            src="/img/Event_icon.png"
-            className="img-fluid me-2"
-            alt="Event Icon"
-            width={30}
-            height={30}
-          />
-          Event
-        </Link>
       </div>
 
       {/* Resort Form */}
@@ -418,10 +414,27 @@ const SearchForm = ({ resortData }) => {
         {/* Button */}
         <div className="text-center src-btn-wrapper">
           <button
+            onClick={handleSubmit}
             type="submit"
-            className="btn primary-bg search-btn custom-btn-style"
+            className="btn primary-bg search-btn custom-btn-style d-flex align-items-center justify-content-center"
+            disabled={isLoadingSubmitting}
+            style={{
+              opacity: isLoadingSubmitting ? 0.7 : 1,
+              cursor: isLoadingSubmitting ? "not-allowed" : "pointer",
+            }}
           >
-            Search
+            {isLoadingSubmitting ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Searching...
+              </>
+            ) : (
+              "Search"
+            )}
           </button>
         </div>
       </div>
