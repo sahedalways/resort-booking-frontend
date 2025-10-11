@@ -14,7 +14,6 @@ export const HomeProvider = ({ children }) => {
 
   const searchResort = async (data) => {
     setIsLoadingSubmitting(true);
-    console.log("data", data);
 
     try {
       const response = await http.get("search-resort", {
@@ -25,8 +24,14 @@ export const HomeProvider = ({ children }) => {
       });
 
       if (response.data.success) {
-        toast.success("Resort search successful!");
-        console.log("Search Result:", response.data.data);
+        toast.success(
+          `Resort & Room found! You can now view and book your stay.`
+        );
+
+        const searchData = encodeURIComponent(
+          JSON.stringify(response.data.data)
+        );
+        router.push(`/resorts/search?results=${searchData}`);
       } else {
         toast.error(response.data.message || "No resorts found.");
       }

@@ -15,20 +15,16 @@ const SearchForm = ({ resortData }) => {
 
   if (!resortData) return <Skeleton type="searchForm" />;
 
+  // ✅ Separate states for check-in and check-out
+  const [checkInDate, setCheckInDate] = useState(new Date());
+  const [checkOutDate, setCheckOutDate] = useState(new Date());
+  const [checkInOpen, setCheckInOpen] = useState(false);
+  const [checkOutOpen, setCheckOutOpen] = useState(false);
+
   const [activeTab, setActiveTab] = useState("resort");
   const [locationOpen, setLocationOpen] = useState(false);
   const [selectedResort, setSelectedResort] = useState({ id: null, name: "" });
   const [searchTerm, setSearchTerm] = useState("");
-  const [dateRange, setDateRange] = useState([
-    {
-      startDate: new Date("2025-10-15"),
-      endDate: new Date("2025-10-17"),
-      key: "selection",
-    },
-  ]);
-  const [calendarOpen, setCalendarOpen] = useState(false);
-  const [dateRangePickerDirection, setDateRangePickerDirection] =
-    useState("horizontal");
 
   const [roomsOpen, setRoomsOpen] = useState(false);
   const [rooms, setRooms] = useState([{ adults: 2, children: 0 }]);
@@ -36,71 +32,40 @@ const SearchForm = ({ resortData }) => {
 
   const roomsRef = useRef(null);
   const locationRef = useRef(null);
-  const calendarRef = useRef(null);
 
   const handleGuestChange = (index, type, value) => {
     const newRooms = [...rooms];
     newRooms[index][type] += value;
-    if (newRooms[index][type] < 0) {
-      newRooms[index][type] = 0;
-    }
+    if (newRooms[index][type] < 0) newRooms[index][type] = 0;
     setRooms(newRooms);
   };
 
-  const addRoom = () => {
-    setRooms([...rooms, { adults: 1, children: 0 }]);
-  };
-
-  const deleteRoom = (index) => {
-    const newRooms = rooms.filter((_, i) => i !== index);
-    setRooms(newRooms);
-  };
-
-  const getTotalGuests = () => {
-    return rooms.reduce(
-      (total, room) => total + room.adults + room.children,
-      0
-    );
-  };
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 991) {
-        setDateRangePickerDirection("vertical");
-      } else {
-        setDateRangePickerDirection("horizontal");
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  const addRoom = () => setRooms([...rooms, { adults: 1, children: 0 }]);
+  const deleteRoom = (index) => setRooms(rooms.filter((_, i) => i !== index));
+  const getTotalGuests = () =>
+    rooms.reduce((t, r) => t + r.adults + r.children, 0);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (locationRef.current && !locationRef.current.contains(event.target)) {
+      if (locationRef.current && !locationRef.current.contains(event.target))
         setLocationOpen(false);
-      }
-      if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-        setCalendarOpen(false);
-      }
-      if (roomsRef.current && !roomsRef.current.contains(event.target)) {
+      if (roomsRef.current && !roomsRef.current.contains(event.target))
         setRoomsOpen(false);
+      if (!event.target.closest(".calendar-dropdown")) {
+        setCheckInOpen(false);
+        setCheckOutOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const formatDate = (date) => {
-    return date.toLocaleDateString("en-US", {
+  const formatDate = (date) =>
+    date.toLocaleDateString("en-US", {
       day: "2-digit",
       month: "short",
       year: "2-digit",
     });
-  };
 
   const handleSelectResort = (resort) => {
     setSelectedResort({ id: resort.id, name: resort.name });
@@ -109,7 +74,6 @@ const SearchForm = ({ resortData }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!selectedResort.id) {
       toast.error("Please select a resort first.");
       return;
@@ -117,8 +81,8 @@ const SearchForm = ({ resortData }) => {
 
     const payload = {
       resort_id: selectedResort.id,
-      check_in: dateRange[0].startDate.toISOString().split("T")[0],
-      check_out: dateRange[0].endDate.toISOString().split("T")[0],
+      check_in: checkInDate.toISOString().split("T")[0],
+      check_out: checkOutDate.toISOString().split("T")[0],
       rooms,
     };
 
@@ -129,7 +93,6 @@ const SearchForm = ({ resortData }) => {
     <div className="search-container">
       {/* Tabs */}
       <div className="tab-buttons col-lg-4 col-md-6 col-10">
-        {/* Resort Tab */}
         <button
           type="button"
           className={`tab-btn resort-tab ${
@@ -139,36 +102,28 @@ const SearchForm = ({ resortData }) => {
         >
           <Image
             src="/img/resort_icon.png"
-            className="img-fluid me-2"
-            alt="Resort Icon"
             width={30}
             height={30}
+            alt="Resort Icon"
           />
           Resort
         </button>
       </div>
 
-      {/* Resort Form */}
-
       <div className="form-content">
         <form onSubmit={handleSubmit} className="position-relative">
           <div className="row g-3">
-            {/* Location */}
-
+            {/* Resort Selection */}
             <div className="col-lg-3 col-12" ref={locationRef}>
               <div
                 className="form-field-wrapper"
                 onClick={() => setLocationOpen(!locationOpen)}
               >
-                <div className="location">
-                  <span className="label">Resort/Area</span>
-                  <div className="value">
-                    {selectedResort.name || "Select Resort"}
-                  </div>
+                <span className="label">Resort/Area</span>
+                <div className="value">
+                  {selectedResort.name || "Select Resort"}
                 </div>
               </div>
-
-              {/* Dropdown */}
               {locationOpen && (
                 <div className="location-dropdown shadow p-3 mt-2 bg-white rounded position-absolute col-lg-8">
                   <input
@@ -180,38 +135,35 @@ const SearchForm = ({ resortData }) => {
                   />
                   <div className="row">
                     {resortData
-                      .filter((loc) =>
-                        loc.name
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase())
+                      .filter((r) =>
+                        r.name.toLowerCase().includes(searchTerm.toLowerCase())
                       )
-                      .map((loc) => (
-                        <div className="col-12 col-lg-6 mb-2" key={loc.id}>
+                      .map((r) => (
+                        <div className="col-12 col-lg-6 mb-2" key={r.id}>
                           <Link
                             href="#"
                             className={`btn w-100 text-start d-flex align-items-center ${
-                              selectedResort.id === loc.id
+                              selectedResort.id === r.id
                                 ? "btn-primary"
                                 : "btn-outline-secondary"
                             }`}
                             onClick={(e) => {
                               e.preventDefault();
-                              handleSelectResort(loc);
+                              handleSelectResort(r);
                             }}
                           >
-                            {loc.images[0] && (
+                            {r.images[0] && (
                               <Image
-                                className="img-fluid"
-                                src={loc.images[0].image}
-                                alt={loc.name}
+                                src={r.images[0].image}
                                 width={40}
                                 height={40}
-                                style={{ marginRight: "15px" }}
+                                alt={r.name}
+                                className="me-2"
                               />
                             )}
                             <div>
-                              <h5>{loc.name}</h5>
-                              <p>{loc.location}</p>
+                              <h5>{r.name}</h5>
+                              <p>{r.location}</p>
                             </div>
                           </Link>
                         </div>
@@ -221,57 +173,80 @@ const SearchForm = ({ resortData }) => {
               )}
             </div>
 
-            {/* Check In / Check Out */}
-            <div className="col-lg-6 col-12" ref={calendarRef}>
-              <div className="row g-3">
-                <div
-                  className="col-md-6 col-12"
-                  onClick={() => setCalendarOpen(!calendarOpen)}
-                >
-                  <div className="form-field-wrapper">
-                    <span className="label">Check In</span>
-                    <div className="value">
-                      {formatDate(dateRange[0].startDate)}
-                    </div>
-                  </div>
-                </div>
-                <div
-                  className="col-md-6 col-12"
-                  onClick={() => setCalendarOpen(!calendarOpen)}
-                >
-                  <div className="form-field-wrapper">
-                    <span className="label">Check Out</span>
-                    <div className="value">
-                      {formatDate(dateRange[0].endDate)}
-                    </div>
-                  </div>
-                </div>
+            {/* Check In */}
+            <div className="col-md-3 col-6 position-relative">
+              <div
+                className="form-field-wrapper"
+                onClick={() => setCheckInOpen(!checkInOpen)}
+              >
+                <span className="label">Check In</span>
+                <div className="value">{formatDate(checkInDate)}</div>
               </div>
-
-              {calendarOpen && (
-                <div
-                  className="calendar-dropdown shadow p-3 mt-2 bg-white rounded position-absolute"
-                  style={{ zIndex: 100 }}
-                >
+              {checkInOpen && (
+                <div className="calendar-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
                   <DateRangePicker
-                    onChange={(item) => setDateRange([item.selection])}
+                    ranges={[
+                      {
+                        startDate: checkInDate,
+                        endDate: checkInDate,
+                        key: "selection",
+                      },
+                    ]}
+                    onChange={(item) =>
+                      setCheckInDate(item.selection.startDate)
+                    }
+                    months={1}
+                    direction="vertical"
                     showSelectionPreview={true}
                     moveRangeOnFirstSelection={false}
-                    months={2}
-                    ranges={dateRange}
-                    direction={dateRangePickerDirection}
-                    staticRanges={[]} // ⬅ removes Today, Yesterday, This Week
-                    inputRanges={[]} // ⬅ removes custom input ranges
+                    staticRanges={[]}
+                    inputRanges={[]}
                   />
-                  <div className="text-end">
-                    <button
-                      type="button"
-                      className="btn btn-primary"
-                      onClick={() => setCalendarOpen(false)}
-                    >
-                      Done
-                    </button>
-                  </div>
+                  <button
+                    className="btn btn-primary mt-2 w-100"
+                    onClick={() => setCheckInOpen(false)}
+                  >
+                    Done
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Check Out */}
+            <div className="col-md-3 col-6 position-relative">
+              <div
+                className="form-field-wrapper"
+                onClick={() => setCheckOutOpen(!checkOutOpen)}
+              >
+                <span className="label">Check Out</span>
+                <div className="value">{formatDate(checkOutDate)}</div>
+              </div>
+              {checkOutOpen && (
+                <div className="calendar-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
+                  <DateRangePicker
+                    ranges={[
+                      {
+                        startDate: checkOutDate,
+                        endDate: checkOutDate,
+                        key: "selection",
+                      },
+                    ]}
+                    onChange={(item) =>
+                      setCheckOutDate(item.selection.startDate)
+                    }
+                    months={1}
+                    direction="vertical"
+                    showSelectionPreview={true}
+                    moveRangeOnFirstSelection={false}
+                    staticRanges={[]}
+                    inputRanges={[]}
+                  />
+                  <button
+                    className="btn btn-primary mt-2 w-100"
+                    onClick={() => setCheckOutOpen(false)}
+                  >
+                    Done
+                  </button>
                 </div>
               )}
             </div>
@@ -284,11 +259,9 @@ const SearchForm = ({ resortData }) => {
               >
                 <span className="label">Rooms & Guests</span>
                 <div className="value">
-                  {rooms.length} Room, {getTotalGuests()} Guests <br />
-                  {/*<span style={{fontSize: '12px'}}>({getTotalAdults()} Adults, {getTotalChildren()} Children)</span>*/}
+                  {rooms.length} Room, {getTotalGuests()} Guests
                 </div>
               </div>
-
               {roomsOpen && (
                 <div className="rooms-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
                   {rooms.map((room, index) => (
@@ -297,32 +270,16 @@ const SearchForm = ({ resortData }) => {
                       className="room-item mb-3 border-bottom pb-3"
                     >
                       <div className="room-header d-flex justify-content-between">
-                        <div className="d-flex w-100 justify-content-between">
-                          <div
-                            className="room-title"
-                            onClick={() =>
-                              setExpandedRoom(
-                                expandedRoom === index ? -1 : index
-                              )
-                            }
-                          >
-                            Room {index + 1}
-                          </div>
-                          <div className="person-count">
-                            <span
-                              onClick={() =>
-                                setExpandedRoom(
-                                  expandedRoom === index ? -1 : index
-                                )
-                              }
-                            >
-                              {room.adults} Adults, {room.children} Children
-                            </span>
-                          </div>
+                        <div
+                          className="room-title"
+                          onClick={() =>
+                            setExpandedRoom(expandedRoom === index ? -1 : index)
+                          }
+                        >
+                          Room {index + 1}
                         </div>
                         <Link
                           href="#"
-                          type="button"
                           className="ms-2"
                           onClick={() => deleteRoom(index)}
                         >
@@ -331,15 +288,15 @@ const SearchForm = ({ resortData }) => {
                       </div>
                       {expandedRoom === index && (
                         <div className="room-details mt-2">
+                          {/* Adults */}
                           <div className="counter d-flex justify-content-between align-items-center mb-2 border-top pt-2">
-                            <div className="d-flex flex-column">
+                            <div>
                               <span className="fw-semibold">Adults</span>
-                              <span>10+ years</span>
+                              <div>10+ years</div>
                             </div>
                             <div className="d-flex align-items-center">
                               <Link
                                 href="#"
-                                type="button"
                                 onClick={() =>
                                   handleGuestChange(index, "adults", -1)
                                 }
@@ -349,7 +306,6 @@ const SearchForm = ({ resortData }) => {
                               <span className="mx-2">{room.adults}</span>
                               <Link
                                 href="#"
-                                type="button"
                                 onClick={() =>
                                   handleGuestChange(index, "adults", 1)
                                 }
@@ -358,15 +314,15 @@ const SearchForm = ({ resortData }) => {
                               </Link>
                             </div>
                           </div>
+                          {/* Children */}
                           <div className="counter d-flex justify-content-between align-items-center border-top pt-2">
-                            <div className="d-flex flex-column">
+                            <div>
                               <span className="fw-semibold">Children</span>
-                              <span>0 to 10 years</span>
+                              <div>0 to 10 years</div>
                             </div>
                             <div className="d-flex align-items-center">
                               <Link
                                 href="#"
-                                type="button"
                                 onClick={() =>
                                   handleGuestChange(index, "children", -1)
                                 }
@@ -376,7 +332,6 @@ const SearchForm = ({ resortData }) => {
                               <span className="mx-2">{room.children}</span>
                               <Link
                                 href="#"
-                                type="button"
                                 onClick={() =>
                                   handleGuestChange(index, "children", 1)
                                 }
@@ -411,17 +366,13 @@ const SearchForm = ({ resortData }) => {
           </div>
         </form>
 
-        {/* Button */}
-        <div className="text-center src-btn-wrapper">
+        {/* Submit Button */}
+        <div className="text-center src-btn-wrapper mt-3">
           <button
             onClick={handleSubmit}
             type="submit"
             className="btn primary-bg search-btn custom-btn-style d-flex align-items-center justify-content-center"
             disabled={isLoadingSubmitting}
-            style={{
-              opacity: isLoadingSubmitting ? 0.7 : 1,
-              cursor: isLoadingSubmitting ? "not-allowed" : "pointer",
-            }}
           >
             {isLoadingSubmitting ? (
               <>
