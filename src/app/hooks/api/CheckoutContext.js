@@ -2,7 +2,6 @@
 
 import { createContext, useState } from "react";
 import { http } from "../../services/httpService";
-import { isLoggedIn } from "../../helper/auth";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 
@@ -10,13 +9,13 @@ export const CheckoutContext = createContext();
 
 export const CheckoutProvider = ({ children }) => {
   const router = useRouter();
-  const isLoggedInToken = isLoggedIn();
+
   const [isSuccessMsg, setIsSuccessMsg] = useState("");
   const [isErrorMsg, setIsErrorMsg] = useState("");
   const [isLoadingSubmitting, setIsLoadingSubmitting] = useState(false);
   const [isLoadingAnimation, setIsLoadingAnimation] = useState(false);
 
-  const saveBookingInfo = async (checkoutData) => {
+  const saveBookingInfo = async (checkoutData, isLoggedInToken) => {
     setIsSuccessMsg("");
 
     setIsLoadingSubmitting(true);
@@ -46,24 +45,22 @@ export const CheckoutProvider = ({ children }) => {
       const bookingId = response.data.data.booking_id;
 
       setTimeout(() => {
-        checkBookingStatus(bookingId);
-      }, 2000);
+        checkBookingStatus(bookingId, isLoggedInToken);
+      }, 20000);
     } catch (error) {
       setIsLoadingAnimation(false);
-      const errorData = error.response?.data;
 
-      if (errorData?.error) {
-        toast.error(errorData.error);
-      } else {
-        toast.error("Something went wrong. Please try again.");
-        setIsErrorMsg("Something went wrong. Please try again.");
-      }
+      const errorMessage =
+        error.response?.data?.error ||
+        "Something went wrong. Please try again.";
+
+      toast.error(errorMessage);
 
       setIsLoadingSubmitting(false);
     }
   };
 
-  const checkBookingStatus = async (bookingId) => {
+  const checkBookingStatus = async (bookingId, isLoggedInToken) => {
     try {
       const statusResponse = await http.get(
         `checkout/booking-status/${bookingId}`,
@@ -74,13 +71,13 @@ export const CheckoutProvider = ({ children }) => {
         }
       );
 
-      handleBookingStatus(statusResponse);
+      handleBookingStatus(statusResponse, isLoggedInToken);
     } catch (statusError) {
       toast.error("Error fetching booking status. Please try again.");
     }
   };
 
-  const handleBookingStatus = (statusResponse) => {
+  const handleBookingStatus = (statusResponse, isLoggedInToken) => {
     if (statusResponse.data.success) {
       const bookingStatus = statusResponse.data.data.booking.status;
       const amount = statusResponse.data.data.booking.amount;
@@ -95,42 +92,45 @@ export const CheckoutProvider = ({ children }) => {
 
         router.push("/resorts");
       } else {
-        toast.success(`✅ Booking status: ${bookingStatus}`);
-
-        payWithBkash(amount, bookingId);
+        payWithBkash(amount, bookingId, isLoggedInToken);
       }
     } else {
       toast.error("Failed to fetch booking status.");
     }
   };
 
-  const payWithBkash = async (amount, bookingId) => {
+  const payWithBkash = async (amount, bookingId, isLoggedInToken) => {
     try {
       const createRes = await http.post(
         "bkash/create-payment",
         {
-          headers: {
-            Authorization: `Bearer ${isLoggedInToken}`,
-          },
-        },
-        {
           amount,
           bookingId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${isLoggedInToken}`,
+            "Content-Type": "application/json",
+          },
         }
       );
 
       if (!createRes.data.paymentID) {
-        toast.error("Failed to initiate bKash payment. Please try again.");
+        toast.error("❌ Failed to initiate bKash payment. Please try again.");
         return;
       }
 
       const { authorizationURL } = createRes.data;
-
-      // 2️⃣ Redirect user to bKash authorization URL
-      window.location.href = authorizationURL;
+      if (authorizationURL) {
+        window.location.href = authorizationURL;
+      }
     } catch (error) {
       console.error("bKash Payment Error:", error);
-      toast.error("bKash payment failed. Please try again.");
+
+      const errorMessage =
+        error.response?.data?.error ||
+        "bKash payment failed. Please try again.";
+      toast.error(errorMessage);
     }
   };
 

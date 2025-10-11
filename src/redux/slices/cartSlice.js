@@ -92,6 +92,18 @@ const cartSlice = createSlice({
     clearLastAction: (state) => {
       state.lastAction = null;
     },
+
+    // ✅ New clearCart reducer
+    clearCart: (state) => {
+      state.resortId = null;
+      state.resortName = null;
+      state.items = [];
+      state.bookingDetails = null;
+      state.lastAction = null;
+
+      // Clear from localStorage
+      localStorage.removeItem("bx_cart");
+    },
   },
 });
 

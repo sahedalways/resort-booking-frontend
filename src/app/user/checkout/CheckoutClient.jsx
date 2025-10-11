@@ -6,6 +6,7 @@ import { LocalStoreContext } from "../../hooks/localstorage/LocalStoreContext";
 import { toast } from "react-toastify";
 import { CheckoutContext } from "../../hooks/api/CheckoutContext";
 import BookingLoader from "@/src/components/BookingLoader";
+import { isLoggedIn } from "../../helper/auth";
 
 const CheckoutClient = () => {
   const {
@@ -14,6 +15,7 @@ const CheckoutClient = () => {
     isLoadingAnimation,
     setIsLoadingAnimation,
   } = useContext(CheckoutContext);
+  const isLoggedInToken = isLoggedIn();
   const { authUserData } = useContext(LocalStoreContext);
   const [bookingFor, setBookingFor] = useState("me");
   const cart = useSelector((state) => state.cart);
@@ -109,7 +111,7 @@ const CheckoutClient = () => {
       amount: discountedTotal || "",
     };
 
-    await saveBookingInfo(checkoutData);
+    await saveBookingInfo(checkoutData, isLoggedInToken);
   };
 
   const handleCheckCoupon = (code, e) => {

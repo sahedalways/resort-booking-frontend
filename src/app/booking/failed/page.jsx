@@ -1,7 +1,18 @@
 // pages/booking/failed.js
+"use client";
+
+import { clearLastAction } from "@/src/redux/slices/cartSlice";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 export default function BookingFailed() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(clearLastAction());
+  }, [dispatch]);
+
   return (
     <div
       className="d-flex flex-column justify-content-center align-items-center min-vh-100"
