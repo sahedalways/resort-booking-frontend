@@ -83,19 +83,54 @@ export const CheckoutProvider = ({ children }) => {
   const handleBookingStatus = (statusResponse) => {
     if (statusResponse.data.success) {
       const bookingStatus = statusResponse.data.data.booking.status;
+      const amount = statusResponse.data.data.booking.amount;
+      const bookingId = statusResponse.data.data.booking.id;
+
       setIsLoadingAnimation(false);
 
       if (bookingStatus === "cancelled") {
-        toast.error("❌ Booking has been cancelled.");
+        toast.error(
+          "❌ Booking has been cancelled. Please try another room or resort."
+        );
 
-        setTimeout(() => {
-          router.push("/resorts");
-        }, 2000);
+        router.push("/resorts");
       } else {
         toast.success(`✅ Booking status: ${bookingStatus}`);
+
+        payWithBkash(amount, bookingId);
       }
     } else {
       toast.error("Failed to fetch booking status.");
+    }
+  };
+
+  const payWithBkash = async (amount, bookingId) => {
+    try {
+      const createRes = await http.post(
+        "bkash/create-payment",
+        {
+          headers: {
+            Authorization: `Bearer ${isLoggedInToken}`,
+          },
+        },
+        {
+          amount,
+          bookingId,
+        }
+      );
+
+      if (!createRes.data.paymentID) {
+        toast.error("Failed to initiate bKash payment. Please try again.");
+        return;
+      }
+
+      const { authorizationURL } = createRes.data;
+
+      // 2️⃣ Redirect user to bKash authorization URL
+      window.location.href = authorizationURL;
+    } catch (error) {
+      console.error("bKash Payment Error:", error);
+      toast.error("bKash payment failed. Please try again.");
     }
   };
 
