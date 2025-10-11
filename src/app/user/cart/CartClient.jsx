@@ -150,7 +150,7 @@ const CartComponent = () => {
                                   Night Stay No
                                 </label>
                                 <input
-                                  type="text"
+                                  type="number"
                                   id={`nightStay-${index}`}
                                   className="form-control item-input shadow-none bg-white"
                                   value={nightStay}
@@ -179,7 +179,7 @@ const CartComponent = () => {
                                 </div>
 
                                 <i
-                                  className="fas fa-arrow-right mx-2"
+                                  className="fas fa-arrow-right mx-4"
                                   style={{ color: "#0d6efd", fontSize: "1rem" }}
                                 ></i>
 
@@ -356,7 +356,7 @@ const CartComponent = () => {
             </div>
             <div className="text-center mt-4">
               <button onClick={handleBookNow} className="btn btn-custom">
-                <i className="fas fa-book-open"></i> Book Now
+                <i className="fas fa-money-bill-wave"></i> Book Now
               </button>
             </div>
           </div>

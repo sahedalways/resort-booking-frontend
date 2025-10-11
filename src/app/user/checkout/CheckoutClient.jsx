@@ -4,21 +4,25 @@ import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { LocalStoreContext } from "../../hooks/localstorage/LocalStoreContext";
 import { toast } from "react-toastify";
+import { CheckoutContext } from "../../hooks/api/CheckoutContext";
+import BookingLoader from "@/src/components/BookingLoader";
 
 const CheckoutClient = () => {
+  const {
+    isLoadingSubmitting,
+    saveBookingInfo,
+    isLoadingAnimation,
+    setIsLoadingAnimation,
+  } = useContext(CheckoutContext);
   const { authUserData } = useContext(LocalStoreContext);
   const [bookingFor, setBookingFor] = useState("me");
   const cart = useSelector((state) => state.cart);
-  const { resortName, items, bookingDetails } = cart;
+  const { resortName, items, bookingDetails, resortId } = cart;
   const { guestData, dates } = bookingDetails || {};
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [discountedTotal, setDiscountedTotal] = useState(
     bookingDetails?.grandTotal || 0
   );
-
-  if (authUserData?.length === 0) {
-    return <p>You are not logged In user.</p>;
-  }
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -86,8 +90,26 @@ const CheckoutClient = () => {
   // Submit Handler
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const validationErrors = validate();
     setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) return;
+
+    const checkoutData = {
+      booking_for: bookingFor,
+      comment: formData.comment,
+      is_used_coupon: formData.coupon ? 1 : 0,
+      resort_id: resortId || "",
+      room_id: items[0]?.id || "",
+      adult: guestData?.adultGuests || 1,
+      child: guestData?.childGuests || 0,
+      start_date: dates?.[0]?.from || "",
+      end_date: dates?.[0]?.to || "",
+      amount: discountedTotal || "",
+    };
+
+    await saveBookingInfo(checkoutData);
   };
 
   const handleCheckCoupon = (code, e) => {
@@ -112,6 +134,14 @@ const CheckoutClient = () => {
       toast.error("Invalid or inactive coupon code");
     }
   };
+
+  if (isLoadingAnimation) {
+    return <BookingLoader />;
+  }
+
+  if (authUserData?.length === 0) {
+    return <p>You are not logged In user.</p>;
+  }
 
   return (
     <div
@@ -203,6 +233,7 @@ const CheckoutClient = () => {
                           First Name <span className="text-danger">*</span>
                         </label>
                         <input
+                          readOnly
                           type="text"
                           name="firstName"
                           value={formData.firstName}
@@ -224,6 +255,7 @@ const CheckoutClient = () => {
                           Last Name <span className="text-danger">*</span>
                         </label>
                         <input
+                          readOnly
                           type="text"
                           name="lastName"
                           value={formData.lastName}
@@ -245,18 +277,18 @@ const CheckoutClient = () => {
                           Gender <span className="text-danger">*</span>
                         </label>
                         <select
+                          disabled
                           name="gender"
                           value={formData.gender}
-                          onChange={handleChange}
                           className={`form-select shadow-none border-0 border-bottom ${
                             errors.gender ? "is-invalid" : ""
                           }`}
                         >
-                          <option value="">Select Gender</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                           <option value="Other">Other</option>
                         </select>
+
                         {errors.gender && (
                           <small className="text-danger">{errors.gender}</small>
                         )}
@@ -268,6 +300,7 @@ const CheckoutClient = () => {
                           Date of Birth <span className="text-danger">*</span>
                         </label>
                         <input
+                          readOnly
                           type="date"
                           name="dob"
                           value={formData.dob}
@@ -307,6 +340,7 @@ const CheckoutClient = () => {
                           Mobile Number <span className="text-danger">*</span>
                         </label>
                         <input
+                          readOnly
                           type="text"
                           name="mobile"
                           value={formData.mobile}
@@ -399,8 +433,11 @@ const CheckoutClient = () => {
                         background: "linear-gradient(90deg, #164f84, #006993)",
                         borderRadius: "10px",
                       }}
+                      disabled={isLoadingSubmitting}
                     >
-                      Proceed to Booking
+                      {isLoadingSubmitting
+                        ? "Submitting... Please wait"
+                        : "Proceed to Booking"}
                     </button>
                   </form>
                 </div>

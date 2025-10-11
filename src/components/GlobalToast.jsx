@@ -25,7 +25,20 @@ const GlobalToastComponent = () => {
     dispatch(clearLastAction());
   }, [lastAction, dispatch]);
 
-  return <ToastContainer position="top-center" autoClose={3000} />;
+  return (
+    <ToastContainer
+      position="top-center"
+      autoClose={3000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="colored"
+    />
+  );
 };
 
 export default function GlobalToast() {

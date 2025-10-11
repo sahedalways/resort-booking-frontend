@@ -14,6 +14,8 @@ import { LocalStoreProvider } from "./hooks/localstorage/LocalStoreContext";
 import { getSiteHeaderData } from "./helper/getSiteHeaderData";
 import { DashboardProvider } from "./hooks/api/DashboardContext";
 import GlobalToast from "../components/GlobalToast";
+import { CheckoutProvider } from "./hooks/api/CheckoutContext";
+import { ToastContainer } from "react-toastify";
 
 export const revalidate = 300;
 
@@ -51,16 +53,29 @@ export default async function RootLayout({ children }) {
 
       <body>
         <LocalStoreProvider>
-          <DashboardProvider>
-            <AuthProvider>
-              <Header data={headerData?.header_info} />
-              <GlobalToast />
-              {children}
-              <Footer data={footerData} />
-            </AuthProvider>
-          </DashboardProvider>
+          <CheckoutProvider>
+            <DashboardProvider>
+              <AuthProvider>
+                <Header data={headerData?.header_info} />
+                <GlobalToast />
+                <ToastContainer
+                  position="top-center"
+                  autoClose={3000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="colored"
+                />
+                {children}
+                <Footer data={footerData} />
+              </AuthProvider>
+            </DashboardProvider>
+          </CheckoutProvider>
         </LocalStoreProvider>
-
         <BootstrapClient />
       </body>
     </html>
