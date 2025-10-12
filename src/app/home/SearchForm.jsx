@@ -174,7 +174,7 @@ const SearchForm = ({ resortData }) => {
             </div>
 
             {/* Check In */}
-            <div className="col-md-3 col-6 position-relative">
+            <div className="col-lg-3 col-12 position-relative">
               <div
                 className="form-field-wrapper"
                 onClick={() => setCheckInOpen(!checkInOpen)}
@@ -213,7 +213,7 @@ const SearchForm = ({ resortData }) => {
             </div>
 
             {/* Check Out */}
-            <div className="col-md-3 col-6 position-relative">
+            <div className="col-lg-3 col-12 position-relative">
               <div
                 className="form-field-wrapper"
                 onClick={() => setCheckOutOpen(!checkOutOpen)}

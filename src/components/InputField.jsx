@@ -28,10 +28,9 @@ export default function InputField({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`form-control py-2 px-3 rounded ${
+          className={`form-control py-2 px-3 rounded shadow-none text-block-16 ${
             error ? "is-invalid border-danger" : "border-secondary"
           }`}
-          style={{ fontSize: "1rem" }}
         />
         {isPasswordField && (
           <button

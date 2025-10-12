@@ -138,7 +138,10 @@ const Header = ({ data }) => {
                 <>
                   <button
                     className="btn secondary-bg custom-btn-style"
-                    onClick={logoutSubmit}
+                    onClick={() => {
+                      logoutSubmit();
+                      handleClose();
+                    }}
                   >
                     Logout
                   </button>
@@ -335,12 +338,12 @@ const Header = ({ data }) => {
               </>
             ) : (
               <>
-                <Link href="/auth/signup">
+                <Link href="/auth/signup" onClick={handleClose}>
                   <button className="btn secondary-bg me-2 custom-btn-style">
                     Sign Up
                   </button>
                 </Link>
-                <Link href="/auth/login">
+                <Link href="/auth/login" onClick={handleClose}>
                   <button className="btn primary-bg custom-btn-style">
                     Log In
                   </button>

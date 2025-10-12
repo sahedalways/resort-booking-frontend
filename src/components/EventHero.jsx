@@ -31,17 +31,17 @@ const EventHero = ({ eventData }) => {
         </div>
 
         {/* Caption */}
-        <div className="position-absolute top-50 start-50 translate-middle text-center text-white px-3">
-          <h1 className="fw-bold mb-2" style={{ fontSize: "3rem" }}>
+        <div className="position-absolute top-50 start-50 translate-middle text-center text-white px-3 w-100">
+          <h1 className="fw-bold mb-2 text-block-50">
             {title}
           </h1>
-          <h3 className="fw-normal mb-3" style={{ fontSize: "1.5rem" }}>
+          <h3 className="fw-normal mb-3 text-block-20">
             {sub_title}
           </h3>
 
           {phone_number && (
             <a href={`tel:${phone_number}`}>
-              <button className="btn btn-warning rounded-pill fw-semibold px-4 py-2">
+              <button className="btn btn-warning rounded-pill fw-semibold px-4 py-2 text-block-16">
                 CALL NOW
               </button>
             </a>

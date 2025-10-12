@@ -273,7 +273,7 @@ nav.navbar {
   align-items: center;
   /* background: var(--white); */
   border-radius: 10px;
-  box-shadow: 0 4px 10px var(--tab-shadow);
+  /*box-shadow: 0 4px 10px var(--tab-shadow);*/
   display: flex;
   justify-content: space-between;
   left: 50%;
@@ -857,7 +857,7 @@ button.btn-link.active {
 
 .footer ul li a,
 .footer ul li p {
-  font-size: var(--font-14);
+  font-size: var(--font-16);
   text-decoration: none;
   font-weight: 500;
   color: var(--black);
@@ -2517,4 +2517,18 @@ img.payment-icon-table {
   100% {
     left: 100%;
   }
+}
+
+.calendar-dropdown {
+    z-index: 111;
+}
+
+#password,
+#confirmPassword{
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-right: 0;
+}
+.resorts{
+  min-height: 40dvh;
 }
