@@ -4,6 +4,7 @@ import { useState } from "react";
 import Room from "./tab/Room";
 import HotelRoomFacilities from "./tab/HotelRoomFacilities";
 import Map from "./tab/Map";
+import Review from "./Review";
 
 const ResortBelowTabs = ({ resortData, mapUrl }) => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -77,6 +78,19 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
                   >
                     Policies
                   </Link>
+
+                  <Link
+                    href="#"
+                    className={`nav-link ${
+                      activeTab === "reviews" ? "active" : ""
+                    }`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setActiveTab("reviews");
+                    }}
+                  >
+                    Reviews
+                  </Link>
                 </nav>
               </div>
             </div>
@@ -126,6 +140,15 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
                       />
                     ) : (
                       <p>No policies available.</p>
+                    )}
+
+                    {resortData?.reviews ? (
+                      <Review
+                        resortData={resortData}
+                        sectionTitle="Reviews & Ratings:"
+                      />
+                    ) : (
+                      <p>No reviews available.</p>
                     )}
                   </>
                 )}
@@ -177,6 +200,13 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
                       <p>No policies available.</p>
                     )}
                   </>
+                )}
+
+                {activeTab === "reviews" && (
+                  <Review
+                    resortData={resortData}
+                    sectionTitle="Reviews & Ratings:"
+                  />
                 )}
               </div>
             </div>

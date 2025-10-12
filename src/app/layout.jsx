@@ -17,6 +17,7 @@ import { DashboardProvider } from "./hooks/api/DashboardContext";
 import { CheckoutProvider } from "./hooks/api/CheckoutContext";
 import { ToastContainer } from "react-toastify";
 import { HomeProvider } from "./hooks/api/HomeContext";
+import { ResortProvider } from "./hooks/api/ResortContext";
 
 export const revalidate = 300;
 
@@ -54,31 +55,33 @@ export default async function RootLayout({ children }) {
 
       <body>
         <LocalStoreProvider>
-          <HomeProvider>
-            <CheckoutProvider>
-              <DashboardProvider>
-                <AuthProvider>
-                  <Header data={headerData?.header_info} />
+          <ResortProvider>
+            <HomeProvider>
+              <CheckoutProvider>
+                <DashboardProvider>
+                  <AuthProvider>
+                    <Header data={headerData?.header_info} />
 
-                  <ToastContainer
-                    position="top-center"
-                    autoClose={3000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="colored"
-                  />
-                  {children}
+                    <ToastContainer
+                      position="top-center"
+                      autoClose={3000}
+                      hideProgressBar={false}
+                      newestOnTop={false}
+                      closeOnClick
+                      rtl={false}
+                      pauseOnFocusLoss
+                      draggable
+                      pauseOnHover
+                      theme="colored"
+                    />
+                    {children}
 
-                  <Footer data={footerData} />
-                </AuthProvider>
-              </DashboardProvider>
-            </CheckoutProvider>
-          </HomeProvider>
+                    <Footer data={footerData} />
+                  </AuthProvider>
+                </DashboardProvider>
+              </CheckoutProvider>
+            </HomeProvider>
+          </ResortProvider>
         </LocalStoreProvider>
         <BootstrapClient />
       </body>
