@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../hooks/api/AuthContext";
 import InputField from "@/src/components/InputField";
 import SubmitButton from "@/src/components/SubmitButton";
-import Toast from "@/src/components/Toast";
+
+import { toast } from "react-toastify";
 
 const RegisterClient = () => {
   const {
@@ -122,6 +123,13 @@ const RegisterClient = () => {
     }
   };
 
+  useEffect(() => {
+    if (isRegisterErrorMsg) {
+      toast.error(isRegisterErrorMsg, { autoClose: 3000, theme: "colored" });
+      setIsRegisterErrorMsg("");
+    }
+  }, [isRegisterErrorMsg]);
+
   return (
     <section className="section-gap">
       <div className="container">
@@ -226,12 +234,6 @@ const RegisterClient = () => {
                     placeholder="Retype password"
                     error={errors.confirmPassword}
                     isRequired={true}
-                  />
-
-                  <Toast
-                    message={isRegisterErrorMsg}
-                    type="error"
-                    onClose={() => setIsRegisterErrorMsg("")}
                   />
 
                   <SubmitButton

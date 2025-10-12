@@ -1,9 +1,10 @@
 "use client";
 import { DashboardContext } from "@/src/app/hooks/api/DashboardContext";
-import React, { useContext, useState } from "react";
-import Toast from "../Toast";
+import React, { useContext, useEffect, useState } from "react";
+ from "../Toast";
 import SubmitButton from "../SubmitButton";
 import InputField from "../InputField";
+import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/display-name
 const SettingsContent = React.forwardRef(({ userData }, ref) => {
@@ -82,6 +83,20 @@ const SettingsContent = React.forwardRef(({ userData }, ref) => {
       setIsErrorMsg(error.message || "Something went wrong. Please try again.");
     }
   };
+
+  useEffect(() => {
+    if (isSuccessMsg) {
+      toast.success(isSuccessMsg, { autoClose: 3000 });
+      setIsSuccessMsg("");
+    }
+  }, [isSuccessMsg]);
+
+  useEffect(() => {
+    if (isErrorMsg) {
+      toast.error(isErrorMsg, { autoClose: 3000 });
+      setIsErrorMsg("");
+    }
+  }, [isErrorMsg]);
 
   return (
     <div ref={ref} className="profile-content-card mb-4">
@@ -190,18 +205,6 @@ const SettingsContent = React.forwardRef(({ userData }, ref) => {
           )}
         </li>
       </ul>
-
-      <Toast
-        message={isSuccessMsg}
-        type="success"
-        onClose={() => setIsSuccessMsg("")}
-      />
-
-      <Toast
-        message={isErrorMsg}
-        type="error"
-        onClose={() => setIsErrorMsg("")}
-      />
     </div>
   );
 });

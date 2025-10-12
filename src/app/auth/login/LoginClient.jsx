@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import Toast from "@/src/components/Toast";
+
 import { AuthContext } from "../../hooks/api/AuthContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import InputField from "@/src/components/InputField";
 import SubmitButton from "@/src/components/SubmitButton";
+import { useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
 
 const LoginClient = () => {
   const {
@@ -19,6 +21,15 @@ const LoginClient = () => {
     isChangePasswordSuccessMsg,
     setIsChangePasswordSuccessMsg,
   } = useContext(AuthContext);
+
+  const searchParams = useSearchParams();
+  const message = searchParams.get("message");
+
+  useEffect(() => {
+    if (message) {
+      toast.error(message);
+    }
+  }, [message]);
 
   const [formData, setFormData] = useState({
     email: "",
@@ -82,6 +93,32 @@ const LoginClient = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (isLoginErrorMsg) {
+      toast.error(isLoginErrorMsg, { autoClose: 3000, theme: "colored" });
+      setIsLoginErrorMsg("");
+    }
+  }, [isLoginErrorMsg]);
+
+  // Logout success
+  useEffect(() => {
+    if (isLogoutMessage) {
+      toast.success(isLogoutMessage, { autoClose: 3000, theme: "colored" });
+      setLogoutMessage("");
+    }
+  }, [isLogoutMessage]);
+
+  // Change password success
+  useEffect(() => {
+    if (isChangePasswordSuccessMsg) {
+      toast.success(isChangePasswordSuccessMsg, {
+        autoClose: 3000,
+        theme: "colored",
+      });
+      setIsChangePasswordSuccessMsg("");
+    }
+  }, [isChangePasswordSuccessMsg]);
 
   return (
     <section className="section-gap">
@@ -153,12 +190,6 @@ const LoginClient = () => {
                     />
                   </div>
 
-                  <Toast
-                    message={isLoginErrorMsg}
-                    type="error"
-                    onClose={() => setIsLoginErrorMsg("")}
-                  />
-
                   <SubmitButton
                     submitLoading={isLoginLoading}
                     type="submit"
@@ -192,18 +223,6 @@ const LoginClient = () => {
           </div>
         </div>
       </div>
-
-      <Toast
-        message={isLogoutMessage}
-        type="success"
-        onClose={() => setLogoutMessage("")}
-      />
-
-      <Toast
-        message={isChangePasswordSuccessMsg}
-        type="success"
-        onClose={() => setIsChangePasswordSuccessMsg("")}
-      />
     </section>
   );
 };

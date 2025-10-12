@@ -1,10 +1,11 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SubmitButton from "../SubmitButton";
 import { DashboardContext } from "@/src/app/hooks/api/DashboardContext";
-import Toast from "../Toast";
+ from "../Toast";
 import { AuthContext } from "@/src/app/hooks/api/AuthContext";
+import { toast } from "react-toastify";
 
 const DashboardSidebar = ({
   activeSection,
@@ -63,6 +64,20 @@ const DashboardSidebar = ({
   const logoutSubmit = () => {
     handleLogout();
   };
+
+  useEffect(() => {
+    if (isSuccessMsg) {
+      toast.success(isSuccessMsg, { autoClose: 3000, theme: "colored" });
+      setIsSuccessMsg("");
+    }
+  }, [isSuccessMsg]);
+
+  useEffect(() => {
+    if (isErrorMsg) {
+      toast.error(isErrorMsg, { autoClose: 3000, theme: "colored" });
+      setIsErrorMsg("");
+    }
+  }, [isErrorMsg]);
 
   return (
     <div className="col-md-4 sidebar-card-wrapper">
@@ -241,18 +256,6 @@ const DashboardSidebar = ({
           </div>
         </div>
       )}
-
-      <Toast
-        message={isSuccessMsg}
-        type="success"
-        onClose={() => setIsSuccessMsg("")}
-      />
-
-      <Toast
-        message={isErrorMsg}
-        type="error"
-        onClose={() => setIsErrorMsg("")}
-      />
     </div>
   );
 };

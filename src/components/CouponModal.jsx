@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import Toast from "./Toast";
+
+import { toast } from "react-toastify";
 
 const CouponModal = ({ onClose, couponData }) => {
   const [toastMessage, setToastMessage] = useState("");
@@ -18,6 +19,26 @@ const CouponModal = ({ onClose, couponData }) => {
       setToastType("error");
     }
   };
+
+  useEffect(() => {
+    if (toastMessage) {
+      switch (toastType) {
+        case "success":
+          toast.success(toastMessage, { autoClose: 3000, theme: "colored" });
+          break;
+        case "error":
+          toast.error(toastMessage, { autoClose: 3000, theme: "colored" });
+          break;
+        case "warning":
+          toast.warn(toastMessage, { autoClose: 3000, theme: "colored" });
+          break;
+        default:
+          toast.info(toastMessage, { autoClose: 3000, theme: "colored" });
+      }
+
+      setToastMessage("");
+    }
+  }, [toastMessage, toastType]);
 
   return (
     <>
@@ -72,11 +93,6 @@ const CouponModal = ({ onClose, couponData }) => {
       </div>
 
       {/* Toast */}
-      <Toast
-        message={toastMessage}
-        type={toastType}
-        onClose={() => setToastMessage("")}
-      />
     </>
   );
 };

@@ -13,7 +13,7 @@ import { AuthProvider } from "./hooks/api/AuthContext";
 import { LocalStoreProvider } from "./hooks/localstorage/LocalStoreContext";
 import { getSiteHeaderData } from "./helper/getSiteHeaderData";
 import { DashboardProvider } from "./hooks/api/DashboardContext";
-import GlobalToast from "../components/GlobalToast";
+
 import { CheckoutProvider } from "./hooks/api/CheckoutContext";
 import { ToastContainer } from "react-toastify";
 import { HomeProvider } from "./hooks/api/HomeContext";
@@ -59,7 +59,7 @@ export default async function RootLayout({ children }) {
               <DashboardProvider>
                 <AuthProvider>
                   <Header data={headerData?.header_info} />
-                  <GlobalToast />
+
                   <ToastContainer
                     position="top-center"
                     autoClose={3000}
@@ -73,6 +73,7 @@ export default async function RootLayout({ children }) {
                     theme="colored"
                   />
                   {children}
+
                   <Footer data={footerData} />
                 </AuthProvider>
               </DashboardProvider>

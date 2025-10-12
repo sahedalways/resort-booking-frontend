@@ -1,7 +1,8 @@
 "use client";
 import { DashboardContext } from "@/src/app/hooks/api/DashboardContext";
 import React, { useContext, useEffect, useState } from "react";
-import Toast from "../Toast";
+ from "../Toast";
+import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/display-name
 const ProfileContent = React.forwardRef(({ userData }, ref) => {
@@ -78,6 +79,20 @@ const ProfileContent = React.forwardRef(({ userData }, ref) => {
       await saveProfileData(profileData);
     }
   };
+
+  useEffect(() => {
+    if (isSuccessMsg) {
+      toast.success(isSuccessMsg);
+      setIsSuccessMsg("");
+    }
+  }, [isSuccessMsg]);
+
+  useEffect(() => {
+    if (isErrorMsg) {
+      toast.error(isErrorMsg);
+      setIsErrorMsg("");
+    }
+  }, [isErrorMsg]);
 
   const ContentHeader = ({ title, subtitle }) => (
     <div className="d-flex justify-content-between align-items-end pb-3 border-bottom mb-3">
@@ -216,17 +231,6 @@ const ProfileContent = React.forwardRef(({ userData }, ref) => {
           "Other",
         ])}
       </div>
-      <Toast
-        message={isSuccessMsg}
-        type="success"
-        onClose={() => setIsSuccessMsg("")}
-      />
-
-      <Toast
-        message={isErrorMsg}
-        type="error"
-        onClose={() => setIsErrorMsg("")}
-      />
     </div>
   );
 });

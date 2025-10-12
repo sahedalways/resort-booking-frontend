@@ -5,9 +5,10 @@ import { LocalStoreContext } from "@/src/app/hooks/localstorage/LocalStoreContex
 
 import InputField from "@/src/components/InputField";
 import SubmitButton from "@/src/components/SubmitButton";
-import Toast from "@/src/components/Toast";
+
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const ChangePasswordWrapper = () => {
   const {
@@ -56,6 +57,16 @@ const ChangePasswordWrapper = () => {
     await changePassword(password, confirmPassword);
   };
 
+  useEffect(() => {
+    if (isChangePasswordErrorMsg) {
+      toast.error(isChangePasswordErrorMsg, {
+        autoClose: 3000,
+        theme: "colored",
+      });
+      setIsChangePasswordErrorMsg("");
+    }
+  }, [isChangePasswordErrorMsg]);
+
   return (
     <section className="section-gap">
       <div className="container">
@@ -97,12 +108,6 @@ const ChangePasswordWrapper = () => {
                       isRequired={true}
                     />
                   </div>
-
-                  <Toast
-                    message={isChangePasswordErrorMsg}
-                    type="error"
-                    onClose={() => setIsChangePasswordErrorMsg("")}
-                  />
 
                   <div className="text-center mt-3">
                     <SubmitButton

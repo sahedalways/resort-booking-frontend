@@ -4,10 +4,11 @@ import OtpInput from "@/src/components/OtpInput";
 import SubmitButton from "@/src/components/SubmitButton";
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../hooks/api/AuthContext";
-import Toast from "@/src/components/Toast";
+
 import { useRouter } from "next/navigation";
 import { LocalStoreContext } from "../../hooks/localstorage/LocalStoreContext";
 import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
+import { toast } from "react-toastify";
 
 const VerifyEmailWrapper = () => {
   const {
@@ -101,6 +102,30 @@ const VerifyEmailWrapper = () => {
     return `${min}:${sec}`;
   };
 
+  useEffect(() => {
+    if (error) {
+      toast.error(error, { autoClose: 3000, theme: "colored" });
+      setError("");
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (isMatchOtpErrorMsg) {
+      toast.error(isMatchOtpErrorMsg, { autoClose: 3000, theme: "colored" });
+      setIsMatchOtpErrorMsg("");
+    }
+  }, [isMatchOtpErrorMsg]);
+
+  useEffect(() => {
+    if (isResendOtpSuccessMsg) {
+      toast.success(isResendOtpSuccessMsg, {
+        autoClose: 3000,
+        theme: "colored",
+      });
+      setIsResendOtpSuccessMsg("");
+    }
+  }, [isResendOtpSuccessMsg]);
+
   return (
     <section className="section-gap">
       <div className="container">
@@ -123,25 +148,7 @@ const VerifyEmailWrapper = () => {
                     onChange={setOtpValue}
                   />
 
-                  <Toast
-                    message={error}
-                    type="error"
-                    onClose={() => setError("")}
-                  />
-
                   <div className="d-flex justify-content-center flex-column align-items-center">
-                    <Toast
-                      message={isMatchOtpErrorMsg}
-                      type="error"
-                      onClose={() => setIsMatchOtpErrorMsg("")}
-                    />
-
-                    <Toast
-                      message={isResendOtpSuccessMsg}
-                      type="success"
-                      onClose={() => setIsResendOtpSuccessMsg("")}
-                    />
-
                     <SubmitButton
                       type="submit"
                       submitLoading={isMatchOtpLoading}

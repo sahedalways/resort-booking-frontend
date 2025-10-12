@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
-import { useState } from "react";
-import Toast from "../../components/Toast";
+import { useEffect, useState } from "react";
+
+import { toast } from "react-toastify";
 
 const Discount = ({ couponData }) => {
   const [toastMessage, setToastMessage] = useState("");
@@ -24,6 +25,26 @@ const Discount = ({ couponData }) => {
   // Randomly select one coupon
   const randomIndex = Math.floor(Math.random() * couponData.length);
   const coupon = couponData[randomIndex];
+
+  useEffect(() => {
+    if (toastMessage) {
+      switch (toastType) {
+        case "success":
+          toast.success(toastMessage, { autoClose: 3000, theme: "colored" });
+          break;
+        case "error":
+          toast.error(toastMessage, { autoClose: 3000, theme: "colored" });
+          break;
+        case "warning":
+          toast.warn(toastMessage, { autoClose: 3000, theme: "colored" });
+          break;
+        default:
+          toast.info(toastMessage, { autoClose: 3000, theme: "colored" });
+      }
+
+      setToastMessage(""); // reset the message
+    }
+  }, [toastMessage, toastType]);
 
   return (
     <section className="discount-section section-gap">
@@ -64,13 +85,6 @@ const Discount = ({ couponData }) => {
           </div>
         </div>
       </div>
-
-      {/* Toast */}
-      <Toast
-        message={toastMessage}
-        type={toastType}
-        onClose={() => setToastMessage("")}
-      />
     </section>
   );
 };

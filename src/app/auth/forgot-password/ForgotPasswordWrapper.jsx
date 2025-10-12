@@ -1,10 +1,11 @@
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import SubmitButton from "@/src/components/SubmitButton";
-import Toast from "@/src/components/Toast";
+
 import { AuthContext } from "../../hooks/api/AuthContext";
 import InputField from "@/src/components/InputField";
+import { toast } from "react-toastify";
 
 const ForgotPasswordWrapper = () => {
   const {
@@ -44,6 +45,13 @@ const ForgotPasswordWrapper = () => {
     await searchAccount(email);
   };
 
+  useEffect(() => {
+    if (isSearchAccErrorMsg) {
+      toast.error(isSearchAccErrorMsg, { autoClose: 3000, theme: "colored" });
+      setIsSearchAccErrorMsg("");
+    }
+  }, [isSearchAccErrorMsg]);
+
   return (
     <section className="section-gap">
       <div className="container">
@@ -73,12 +81,6 @@ const ForgotPasswordWrapper = () => {
                       isRequired={true}
                     />
                   </div>
-
-                  <Toast
-                    message={isSearchAccErrorMsg}
-                    type="error"
-                    onClose={() => setIsSearchAccErrorMsg("")}
-                  />
 
                   <div className="text-center mt-3">
                     <SubmitButton

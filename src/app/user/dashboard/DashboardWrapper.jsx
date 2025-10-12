@@ -1,14 +1,13 @@
 "use client";
 
 import { useState, useRef, useContext, useEffect } from "react";
-import Link from "next/link";
-import Toast from "@/src/components/Toast";
 import { AuthContext } from "../../hooks/api/AuthContext";
 import DashboardSidebar from "@/src/components/dashboard/DashboardSidebar";
 import ProfileContent from "@/src/components/dashboard/ProfileContent";
 import BookingHistoryContent from "@/src/components/dashboard/BookingHistoryContent ";
 import SettingsContent from "@/src/components/dashboard/Settings";
 import { LocalStoreContext } from "../../hooks/localstorage/LocalStoreContext";
+import { toast } from "react-toastify";
 
 export function DashboardWrapper() {
   const { authUserData } = useContext(LocalStoreContext);
@@ -66,22 +65,12 @@ export function DashboardWrapper() {
     }
   };
 
-  const ContentHeader = ({ title, subtitle, showEdit = true }) => (
-    <div className="d-flex justify-content-between align-items-end pb-3 border-bottom">
-      <div>
-        <h3 className="card-title fw-bold mb-0">{title}</h3>
-        <p className="text-muted mb-0 small">{subtitle}</p>
-      </div>
-      {showEdit && (
-        <Link
-          href="#"
-          className="secondary-color text-decoration-none text-block-16 py-0"
-        >
-          <i className="bi bi-pencil-fill edit-icon me-1"></i> Edit
-        </Link>
-      )}
-    </div>
-  );
+  useEffect(() => {
+    if (isLoginSuccessMsg) {
+      toast.success(isLoginSuccessMsg, { autoClose: 3000, theme: "colored" });
+      setIsLoginSuccessMsg("");
+    }
+  }, [isLoginSuccessMsg]);
 
   return (
     <div
@@ -114,12 +103,6 @@ export function DashboardWrapper() {
           <SettingsContent ref={settingsRef} userData={authUserData} />
         </div>
       </div>
-
-      <Toast
-        message={isLoginSuccessMsg}
-        type="success"
-        onClose={() => setIsLoginSuccessMsg("")}
-      />
     </div>
   );
 }

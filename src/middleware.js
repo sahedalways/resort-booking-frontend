@@ -15,6 +15,7 @@ const authPages = [
 export function middleware(request) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("bx_auth_token");
+  const url = request.nextUrl.clone();
 
   // Check if the path is public
   const isPublicPath = publicPaths.some(
@@ -29,7 +30,9 @@ export function middleware(request) {
   // Redirect non-logged-in users trying to access protected pages (like dashboard)
   const isProtectedPath = pathname.startsWith("/user");
   if (!token && (isProtectedPath || !isPublicPath)) {
-    return NextResponse.redirect(new URL("/auth/login", request.url));
+    url.pathname = "/auth/login";
+    url.searchParams.set("message", "Please login to continue");
+    return NextResponse.redirect(url);
   }
 
   // Otherwise allow access

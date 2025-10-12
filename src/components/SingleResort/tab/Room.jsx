@@ -13,8 +13,13 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { addToCart, removeFromCart } from "@/src/redux/slices/cartSlice";
 import { store } from "@/src/redux/store/store";
+import { isLoggedIn } from "@/src/app/helper/auth";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const RoomContent = ({ room, resortName }) => {
+  const router = useRouter();
+  const isLoggedInToken = isLoggedIn();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -30,6 +35,12 @@ const RoomContent = ({ room, resortName }) => {
   const cartItem = cart.items.find((item) => item.id === room.id);
 
   const handleCartToggle = () => {
+    if (!isLoggedInToken) {
+      toast.error("Please login to continue!");
+      router.push("/auth/login");
+      return;
+    }
+
     if (cartItem) {
       dispatch(removeFromCart(room.id));
     } else {
