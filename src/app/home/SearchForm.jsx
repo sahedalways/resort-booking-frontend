@@ -92,8 +92,8 @@ const SearchForm = ({ resortData }) => {
   return (
     <div className="search-container">
       {/* Tabs */}
-      <div className="tab-buttons col-lg-4 col-md-6 col-10">
-        <button
+      <div className="tab-buttons col-lg-4 col-md-6 col-10 justify-content-center">
+        <div
           type="button"
           className={`tab-btn resort-tab ${
             activeTab === "resort" ? "active" : ""
@@ -107,7 +107,7 @@ const SearchForm = ({ resortData }) => {
             alt="Resort Icon"
           />
           Resort
-        </button>
+        </div>
       </div>
 
       <div className="form-content">

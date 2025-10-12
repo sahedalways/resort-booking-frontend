@@ -271,7 +271,7 @@ nav.navbar {
 .tab-buttons {
   padding: 20px;
   align-items: center;
-  background: var(--white);
+  /* background: var(--white); */
   border-radius: 10px;
   box-shadow: 0 4px 10px var(--tab-shadow);
   display: flex;
