@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 import LoginClient from "./LoginClient";
 import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
@@ -17,7 +17,11 @@ const Page = () => {
     fetchTitle();
   }, []);
 
-  return <LoginClient />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginClient />
+    </Suspense>
+  );
 };
 
 export default Page;
