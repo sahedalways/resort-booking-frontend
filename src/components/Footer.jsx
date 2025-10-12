@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import Skeleton from "./Skeleton";
+import { isLoggedIn } from "../app/helper/auth";
 
 const Footer = ({ data }) => {
   if (!data) return <Skeleton type="footer" />;
+  const isLoggedInToken = isLoggedIn();
 
   const { site_info, contact_info, social_info } = data;
 
@@ -25,29 +27,35 @@ const Footer = ({ data }) => {
                 </Link>
               </li>
               <li>
-                <Link href="/events" className="text-dark">
+                <Link href="/contact" className="text-dark">
                   Contact Us
                 </Link>
               </li>
+              <li>
+                <Link href="/privacy-policy" className="text-dark">
+                  Privacy Policy
+                </Link>
+              </li>
+              {isLoggedInToken && (
+                <li>
+                  <Link href="/user/dashboard" className="text-dark">
+                    Dashboard
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
           <div className="col-lg-3 col-md-6">
             <h5 className="text-uppercase">Services</h5>
             <ul className="list-unstyled mb-0 d-grid gap-1">
               <li>
-                <Link href="/" className="text-dark">
+                <Link href="/resorts" className="text-dark">
                   Resorts
                 </Link>
               </li>
               <li>
-                <Link href="/resorts" className="text-dark">
-                  Event
-                </Link>
-              </li>
-
-              <li>
-                <Link href="/contact" className="text-dark">
-                  Dashboard
+                <Link href="/events" className="text-dark">
+                  Events
                 </Link>
               </li>
             </ul>

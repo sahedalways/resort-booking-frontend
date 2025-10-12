@@ -5,7 +5,18 @@ import Image from "next/image";
 import Skeleton from "@/src/components/Skeleton";
 
 const Features = ({ featuresData }) => {
-  if (!featuresData) return <Skeleton type="features" />;
+  if (featuresData === undefined) return <Skeleton type="features" />;
+
+  if (!featuresData || Object.keys(featuresData).length === 0) {
+    return (
+      <section className="features-section section-gap">
+        <div className="container text-center">
+          <h2>No features available at the moment</h2>
+          <p>Please check back later.</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="features-section section-gap">

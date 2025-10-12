@@ -33,7 +33,7 @@ const Header = ({ data }) => {
   }, [data]);
 
   // ✅ Default profile image
-  const profileImage = authUserData?.profilep?.avatar_url || "/img/avatar.webp";
+  const profileImage = authUserData?.profilep?.avatar_url;
 
   return (
     <>
@@ -93,6 +93,16 @@ const Header = ({ data }) => {
               </li>
               <li className="nav-item">
                 <Link
+                  href="/about"
+                  className={`nav-link ${
+                    pathname === "/about" ? "active" : ""
+                  }`}
+                >
+                  About
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link
                   href="/contact"
                   className={`nav-link ${
                     pathname === "/contact" ? "active" : ""
@@ -135,17 +145,29 @@ const Header = ({ data }) => {
 
                   {authUserData && (
                     <div className="d-flex align-items-center ms-3">
-                      {/* ✅ Profile image */}
-                      <img
-                        src={profileImage}
-                        alt="Profile"
-                        className="rounded-circle me-2"
-                        style={{
-                          width: "35px",
-                          height: "35px",
-                          objectFit: "cover",
-                        }}
-                      />
+                      {profileImage ? (
+                        <img
+                          src={profileImage}
+                          alt="Profile"
+                          className="rounded-circle me-2"
+                          style={{
+                            width: "35px",
+                            height: "35px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      ) : authUserData?.profile?.gender === "male" ? (
+                        <i
+                          className="bi bi-person-fill me-2"
+                          style={{ fontSize: "35px", color: "#7f8a96d8" }}
+                        ></i>
+                      ) : (
+                        <i
+                          className="bi bi-person-fill-up me-2"
+                          style={{ fontSize: "35px", color: "#7f8a96d8" }}
+                        ></i>
+                      )}
+
                       <span
                         className="nav-link disabled"
                         style={{ color: "#7f8a96d8" }}
@@ -238,6 +260,15 @@ const Header = ({ data }) => {
             </li>
             <li className="nav-item">
               <Link
+                href="/about"
+                className={`nav-link ${pathname === "/about" ? "active" : ""}`}
+                onClick={handleClose}
+              >
+                About
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
                 href="/contact"
                 className={`nav-link ${
                   pathname === "/contact" ? "active" : ""
@@ -281,19 +312,20 @@ const Header = ({ data }) => {
 
                 {authUserData && (
                   <div className="d-flex flex-column align-items-center mt-3">
-                    {/* ✅ Profile image mobile */}
-                    <img
-                      src={profileImage}
-                      alt="Profile"
-                      className="rounded-circle mb-2"
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        objectFit: "cover",
-                      }}
-                    />
+                    {authUserData?.profile?.gender === "male" ? (
+                      <i
+                        className="bi bi-person-fill avatar-icon"
+                        style={{ fontSize: "50px" }}
+                      ></i>
+                    ) : (
+                      <i
+                        className="bi bi-person-fill-up avatar-icon"
+                        style={{ fontSize: "50px" }}
+                      ></i>
+                    )}
+
                     <span
-                      className="nav-link disabled"
+                      className="nav-link disabled mt-2"
                       style={{ color: "#7f8a96d8" }}
                     >
                       {authUserData?.f_name} {authUserData?.l_name}
