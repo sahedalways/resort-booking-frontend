@@ -82,7 +82,7 @@ const CartComponent = () => {
 
   if (cartItems.length === 0) {
     return (
-      <section className="section-gap">
+      <section className="section-gap cart">
         <div className="container my-5 text-center">
           <i className="fas fa-shopping-cart cart-icon mb-3 mx-auto"></i>
           <h1 className="cart-title">Your Cart is Empty!</h1>

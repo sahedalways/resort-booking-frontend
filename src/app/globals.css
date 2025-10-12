@@ -1638,6 +1638,10 @@ img.payment-icon-table {
   color: var(--white);
   padding: 100px 0;
   text-align: center;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .underLine::after {
@@ -2520,15 +2524,16 @@ img.payment-icon-table {
 }
 
 .calendar-dropdown {
-    z-index: 111;
+  z-index: 111;
 }
 
-#password,
-#confirmPassword{
+/* #password,
+#confirmPassword {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
   border-right: 0;
-}
-.resorts{
-  min-height: 40dvh;
+} */
+.resorts,
+.cart {
+  min-height: 50dvh;
 }

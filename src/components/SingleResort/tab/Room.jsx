@@ -42,8 +42,10 @@ const RoomContent = ({ room, resortName }) => {
     }
 
     if (cartItem) {
+      toast.error(`${room.name} has been removed from your cart.`);
       dispatch(removeFromCart(room.id));
     } else {
+      toast.success(`${room.name} has been added to your cart.`);
       dispatch(
         addToCart({
           resortId: room.resort_id,

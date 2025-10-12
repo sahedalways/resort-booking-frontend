@@ -6,14 +6,7 @@ import { toast } from "react-toastify";
 
 // eslint-disable-next-line react/display-name
 const ProfileContent = React.forwardRef(({ userData }, ref) => {
-  const {
-    saveProfileData,
-    isSuccessMsg,
-    isErrorMsg,
-    isLoadingSubmitting,
-    setIsErrorMsg,
-    setIsSuccessMsg,
-  } = useContext(DashboardContext);
+  const { saveProfileData, isLoadingSubmitting } = useContext(DashboardContext);
 
   const [isEditMode, setIsEditMode] = useState(false);
   const [profileData, setProfileData] = useState({
@@ -79,29 +72,6 @@ const ProfileContent = React.forwardRef(({ userData }, ref) => {
       await saveProfileData(profileData);
     }
   };
-
-  const successCalledRef = useRef(false);
-  const errorCalledRef = useRef(false);
-
-  useEffect(() => {
-    if (isSuccessMsg && !successCalledRef.current) {
-      toast.success(isSuccessMsg, { autoClose: 3000, theme: "colored" });
-      setIsSuccessMsg("");
-      successCalledRef.current = true;
-    } else if (!isSuccessMsg) {
-      successCalledRef.current = false;
-    }
-  }, [isSuccessMsg]);
-
-  useEffect(() => {
-    if (isErrorMsg && !errorCalledRef.current) {
-      toast.error(isErrorMsg, { autoClose: 3000, theme: "colored" });
-      setIsErrorMsg("");
-      errorCalledRef.current = true;
-    } else if (!isErrorMsg) {
-      errorCalledRef.current = false;
-    }
-  }, [isErrorMsg]);
 
   const ContentHeader = ({ title, subtitle }) => (
     <div className="d-flex justify-content-between align-items-end pb-3 border-bottom mb-3">

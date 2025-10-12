@@ -9,12 +9,8 @@ import BookingLoader from "@/src/components/BookingLoader";
 import { isLoggedIn } from "../../helper/auth";
 
 const CheckoutClient = () => {
-  const {
-    isLoadingSubmitting,
-    saveBookingInfo,
-    isLoadingAnimation,
-    setIsLoadingAnimation,
-  } = useContext(CheckoutContext);
+  const { isLoadingSubmitting, saveBookingInfo, isLoadingAnimation } =
+    useContext(CheckoutContext);
   const isLoggedInToken = isLoggedIn();
   const { authUserData } = useContext(LocalStoreContext);
   const [bookingFor, setBookingFor] = useState("me");
@@ -46,8 +42,8 @@ const CheckoutClient = () => {
         lastName: authUserData.l_name || "",
         email: authUserData.email || "",
         mobile: authUserData.phone_no || "",
-        gender: authUserData.profile?.gender || "",
-        dob: authUserData.profile?.date_of_birth || "",
+        gender: authUserData?.profile?.gender || "",
+        dob: authUserData?.profile?.date_of_birth || "",
       }));
     }
   }, [authUserData]);
@@ -80,8 +76,8 @@ const CheckoutClient = () => {
       newErrors.email = "Invalid email address";
     if (!formData.mobile.trim()) {
       newErrors.mobile = "Mobile number is required";
-    } else if (!/^[0-9]{10,15}$/.test(formData.mobile)) {
-      newErrors.mobile = "Mobile number must be between 10 and 15 digits";
+    } else if (formData.mobile.length < 10 || formData.mobile.length > 20) {
+      newErrors.mobile = "Mobile number must be between 10 and 20 digits";
     }
 
     if (!formData.nationality.trim())
@@ -279,13 +275,21 @@ const CheckoutClient = () => {
                           Gender <span className="text-danger">*</span>
                         </label>
                         <select
-                          disabled
                           name="gender"
-                          value={formData.gender}
+                          disabled={!!authUserData?.profile?.gender}
+                          value={
+                            authUserData?.profile?.gender ||
+                            formData.gender ||
+                            ""
+                          }
+                          onChange={(e) =>
+                            setFormData({ ...formData, gender: e.target.value })
+                          }
                           className={`form-select shadow-none border-0 border-bottom ${
                             errors.gender ? "is-invalid" : ""
                           }`}
                         >
+                          <option value="">Select Gender</option>
                           <option value="Male">Male</option>
                           <option value="Female">Female</option>
                           <option value="Other">Other</option>
@@ -302,7 +306,7 @@ const CheckoutClient = () => {
                           Date of Birth <span className="text-danger">*</span>
                         </label>
                         <input
-                          readOnly
+                          readOnly={!!authUserData?.profile?.dob}
                           type="date"
                           name="dob"
                           value={formData.dob}
@@ -342,7 +346,7 @@ const CheckoutClient = () => {
                           Mobile Number <span className="text-danger">*</span>
                         </label>
                         <input
-                          readOnly
+                          readOnly={!!authUserData?.phone_no}
                           type="text"
                           name="mobile"
                           value={formData.mobile}

@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from "react";
 import { LocalStoreContext } from "../localstorage/LocalStoreContext";
 import { http } from "../../services/httpService";
 import { isLoggedIn } from "../../helper/auth";
+import { toast } from "react-toastify";
 
 export const DashboardContext = createContext();
 
@@ -29,8 +30,10 @@ export const DashboardProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-
-      setIsSuccessMsg("Avatar updated successfully!");
+      toast.success("Avatar updated successfully!", {
+        autoClose: 3000,
+        theme: "colored",
+      });
 
       setIsLoadingSubmitting(false);
 
@@ -40,9 +43,15 @@ export const DashboardProvider = ({ children }) => {
     } catch (error) {
       const errorData = error.response?.data;
       if (errorData?.error) {
-        setIsErrorMsg(errorData.error);
+        toast.error(errorData.error || "An error occured!.", {
+          autoClose: 3000,
+          theme: "colored",
+        });
       } else {
-        setIsErrorMsg("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.", {
+          autoClose: 3000,
+          theme: "colored",
+        });
       }
       setIsLoadingSubmitting(false);
       return false;
@@ -67,7 +76,11 @@ export const DashboardProvider = ({ children }) => {
         },
       });
 
-      setIsSuccessMsg("Profile updated successfully!");
+      toast.success("Profile updated successfully!", {
+        autoClose: 3000,
+        theme: "colored",
+      });
+
       setIsLoadingSubmitting(false);
 
       if (response.data.data) {
@@ -76,9 +89,15 @@ export const DashboardProvider = ({ children }) => {
     } catch (error) {
       const errorData = error.response?.data;
       if (errorData?.error) {
-        setIsErrorMsg(errorData.error);
+        toast.error(errorData.error, {
+          autoClose: 3000,
+          theme: "colored",
+        });
       } else {
-        setIsErrorMsg("Something went wrong. Please try again.");
+        toast.error("Something went wrong. Please try again.", {
+          autoClose: 3000,
+          theme: "colored",
+        });
       }
       setIsLoadingSubmitting(false);
       return false;
@@ -122,17 +141,27 @@ export const DashboardProvider = ({ children }) => {
       });
       setIsLoadingSubmitting(false);
       if (response.data?.success) {
-        setIsSuccessMsg("Password changed successfully.");
+        toast.success("Password changed successfully.", {
+          autoClose: 3000,
+          theme: "colored",
+        });
+
         return true;
       } else {
-        setIsErrorMsg(response.data?.message || "Failed to change password.");
+        toast.error(response.data?.message || "Failed to change password.", {
+          autoClose: 3000,
+          theme: "colored",
+        });
+
         return false;
       }
     } catch (error) {
       const errorData = error.response?.data;
-      setIsErrorMsg(
-        errorData?.message || "Something went wrong. Please try again."
-      );
+      toast.error(errorData || "Something went wrong. Please try again.", {
+        autoClose: 3000,
+        theme: "colored",
+      });
+
       setIsLoadingSubmitting(false);
       return false;
     }

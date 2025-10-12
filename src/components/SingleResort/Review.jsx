@@ -1,3 +1,4 @@
+import { isLoggedIn } from "@/src/app/helper/auth";
 import { ResortContext } from "@/src/app/hooks/api/ResortContext";
 import { LocalStoreContext } from "@/src/app/hooks/localstorage/LocalStoreContext";
 import { useContext, useState } from "react";
@@ -6,7 +7,7 @@ import { toast } from "react-toastify";
 const Review = ({ resortData, sectionTitle, reviews, setReviews }) => {
   const { saveReview, isLoadingSubmitting, deleteReview, updateReview } =
     useContext(ResortContext);
-
+  const isLoggedInToken = isLoggedIn();
   const { authUserData } = useContext(LocalStoreContext);
   const [showFull, setShowFull] = useState({});
   const [editingReviewId, setEditingReviewId] = useState(null);
@@ -214,71 +215,77 @@ const Review = ({ resortData, sectionTitle, reviews, setReviews }) => {
       )}
 
       {/* Submit review form */}
-      {editingReviewId === null && (
-        <div className="mt-4 review-form">
-          <h5 className="mb-3">Leave a Review</h5>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmitReview();
-            }}
-          >
-            {/* Rating stars */}
-            <div className="mb-3">
-              <label className="form-label">Rating:</label>
-              <div className="rating-stars">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <span
-                    key={star}
-                    className={`star ${
-                      star <= newReview.rating ? "checked" : ""
-                    }`}
-                    onClick={() => setNewReview({ ...newReview, rating: star })}
-                  >
-                    ★
-                  </span>
-                ))}
-              </div>
-            </div>
+      {isLoggedInToken && (
+        <>
+          {editingReviewId === null && (
+            <div className="mt-4 review-form">
+              <h5 className="mb-3">Leave a Review</h5>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleSubmitReview();
+                }}
+              >
+                {/* Rating stars */}
+                <div className="mb-3">
+                  <label className="form-label">Rating:</label>
+                  <div className="rating-stars">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <span
+                        key={star}
+                        className={`star ${
+                          star <= newReview.rating ? "checked" : ""
+                        }`}
+                        onClick={() =>
+                          setNewReview({ ...newReview, rating: star })
+                        }
+                      >
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                </div>
 
-            {/* Comment */}
-            <div className="mb-3 mt-5">
-              <label htmlFor="reviewComment" className="form-label">
-                Comment:
-              </label>
-              <textarea
-                id="reviewComment"
-                className="form-control"
-                rows={3}
-                value={newReview.comment}
-                onChange={(e) =>
-                  setNewReview({ ...newReview, comment: e.target.value })
-                }
-                placeholder="Write your review..."
-                required
-              />
-            </div>
+                {/* Comment */}
+                <div className="mb-3 mt-5">
+                  <label htmlFor="reviewComment" className="form-label">
+                    Comment:
+                  </label>
+                  <textarea
+                    id="reviewComment"
+                    className="form-control shadow-none"
+                    rows={3}
+                    value={newReview.comment}
+                    onChange={(e) =>
+                      setNewReview({ ...newReview, comment: e.target.value })
+                    }
+                    placeholder="Write your review..."
+                    required
+                  />
+                </div>
 
-            <button
-              type="submit"
-              className="btn btn-primary"
-              disabled={isLoadingSubmitting}
-            >
-              {isLoadingSubmitting ? (
-                <>
-                  <span
-                    className="spinner-border spinner-border-sm me-2"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  Submitting...
-                </>
-              ) : (
-                "Submit Review"
-              )}
-            </button>
-          </form>
-        </div>
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  disabled={isLoadingSubmitting}
+                >
+                  {isLoadingSubmitting ? (
+                    <>
+                      <span
+                        className="spinner-border spinner-border-sm me-2"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                      Submitting...
+                    </>
+                  ) : (
+                    "Submit Review"
+                  )}
+                </button>
+              </form>
+            </div>
+          )}
+        </>
       )}
 
       <style jsx>{`

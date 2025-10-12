@@ -66,7 +66,7 @@ const Features = ({ featuresData }) => {
 
           {/* Event Card */}
           <div className="col-12 col-md-6">
-            <Link href="/resorts" style={{ textDecoration: "none" }}>
+            <Link href="/events" style={{ textDecoration: "none" }}>
               <div className="card custom-overlay-card position-relative">
                 <Image
                   src={featuresData?.eventImageUrl || "/img/resort_img.png"}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useContext } from "react";
-import { DateRangePicker } from "react-date-range";
+import { Calendar, DateRangePicker } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import Link from "next/link";
@@ -182,25 +182,14 @@ const SearchForm = ({ resortData }) => {
                 <span className="label">Check In</span>
                 <div className="value">{formatDate(checkInDate)}</div>
               </div>
+
               {checkInOpen && (
                 <div className="calendar-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
-                  <DateRangePicker
-                    ranges={[
-                      {
-                        startDate: checkInDate,
-                        endDate: checkInDate,
-                        key: "selection",
-                      },
-                    ]}
-                    onChange={(item) =>
-                      setCheckInDate(item.selection.startDate)
-                    }
+                  <Calendar
+                    date={checkInDate}
+                    onChange={(date) => setCheckInDate(date)}
                     months={1}
                     direction="vertical"
-                    showSelectionPreview={true}
-                    moveRangeOnFirstSelection={false}
-                    staticRanges={[]}
-                    inputRanges={[]}
                   />
                   <button
                     className="btn btn-primary mt-2 w-100"
@@ -221,25 +210,14 @@ const SearchForm = ({ resortData }) => {
                 <span className="label">Check Out</span>
                 <div className="value">{formatDate(checkOutDate)}</div>
               </div>
+
               {checkOutOpen && (
                 <div className="calendar-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
-                  <DateRangePicker
-                    ranges={[
-                      {
-                        startDate: checkOutDate,
-                        endDate: checkOutDate,
-                        key: "selection",
-                      },
-                    ]}
-                    onChange={(item) =>
-                      setCheckOutDate(item.selection.startDate)
-                    }
+                  <Calendar
+                    date={checkOutDate}
+                    onChange={(date) => setCheckOutDate(date)}
                     months={1}
                     direction="vertical"
-                    showSelectionPreview={true}
-                    moveRangeOnFirstSelection={false}
-                    staticRanges={[]}
-                    inputRanges={[]}
                   />
                   <button
                     className="btn btn-primary mt-2 w-100"
@@ -297,18 +275,20 @@ const SearchForm = ({ resortData }) => {
                             <div className="d-flex align-items-center">
                               <Link
                                 href="#"
-                                onClick={() =>
-                                  handleGuestChange(index, "adults", -1)
-                                }
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleGuestChange(index, "adults", -1);
+                                }}
                               >
                                 <i className="bi bi-dash-circle"></i>
                               </Link>
                               <span className="mx-2">{room.adults}</span>
                               <Link
                                 href="#"
-                                onClick={() =>
-                                  handleGuestChange(index, "adults", 1)
-                                }
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleGuestChange(index, "adults", 1);
+                                }}
                               >
                                 <i className="bi bi-plus-circle"></i>
                               </Link>
@@ -323,18 +303,20 @@ const SearchForm = ({ resortData }) => {
                             <div className="d-flex align-items-center">
                               <Link
                                 href="#"
-                                onClick={() =>
-                                  handleGuestChange(index, "children", -1)
-                                }
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleGuestChange(index, "children", -1);
+                                }}
                               >
                                 <i className="bi bi-dash-circle"></i>
                               </Link>
                               <span className="mx-2">{room.children}</span>
                               <Link
                                 href="#"
-                                onClick={() =>
-                                  handleGuestChange(index, "children", 1)
-                                }
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleGuestChange(index, "children", 1);
+                                }}
                               >
                                 <i className="bi bi-plus-circle"></i>
                               </Link>
