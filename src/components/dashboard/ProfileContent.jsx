@@ -1,6 +1,6 @@
 "use client";
 import { DashboardContext } from "@/src/app/hooks/api/DashboardContext";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { toast } from "react-toastify";
 
@@ -80,17 +80,26 @@ const ProfileContent = React.forwardRef(({ userData }, ref) => {
     }
   };
 
+  const successCalledRef = useRef(false);
+  const errorCalledRef = useRef(false);
+
   useEffect(() => {
-    if (isSuccessMsg) {
-      toast.success(isSuccessMsg);
+    if (isSuccessMsg && !successCalledRef.current) {
+      toast.success(isSuccessMsg, { autoClose: 3000, theme: "colored" });
       setIsSuccessMsg("");
+      successCalledRef.current = true;
+    } else if (!isSuccessMsg) {
+      successCalledRef.current = false;
     }
   }, [isSuccessMsg]);
 
   useEffect(() => {
-    if (isErrorMsg) {
-      toast.error(isErrorMsg);
+    if (isErrorMsg && !errorCalledRef.current) {
+      toast.error(isErrorMsg, { autoClose: 3000, theme: "colored" });
       setIsErrorMsg("");
+      errorCalledRef.current = true;
+    } else if (!isErrorMsg) {
+      errorCalledRef.current = false;
     }
   }, [isErrorMsg]);
 

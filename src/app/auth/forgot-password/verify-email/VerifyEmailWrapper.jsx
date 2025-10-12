@@ -6,7 +6,7 @@ import { LocalStoreContext } from "@/src/app/hooks/localstorage/LocalStoreContex
 import OtpInput from "@/src/components/OtpInput";
 import SubmitButton from "@/src/components/SubmitButton";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -66,29 +66,43 @@ const VerifyEmailWrapper = () => {
     }
   };
 
+  const errorCalledRef = useRef(false);
+  const matchOtpErrorCalledRef = useRef(false);
+  const resendOtpSuccessCalledRef = useRef(false);
+
+  // General error
   useEffect(() => {
-    if (error) {
+    if (error && !errorCalledRef.current) {
       toast.error(error, { autoClose: 3000, theme: "colored" });
       setError("");
+      errorCalledRef.current = true;
+    } else if (!error) {
+      errorCalledRef.current = false; // Reset ref when cleared
     }
   }, [error]);
 
   // OTP match error
   useEffect(() => {
-    if (isMatchOtpErrorMsg) {
+    if (isMatchOtpErrorMsg && !matchOtpErrorCalledRef.current) {
       toast.error(isMatchOtpErrorMsg, { autoClose: 3000, theme: "colored" });
       setIsMatchOtpErrorMsg("");
+      matchOtpErrorCalledRef.current = true;
+    } else if (!isMatchOtpErrorMsg) {
+      matchOtpErrorCalledRef.current = false;
     }
   }, [isMatchOtpErrorMsg]);
 
   // OTP resend success
   useEffect(() => {
-    if (isResendOtpSuccessMsg) {
+    if (isResendOtpSuccessMsg && !resendOtpSuccessCalledRef.current) {
       toast.success(isResendOtpSuccessMsg, {
         autoClose: 3000,
         theme: "colored",
       });
       setIsResendOtpSuccessMsg("");
+      resendOtpSuccessCalledRef.current = true;
+    } else if (!isResendOtpSuccessMsg) {
+      resendOtpSuccessCalledRef.current = false;
     }
   }, [isResendOtpSuccessMsg]);
 

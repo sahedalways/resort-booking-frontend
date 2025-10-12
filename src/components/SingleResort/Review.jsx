@@ -3,13 +3,15 @@ import { LocalStoreContext } from "@/src/app/hooks/localstorage/LocalStoreContex
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
-const Review = ({ resortData, sectionTitle }) => {
-  const { saveReview, isLoadingSubmitting } = useContext(ResortContext);
-  const [reviews, setReviews] = useState(resortData.reviews || []);
-  const { authUserData } = useContext(LocalStoreContext);
-  const [showFull, setShowFull] = useState(false);
+const Review = ({ resortData, sectionTitle, reviews, setReviews }) => {
+  const { saveReview, isLoadingSubmitting, deleteReview, updateReview } =
+    useContext(ResortContext);
 
+  const { authUserData } = useContext(LocalStoreContext);
+  const [showFull, setShowFull] = useState({});
+  const [editingReviewId, setEditingReviewId] = useState(null);
   const [newReview, setNewReview] = useState({ rating: 0, comment: "" });
+  const [editReview, setEditReview] = useState({ rating: 0, comment: "" });
 
   const handleSubmitReview = async () => {
     if (!newReview.rating || !newReview.comment) {
@@ -29,8 +31,10 @@ const Review = ({ resortData, sectionTitle }) => {
           f_name: authUserData?.f_name,
           l_name: authUserData?.l_name,
         },
+        user_id: authUserData?.id,
         star: newReview.rating,
         comment: newReview.comment,
+        created_at: new Date().toISOString(),
       };
 
       setReviews([newReviewObj, ...reviews]);
@@ -38,63 +42,179 @@ const Review = ({ resortData, sectionTitle }) => {
     }
   };
 
+  const handleDelete = async (reviewId) => {
+    if (!confirm("Are you sure you want to delete this review?")) return;
+
+    const success = await deleteReview(reviewId);
+    if (success) {
+      setReviews(reviews.filter((r) => r.id !== reviewId));
+    }
+  };
+
+  const handleEdit = (review) => {
+    setEditingReviewId(review.id);
+    setEditReview({ rating: review.star, comment: review.comment });
+  };
+
+  const handleUpdate = async () => {
+    if (!editReview.rating || !editReview.comment) {
+      toast.error("Please provide rating and comment", {
+        autoClose: 3000,
+        theme: "colored",
+      });
+      return;
+    }
+
+    const updatedReview = await updateReview(editReview, editingReviewId);
+    if (updatedReview) {
+      setReviews(
+        reviews.map((r) =>
+          r.id === editingReviewId
+            ? {
+                ...r,
+                star: updatedReview.star,
+                comment: updatedReview.comment,
+              }
+            : r
+        )
+      );
+      setEditingReviewId(null);
+      setEditReview({ rating: 0, comment: "" });
+    }
+  };
+
   return (
-    <>
-      <div className="reviews-section">
-        <div className="col-12">
-          <h2 className="text-block-20 primary-color mb-3">{sectionTitle}</h2>
-        </div>
-        {/* Display existing reviews */}
-        {reviews?.length > 0 ? (
-          reviews.map((review) => {
-            const maxLength = 150;
-            const isLong = review.comment.length > maxLength;
-            const displayedComment = showFull
+    <div className="reviews-section">
+      <div className="col-12">
+        <h2 className="text-block-20 primary-color mb-3">{sectionTitle}</h2>
+      </div>
+
+      {reviews?.length > 0 ? (
+        reviews.map((review) => {
+          const maxLength = 150;
+          const isLong = review.comment.length > maxLength;
+          const displayedComment =
+            showFull[review.id] || editingReviewId === review.id
               ? review.comment
               : review.comment.substring(0, maxLength);
 
-            return (
-              <div
-                key={review.id}
-                className="review-card mb-3 p-3 rounded shadow-sm border-0"
-              >
-                <div className="d-flex justify-content-between align-items-center mb-2">
+          const isCurrentUser =
+            review.user.f_name === authUserData?.f_name &&
+            review.user.l_name === authUserData?.l_name;
+
+          return (
+            <div
+              key={review.id}
+              className="review-card mb-3 p-3 rounded shadow-sm border-0"
+            >
+              <div className="d-flex justify-content-between align-items-center mb-1">
+                <div>
                   <strong className="review-user">
                     {review.user.f_name} {review.user.l_name}
                   </strong>
-                  <div className="review-stars">
+                  <div className="text-muted" style={{ fontSize: "0.85rem" }}>
+                    {new Date(review.created_at).toLocaleString()}
+                  </div>
+                </div>
+
+                <div className="review-stars">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <span
+                      key={star}
+                      className={`star ${star <= review.star ? "checked" : ""}`}
+                    >
+                      ★
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {editingReviewId === review.id ? (
+                <div className="mb-2">
+                  <div className="rating-stars mb-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <span
                         key={star}
                         className={`star ${
-                          star <= review.star ? "checked" : ""
+                          star <= editReview.rating ? "checked" : ""
                         }`}
+                        onClick={() =>
+                          setEditReview({ ...editReview, rating: star })
+                        }
                       >
                         ★
                       </span>
                     ))}
                   </div>
+                  <textarea
+                    className="form-control mb-2"
+                    rows={3}
+                    value={editReview.comment}
+                    onChange={(e) =>
+                      setEditReview({ ...editReview, comment: e.target.value })
+                    }
+                  />
+                  <button
+                    className="btn btn-success btn-sm me-2"
+                    onClick={handleUpdate}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => setEditingReviewId(null)}
+                  >
+                    Cancel
+                  </button>
                 </div>
-
-                <p className="review-comment">
+              ) : (
+                <p className="review-comment mt-3 mb-4">
                   {displayedComment}
                   {isLong && (
                     <span
                       className="text-primary ms-1 cursor-pointer"
-                      onClick={() => setShowFull(!showFull)}
+                      onClick={() =>
+                        setShowFull({
+                          ...showFull,
+                          [review.id]: !showFull[review.id],
+                        })
+                      }
                     >
-                      {showFull ? "See less" : "See more"}
+                      {showFull[review.id] ? "See less" : "See more"}
                     </span>
                   )}
                 </p>
-              </div>
-            );
-          })
-        ) : (
-          <p className="text-muted">No reviews yet.</p>
-        )}
+              )}
 
-        {/* Submit review form */}
+              {authUserData?.id === review.user_id && (
+                <div className="d-flex gap-2 mt-2">
+                  {editingReviewId !== review.id && (
+                    <>
+                      <button
+                        className="btn btn-sm btn-outline-primary"
+                        onClick={() => handleEdit(review)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="btn btn-sm btn-outline-danger"
+                        onClick={() => handleDelete(review.id)}
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+          );
+        })
+      ) : (
+        <p className="text-muted">No reviews yet.</p>
+      )}
+
+      {/* Submit review form */}
+      {editingReviewId === null && (
         <div className="mt-4 review-form">
           <h5 className="mb-3">Leave a Review</h5>
           <form
@@ -122,7 +242,7 @@ const Review = ({ resortData, sectionTitle }) => {
             </div>
 
             {/* Comment */}
-            <div className="mb-3">
+            <div className="mb-3 mt-5">
               <label htmlFor="reviewComment" className="form-label">
                 Comment:
               </label>
@@ -159,57 +279,56 @@ const Review = ({ resortData, sectionTitle }) => {
             </button>
           </form>
         </div>
+      )}
 
-        {/* CSS styles */}
-        <style jsx>{`
-          .review-card {
-            background-color: #f8f9fa;
-            border-left: 4px solid var(--secondary);
-          }
+      <style jsx>{`
+        .review-card {
+          background-color: #f8f9fa;
+          border-left: 4px solid var(--secondary);
+        }
 
-          .review-user {
-            color: var(--primary-deep);
-          }
+        .review-user {
+          color: var(--primary-deep);
+        }
 
-          .review-stars .star {
-            font-size: 1.2rem;
-            color: #ccc;
-            margin-left: 2px;
-          }
+        .review-stars .star {
+          font-size: 1.2rem;
+          color: #ccc;
+          margin-left: 2px;
+        }
 
-          .review-stars .star.checked {
-            color: var(--secondary-deep);
-          }
+        .review-stars .star.checked {
+          color: var(--secondary-deep);
+        }
 
-          .rating-stars .star {
-            font-size: 1.5rem;
-            color: #ccc;
-            cursor: pointer;
-            margin-right: 5px;
-            transition: color 0.2s;
-          }
+        .rating-stars .star {
+          font-size: 1.5rem;
+          color: #ccc;
+          cursor: pointer;
+          margin-right: 5px;
+          transition: color 0.2s;
+        }
 
-          .rating-stars .star.checked {
-            color: var(--secondary-deep);
-          }
+        .rating-stars .star.checked {
+          color: var(--secondary-deep);
+        }
 
-          .review-comment {
-            font-size: 0.95rem;
-            color: #333;
-          }
+        .review-comment {
+          font-size: 0.95rem;
+          color: #333;
+        }
 
-          .review-form .btn-primary {
-            background-color: var(--secondary);
-            border-color: var(--secondary-deep);
-          }
+        .review-form .btn-primary {
+          background-color: var(--secondary);
+          border-color: var(--secondary-deep);
+        }
 
-          .review-form .btn-primary:hover {
-            background-color: var(--secondary-deep);
-            border-color: var(--primary-deep);
-          }
-        `}</style>
-      </div>
-    </>
+        .review-form .btn-primary:hover {
+          background-color: var(--secondary-deep);
+          border-color: var(--primary-deep);
+        }
+      `}</style>
+    </div>
   );
 };
 

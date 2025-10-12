@@ -7,7 +7,7 @@ import InputField from "@/src/components/InputField";
 import SubmitButton from "@/src/components/SubmitButton";
 
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
 const ChangePasswordWrapper = () => {
@@ -57,16 +57,20 @@ const ChangePasswordWrapper = () => {
     await changePassword(password, confirmPassword);
   };
 
+  const changePasswordErrorCalledRef = useRef(false);
+
   useEffect(() => {
-    if (isChangePasswordErrorMsg) {
+    if (isChangePasswordErrorMsg && !changePasswordErrorCalledRef.current) {
       toast.error(isChangePasswordErrorMsg, {
         autoClose: 3000,
         theme: "colored",
       });
       setIsChangePasswordErrorMsg("");
+      changePasswordErrorCalledRef.current = true;
+    } else if (!isChangePasswordErrorMsg) {
+      changePasswordErrorCalledRef.current = false;
     }
   }, [isChangePasswordErrorMsg]);
-
   return (
     <section className="section-gap">
       <div className="container">

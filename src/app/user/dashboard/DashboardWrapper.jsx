@@ -65,10 +65,13 @@ export function DashboardWrapper() {
     }
   };
 
+  const calledRef = useRef(false);
+
   useEffect(() => {
-    if (isLoginSuccessMsg) {
+    if (isLoginSuccessMsg && !calledRef.current) {
       toast.success(isLoginSuccessMsg, { autoClose: 3000, theme: "colored" });
       setIsLoginSuccessMsg("");
+      calledRef.current = true;
     }
   }, [isLoginSuccessMsg]);
 

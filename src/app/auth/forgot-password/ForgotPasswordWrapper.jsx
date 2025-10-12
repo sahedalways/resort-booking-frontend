@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import SubmitButton from "@/src/components/SubmitButton";
 
 import { AuthContext } from "../../hooks/api/AuthContext";
@@ -45,10 +45,16 @@ const ForgotPasswordWrapper = () => {
     await searchAccount(email);
   };
 
+  const searchAccErrorCalledRef = useRef(false);
+
   useEffect(() => {
-    if (isSearchAccErrorMsg) {
+    if (isSearchAccErrorMsg && !searchAccErrorCalledRef.current) {
       toast.error(isSearchAccErrorMsg, { autoClose: 3000, theme: "colored" });
       setIsSearchAccErrorMsg("");
+      searchAccErrorCalledRef.current = true;
+    } else if (!isSearchAccErrorMsg) {
+      // Reset ref when message cleared
+      searchAccErrorCalledRef.current = false;
     }
   }, [isSearchAccErrorMsg]);
 

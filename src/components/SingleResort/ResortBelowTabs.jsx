@@ -1,13 +1,26 @@
 import Link from "next/link";
 import ResortPolicyTable from "./ResortPolicyTable";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Room from "./tab/Room";
 import HotelRoomFacilities from "./tab/HotelRoomFacilities";
 import Map from "./tab/Map";
 import Review from "./Review";
+import { ResortContext } from "@/src/app/hooks/api/ResortContext";
 
 const ResortBelowTabs = ({ resortData, mapUrl }) => {
   const [activeTab, setActiveTab] = useState("overview");
+  const { getReviews } = useContext(ResortContext);
+  const [reviews, setReviews] = useState();
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      const reviewList = await getReviews(resortData.id);
+
+      setReviews(reviewList);
+    };
+
+    fetchReviews();
+  }, [resortData.id]);
 
   return (
     <>
@@ -142,10 +155,12 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
                       <p>No policies available.</p>
                     )}
 
-                    {resortData?.reviews ? (
+                    {resortData ? (
                       <Review
                         resortData={resortData}
                         sectionTitle="Reviews & Ratings:"
+                        reviews={reviews}
+                        setReviews={setReviews}
                       />
                     ) : (
                       <p>No reviews available.</p>
@@ -206,6 +221,8 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
                   <Review
                     resortData={resortData}
                     sectionTitle="Reviews & Ratings:"
+                    reviews={reviews}
+                    setReviews={setReviews}
                   />
                 )}
               </div>

@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { AuthContext } from "../../hooks/api/AuthContext";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import InputField from "@/src/components/InputField";
 import SubmitButton from "@/src/components/SubmitButton";
 import { useSearchParams } from "next/navigation";
@@ -25,9 +25,14 @@ const LoginClient = () => {
   const searchParams = useSearchParams();
   const message = searchParams.get("message");
 
+  const messageCalledRef = useRef(false);
+
   useEffect(() => {
-    if (message) {
-      toast.error(message);
+    if (message && !messageCalledRef.current) {
+      toast.error(message, { autoClose: 3000, theme: "colored" });
+      messageCalledRef.current = true;
+    } else if (!message) {
+      messageCalledRef.current = false; // Reset when message cleared
     }
   }, [message]);
 
@@ -93,30 +98,43 @@ const LoginClient = () => {
       }
     }
   };
+  const loginErrorCalledRef = useRef(false);
+  const logoutMessageCalledRef = useRef(false);
+  const changePasswordSuccessCalledRef = useRef(false);
 
+  // Login error
   useEffect(() => {
-    if (isLoginErrorMsg) {
+    if (isLoginErrorMsg && !loginErrorCalledRef.current) {
       toast.error(isLoginErrorMsg, { autoClose: 3000, theme: "colored" });
       setIsLoginErrorMsg("");
+      loginErrorCalledRef.current = true;
+    } else if (!isLoginErrorMsg) {
+      loginErrorCalledRef.current = false;
     }
   }, [isLoginErrorMsg]);
 
   // Logout success
   useEffect(() => {
-    if (isLogoutMessage) {
+    if (isLogoutMessage && !logoutMessageCalledRef.current) {
       toast.success(isLogoutMessage, { autoClose: 3000, theme: "colored" });
       setLogoutMessage("");
+      logoutMessageCalledRef.current = true;
+    } else if (!isLogoutMessage) {
+      logoutMessageCalledRef.current = false;
     }
   }, [isLogoutMessage]);
 
   // Change password success
   useEffect(() => {
-    if (isChangePasswordSuccessMsg) {
+    if (isChangePasswordSuccessMsg && !changePasswordSuccessCalledRef.current) {
       toast.success(isChangePasswordSuccessMsg, {
         autoClose: 3000,
         theme: "colored",
       });
       setIsChangePasswordSuccessMsg("");
+      changePasswordSuccessCalledRef.current = true;
+    } else if (!isChangePasswordSuccessMsg) {
+      changePasswordSuccessCalledRef.current = false;
     }
   }, [isChangePasswordSuccessMsg]);
 
