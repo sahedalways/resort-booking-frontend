@@ -18,6 +18,7 @@ import { CheckoutProvider } from "./hooks/api/CheckoutContext";
 import { ToastContainer } from "react-toastify";
 import { HomeProvider } from "./hooks/api/HomeContext";
 import { ResortProvider } from "./hooks/api/ResortContext";
+import { ReduxProvider } from "../redux/provider";
 
 export const revalidate = 300;
 
@@ -54,35 +55,37 @@ export default async function RootLayout({ children }) {
       </head>
 
       <body>
-        <LocalStoreProvider>
-          <ResortProvider>
-            <HomeProvider>
-              <CheckoutProvider>
-                <DashboardProvider>
-                  <AuthProvider>
-                    <Header data={headerData?.header_info} />
+        <ReduxProvider>
+          <LocalStoreProvider>
+            <ResortProvider>
+              <HomeProvider>
+                <CheckoutProvider>
+                  <DashboardProvider>
+                    <AuthProvider>
+                      <Header data={headerData?.header_info} />
 
-                    <ToastContainer
-                      position="top-center"
-                      autoClose={3000}
-                      hideProgressBar={false}
-                      newestOnTop={false}
-                      closeOnClick
-                      rtl={false}
-                      pauseOnFocusLoss
-                      draggable
-                      pauseOnHover
-                      theme="colored"
-                    />
-                    {children}
+                      <ToastContainer
+                        position="top-center"
+                        autoClose={3000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                        theme="colored"
+                      />
+                      {children}
 
-                    <Footer data={footerData} />
-                  </AuthProvider>
-                </DashboardProvider>
-              </CheckoutProvider>
-            </HomeProvider>
-          </ResortProvider>
-        </LocalStoreProvider>
+                      <Footer data={footerData} />
+                    </AuthProvider>
+                  </DashboardProvider>
+                </CheckoutProvider>
+              </HomeProvider>
+            </ResortProvider>
+          </LocalStoreProvider>
+        </ReduxProvider>
         <BootstrapClient />
       </body>
     </html>

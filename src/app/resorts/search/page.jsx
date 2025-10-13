@@ -2,8 +2,10 @@
 
 import { useSearchParams } from "next/navigation";
 import SingleResortInfo from "../[id]/SingleResortInfo";
+import { Suspense } from "react";
+import Loading from "../../../components/Loading";
 
-const SearchPage = () => {
+const SearchResults = () => {
   const searchParams = useSearchParams();
   const resultsParam = searchParams.get("results");
   const searchResults = resultsParam ? JSON.parse(resultsParam) : null;
@@ -14,6 +16,14 @@ const SearchPage = () => {
         <SingleResortInfo resortData={searchResults} />
       </div>
     </div>
+  );
+};
+
+const SearchPage = () => {
+  return (
+    <Suspense fallback={<Loading />}>
+      <SearchResults />
+    </Suspense>
   );
 };
 
