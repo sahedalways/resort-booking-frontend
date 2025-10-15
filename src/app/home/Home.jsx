@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SearchForm from "./SearchForm";
 import Features from "./Features";
 import Discount from "./Discount";
@@ -10,23 +10,6 @@ import CouponModal from "@/src/components/CouponModal";
 
 export default function Home({ homeData }) {
   const [showModal, setShowModal] = useState(false);
-
-  useEffect(() => {
-    const hasSeenCoupons = sessionStorage.getItem("hasSeenCoupons");
-
-    if (!hasSeenCoupons && homeData?.coupons?.length > 0) {
-      const timer = setTimeout(() => {
-        setShowModal(true);
-        sessionStorage.setItem("hasSeenCoupons", "true");
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-
-    if (homeData?.coupons?.length > 0) {
-      localStorage.setItem("coupons", JSON.stringify(homeData.coupons));
-    }
-  }, [homeData]);
 
   const handleCloseModal = () => setShowModal(false);
 
@@ -53,7 +36,12 @@ export default function Home({ homeData }) {
       </div>
 
       <Features featuresData={homeData?.feature_images} />
-      {homeData?.coupons && <Discount couponData={homeData?.coupons} />}
+      {homeData?.coupons && (
+        <Discount
+          couponData={homeData?.coupons}
+          onClaim={() => setShowModal(true)}
+        />
+      )}
 
       <Slider resortData={homeData?.resort_info} />
       <WhyChooseUs />

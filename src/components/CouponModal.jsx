@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
 import { toast } from "react-toastify";
 
 const CouponModal = ({ onClose, couponData }) => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
+  const [closing, setClosing] = useState(false);
 
+  // Copy coupon code to clipboard
   const copyCode = (code) => {
     try {
       navigator.clipboard.writeText(code);
@@ -20,6 +21,7 @@ const CouponModal = ({ onClose, couponData }) => {
     }
   };
 
+  // Handle toast notifications
   useEffect(() => {
     if (toastMessage) {
       switch (toastType) {
@@ -35,15 +37,20 @@ const CouponModal = ({ onClose, couponData }) => {
         default:
           toast.info(toastMessage, { autoClose: 3000, theme: "colored" });
       }
-
       setToastMessage("");
     }
   }, [toastMessage, toastType]);
 
+  // Handle close with fade-out
+  const handleClose = () => {
+    setClosing(true);
+    setTimeout(() => onClose(), 300); // match animation duration
+  };
+
   return (
     <>
       <div
-        className="modal fade show"
+        className={`modal fade show coupon-modal ${closing ? "fade-out" : ""}`}
         style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
       >
         <div className="modal-dialog modal-dialog-centered">
@@ -52,7 +59,7 @@ const CouponModal = ({ onClose, couponData }) => {
               <button
                 type="button"
                 className="btn-close shadow-none"
-                onClick={onClose}
+                onClick={handleClose}
               ></button>
             </div>
 
@@ -92,7 +99,7 @@ const CouponModal = ({ onClose, couponData }) => {
         </div>
       </div>
 
-      {/* Toast */}
+      {/* Toast handled by react-toastify */}
     </>
   );
 };

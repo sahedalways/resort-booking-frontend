@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import { toast } from "react-toastify";
 
-const Discount = ({ couponData }) => {
+const Discount = ({ couponData, onClaim }) => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
 
@@ -75,7 +75,7 @@ const Discount = ({ couponData }) => {
 
           <div className="col-lg-3">
             <div className="discount-button has-icon">
-              <button onClick={() => copyCode(coupon.code)}>
+              <button onClick={onClaim}>
                 Claim Discount
                 <span className="ms-2">
                   <FontAwesomeIcon icon={faChevronRight} />

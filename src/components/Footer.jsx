@@ -156,7 +156,29 @@ const Footer = ({ data }) => {
         </div>
 
         <div className="text-center mt-3 pt-3 border-top">
-          <small>{site_info?.copyright_text}</small>
+          <small>
+            {site_info?.copyright_text ? (
+              <>
+                {site_info.copyright_text
+                  .split("BookingXpart")
+                  .map((part, index, arr) => (
+                    <span key={index}>
+                      {part}
+                      {index < arr.length - 1 && (
+                        <a
+                          href="http://bookingxpert.org"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "#305fa5", textDecoration: "none" }}
+                        >
+                          BookingXpart
+                        </a>
+                      )}
+                    </span>
+                  ))}
+              </>
+            ) : null}
+          </small>
         </div>
       </div>
     </footer>
