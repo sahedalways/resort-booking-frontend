@@ -2,7 +2,7 @@
 
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Icon } from "@iconify/react";
 import Skeleton from "./Skeleton";
 import { LocalStoreContext } from "../app/hooks/localstorage/LocalStoreContext";
@@ -14,6 +14,12 @@ const Header = ({ data }) => {
   const { authUserData } = useContext(LocalStoreContext);
   const { handleLogout } = useContext(AuthContext);
   const isLoggedInToken = isLoggedIn();
+
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push("/user/dashboard");
+  };
 
   const logoutSubmit = () => {
     handleLogout();
@@ -33,11 +39,14 @@ const Header = ({ data }) => {
   }, [data]);
 
   // ✅ Default profile image
-  const profileImage = authUserData?.profilep?.avatar_url;
+  const profileImage = authUserData?.profile?.avatar_url;
 
   return (
     <>
-      <nav id="main-navbar" className="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+      <nav
+        id="main-navbar"
+        className="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm"
+      >
         <div className="container">
           <Link href="/" className="navbar-brand d-flex align-items-center">
             <img
@@ -172,8 +181,19 @@ const Header = ({ data }) => {
                       )}
 
                       <span
-                        className="nav-link disabled"
-                        style={{ color: "#7f8a96d8" }}
+                        className="nav-link"
+                        style={{
+                          color: "#7f8a96d8",
+                          cursor: "pointer",
+                          transition: "color 0.3s",
+                        }}
+                        onClick={handleClick}
+                        onMouseEnter={(e) =>
+                          (e.currentTarget.style.color = "#000080")
+                        } // navy blue
+                        onMouseLeave={(e) =>
+                          (e.currentTarget.style.color = "#7f8a96d8")
+                        }
                       >
                         {authUserData?.f_name} {authUserData?.l_name}
                       </span>
@@ -315,21 +335,43 @@ const Header = ({ data }) => {
 
                 {authUserData && (
                   <div className="d-flex flex-column align-items-center mt-3">
-                    {authUserData?.profile?.gender === "male" ? (
+                    {profileImage ? (
+                      <img
+                        src={profileImage}
+                        alt="Profile"
+                        className="rounded-circle mb-2"
+                        style={{
+                          width: "50px",
+                          height: "50px",
+                          objectFit: "cover",
+                        }}
+                      />
+                    ) : authUserData?.profile?.gender === "male" ? (
                       <i
-                        className="bi bi-person-fill avatar-icon"
-                        style={{ fontSize: "50px" }}
+                        className="bi bi-person-fill avatar-icon mb-2"
+                        style={{ fontSize: "50px", color: "#7f8a96d8" }}
                       ></i>
                     ) : (
                       <i
-                        className="bi bi-person-fill-up avatar-icon"
-                        style={{ fontSize: "50px" }}
+                        className="bi bi-person-fill-up avatar-icon mb-2"
+                        style={{ fontSize: "50px", color: "#7f8a96d8" }}
                       ></i>
                     )}
 
                     <span
-                      className="nav-link disabled mt-2"
-                      style={{ color: "#7f8a96d8" }}
+                      className="nav-link"
+                      style={{
+                        color: "#7f8a96d8",
+                        cursor: "pointer",
+                        transition: "color 0.3s",
+                      }}
+                      onClick={handleClick}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.color = "#000080")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.color = "#7f8a96d8")
+                      }
                     >
                       {authUserData?.f_name} {authUserData?.l_name}
                     </span>

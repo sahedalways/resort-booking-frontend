@@ -6,6 +6,7 @@ export const LocalStoreContext = createContext();
 
 export const LocalStoreProvider = ({ children }) => {
   const [authUserData, setAuthUserData] = useState(null);
+  const [authUserProfile, setAuthUserProfile] = useState(null);
   const [userId, setUserId] = useState(null);
   const [forgotPasswordIdentifier, setForgotPasswordIdentifier] =
     useState(null);
@@ -15,6 +16,7 @@ export const LocalStoreProvider = ({ children }) => {
   // Load from localStorage once on the client side
   useEffect(() => {
     const storedUserData = localStorage.getItem("bx_user_data");
+    const storedUserProfile = localStorage.getItem("bx_user_profile");
     const storedUserId = localStorage.getItem("bx_user_id");
     const forgotPasswordIdentifier = sessionStorage.getItem(
       "bx_forgot_password_identifier"
@@ -24,6 +26,10 @@ export const LocalStoreProvider = ({ children }) => {
 
     if (storedUserData) {
       setAuthUserData(JSON.parse(storedUserData));
+    }
+
+    if (storedUserProfile) {
+      setAuthUserProfile(JSON.parse(storedUserProfile));
     }
 
     if (storedUserId) {
@@ -49,6 +55,12 @@ export const LocalStoreProvider = ({ children }) => {
       localStorage.setItem("bx_user_data", JSON.stringify(authUserData));
     } else {
       localStorage.removeItem("bx_user_data");
+    }
+
+    if (authUserProfile !== null) {
+      localStorage.setItem("bx_user_profile", JSON.stringify(authUserProfile));
+    } else {
+      localStorage.removeItem("bx_user_profile");
     }
 
     if (userId !== null) {
@@ -104,6 +116,8 @@ export const LocalStoreProvider = ({ children }) => {
         setFAuthIdentifier,
         setAllowVerifyEmail,
         allowVerifyEmail,
+        authUserProfile,
+        setAuthUserProfile,
       }}
     >
       {children}

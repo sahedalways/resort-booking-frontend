@@ -13,10 +13,11 @@ export const DashboardProvider = ({ children }) => {
   const [isSuccessMsg, setIsSuccessMsg] = useState("");
   const [isErrorMsg, setIsErrorMsg] = useState("");
   const [isLoadingSubmitting, setIsLoadingSubmitting] = useState(false);
-  const [isLoadingBooking, setIsLoadingBooking] = useState(false);
-  const [bookingData, setBookingData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [bookingData, setBookingData] = useState();
+  const [profileData, setProfileData] = useState();
 
-  const { setAuthUserData } = useContext(LocalStoreContext);
+  const { setAuthUserData, setAuthUserProfile } = useContext(LocalStoreContext);
 
   const changeAvatar = async (formData) => {
     setIsSuccessMsg("");
@@ -84,7 +85,8 @@ export const DashboardProvider = ({ children }) => {
       setIsLoadingSubmitting(false);
 
       if (response.data.data) {
-        setAuthUserData(response.data.data);
+        setProfileData(response.data.data.profile);
+        setAuthUserProfile(response.data.data.profile);
       }
     } catch (error) {
       const errorData = error.response?.data;
@@ -104,23 +106,26 @@ export const DashboardProvider = ({ children }) => {
     }
   };
 
-  const getBookingHistory = async () => {
-    setIsLoadingBooking(true);
+  const getProfileOverview = async () => {
+    setIsLoading(true);
     try {
-      const response = await http.get("booking/history", {
+      const response = await http.get("/profile/overview", {
         headers: {
           Authorization: `Bearer ${isLoggedInToken}`,
         },
       });
 
-      if (response.data.data) {
-        setBookingData(response.data.data);
+      if (response.data?.data) {
+        const { profile, bookings } = response.data.data;
+        setAuthUserProfile(profile);
+        setProfileData(profile || {});
+        setBookingData(bookings || []);
       }
-      setIsLoadingBooking(false);
+      setIsLoading(false);
     } catch (error) {
       const errorData = error.response?.data;
       console.log(errorData.error);
-      setIsLoadingBooking(false);
+      setIsLoading(false);
       return false;
     }
   };
@@ -177,9 +182,10 @@ export const DashboardProvider = ({ children }) => {
         setIsErrorMsg,
         setIsSuccessMsg,
         saveProfileData,
-        getBookingHistory,
+        getProfileOverview,
         bookingData,
-        isLoadingBooking,
+        profileData,
+        isLoading,
         changePassword,
       }}
     >

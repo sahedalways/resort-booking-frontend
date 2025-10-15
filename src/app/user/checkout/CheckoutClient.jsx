@@ -12,7 +12,7 @@ const CheckoutClient = () => {
   const { isLoadingSubmitting, saveBookingInfo, isLoadingAnimation } =
     useContext(CheckoutContext);
   const isLoggedInToken = isLoggedIn();
-  const { authUserData } = useContext(LocalStoreContext);
+  const { authUserData, authUserProfile } = useContext(LocalStoreContext);
   const [bookingFor, setBookingFor] = useState("me");
   const cart = useSelector((state) => state.cart);
   const { resortName, items, bookingDetails, resortId } = cart;
@@ -60,8 +60,8 @@ const CheckoutClient = () => {
         lastName: authUserData.l_name || "",
         email: authUserData.email || "",
         mobile: authUserData.phone_no || "",
-        gender: authUserData?.profile?.gender || "",
-        dob: authUserData?.profile?.date_of_birth || "",
+        gender: authUserProfile?.gender || "",
+        dob: authUserProfile?.date_of_birth || "",
       }));
     }
   }, [authUserData]);
@@ -125,6 +125,8 @@ const CheckoutClient = () => {
       booking_for: bookingFor,
       comment: formData.comment,
       is_used_coupon: formData.coupon ? 1 : 0,
+      gender: formData.gender,
+      dob: formData.dob,
       resort_id: resortId || "",
       room_id: items[0]?.id || "",
       adult: safeGuestData?.adultGuests || 1,
@@ -313,11 +315,9 @@ const CheckoutClient = () => {
                         </label>
                         <select
                           name="gender"
-                          disabled={!!authUserData?.profile?.gender}
+                          disabled={!!authUserProfile?.gender}
                           value={
-                            authUserData?.profile?.gender ||
-                            formData.gender ||
-                            ""
+                            authUserProfile?.gender || formData.gender || ""
                           }
                           onChange={(e) =>
                             setFormData({ ...formData, gender: e.target.value })
@@ -343,7 +343,7 @@ const CheckoutClient = () => {
                           Date of Birth <span className="text-danger">*</span>
                         </label>
                         <input
-                          readOnly={!!authUserData?.profile?.dob}
+                          readOnly={!!authUserProfile?.date_of_birth}
                           type="date"
                           name="dob"
                           value={formData.dob}
@@ -351,6 +351,7 @@ const CheckoutClient = () => {
                           className={`form-control shadow-none border-0 border-bottom ${
                             errors.dob ? "is-invalid" : ""
                           }`}
+                          max={new Date().toISOString().split("T")[0]}
                         />
                         {errors.dob && (
                           <small className="text-danger">{errors.dob}</small>

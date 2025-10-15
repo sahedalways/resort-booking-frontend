@@ -1,18 +1,10 @@
 "use client";
+import React from "react";
 /* eslint-disable react/display-name */
-import { DashboardContext } from "@/src/app/hooks/api/DashboardContext";
-import React, { useContext, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-
 const BookingHistoryContent = React.forwardRef((props, ref) => {
-  const { getBookingHistory, bookingData, isLoadingBooking } =
-    useContext(DashboardContext);
-
-  useEffect(() => {
-    getBookingHistory();
-  }, []);
-
+  const { bookingData, isLoading } = props;
   // Format date
   const formatDate = (dateStr) => {
     if (!dateStr) return "N/A";
@@ -23,6 +15,8 @@ const BookingHistoryContent = React.forwardRef((props, ref) => {
       year: "numeric",
     });
   };
+
+  console.log("bookingData", bookingData);
 
   // Badge color based on status
   const getStatusBadgeClass = (status) => {
@@ -86,7 +80,7 @@ const BookingHistoryContent = React.forwardRef((props, ref) => {
       </div>
 
       {/* Booking Cards */}
-      {isLoadingBooking ? (
+      {isLoading ? (
         <div className="d-flex flex-column gap-3 mt-4">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="card shadow-sm p-3">
@@ -133,7 +127,7 @@ const BookingHistoryContent = React.forwardRef((props, ref) => {
 
               <div className="row mt-2 text-muted small">
                 <div className="col-6 col-md-3 mb-2">
-                  <strong>Room:</strong>{" "}
+                  <strong>Room / Package:</strong>{" "}
                   {item.room?.name || `Room ${item.room_id}`}
                 </div>
                 <div className="col-6 col-md-3 mb-2">

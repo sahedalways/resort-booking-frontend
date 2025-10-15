@@ -8,12 +8,19 @@ import BookingHistoryContent from "@/src/components/dashboard/BookingHistoryCont
 import SettingsContent from "@/src/components/dashboard/Settings";
 import { LocalStoreContext } from "../../hooks/localstorage/LocalStoreContext";
 import { toast } from "react-toastify";
+import { DashboardContext } from "../../hooks/api/DashboardContext";
 
 export function DashboardWrapper() {
+  const { getProfileOverview, bookingData, profileData, isLoading } =
+    useContext(DashboardContext);
   const { authUserData } = useContext(LocalStoreContext);
   const { isLoginSuccessMsg, setIsLoginSuccessMsg } = useContext(AuthContext);
   const [activeSection, setActiveSection] = useState("profile");
 
+  useEffect(() => {
+    getProfileOverview();
+  }, []);
+  console.log("profileData555", profileData);
   const profileRef = useRef(null);
   const bookingInfoRef = useRef(null);
   const settingsRef = useRef(null);
@@ -27,28 +34,6 @@ export function DashboardWrapper() {
   }, [userImage]);
 
   const SCROLL_OFFSET = 90;
-
-  // Sample bookings data
-  const [bookings] = useState([
-    {
-      id: 1,
-      resortName: "Sea View Resort",
-      rooms: 2,
-      startDate: "2025-10-12",
-      endDate: "2025-10-15",
-      price: 450,
-      status: "Confirmed",
-    },
-    {
-      id: 2,
-      resortName: "Mountain Lodge",
-      rooms: 1,
-      startDate: "2025-11-01",
-      endDate: "2025-11-03",
-      price: 300,
-      status: "Pending",
-    },
-  ]);
 
   const handleNavClick = (section, ref) => {
     setActiveSection(section);
@@ -97,10 +82,19 @@ export function DashboardWrapper() {
         {/* Right Content */}
         <div className="col-md-8">
           {/* Profile Section */}
-          <ProfileContent ref={profileRef} userData={authUserData} />
+          <ProfileContent
+            ref={profileRef}
+            userData={authUserData}
+            savedProfileInfo={profileData}
+            isLoading={isLoading}
+          />
 
           {/* Booking History Section */}
-          <BookingHistoryContent ref={bookingInfoRef} bookings={bookings} />
+          <BookingHistoryContent
+            ref={bookingInfoRef}
+            isLoading={isLoading}
+            bookingData={bookingData}
+          />
 
           {/* Settings Section */}
           <SettingsContent ref={settingsRef} userData={authUserData} />
