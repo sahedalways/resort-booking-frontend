@@ -16,11 +16,12 @@ const CheckoutClient = () => {
   const [bookingFor, setBookingFor] = useState("me");
   const cart = useSelector((state) => state.cart);
   const { resortName, items, bookingDetails, resortId } = cart;
-  const { guestData, dates } = bookingDetails || {};
+  const { guestData, dates, checkInDate } = bookingDetails || {};
   const [appliedCoupon, setAppliedCoupon] = useState(null);
   const [discountedTotal, setDiscountedTotal] = useState(
     bookingDetails?.grandTotal || 0
   );
+  const isDayLong = items[0].is_daylong;
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -85,6 +86,15 @@ const CheckoutClient = () => {
     return newErrors;
   };
 
+  const formatDate = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   // Submit Handler
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -102,8 +112,16 @@ const CheckoutClient = () => {
       room_id: items[0]?.id || "",
       adult: guestData?.adultGuests || 1,
       child: guestData?.childGuests || 0,
-      start_date: dates?.[0]?.from || "",
-      end_date: dates?.[0]?.to || "",
+      start_date: isDayLong
+        ? formatDate(checkInDate)
+        : formatDate(dates?.[0]?.from),
+      end_date: isDayLong
+        ? formatDate(
+            new Date(
+              new Date(checkInDate).setDate(new Date(checkInDate).getDate() + 1)
+            )
+          )
+        : formatDate(dates?.[0]?.to),
       amount: discountedTotal || "",
     };
 
@@ -464,36 +482,62 @@ const CheckoutClient = () => {
                           <span>Resort Name:</span>
                           <span className="fw-semibold">{resortName}</span>
                         </li>
+
                         <li className="d-flex justify-content-between py-1">
-                          <span>Room Name:</span>
-                          <span className="fw-semibold">{item.name}</span>
-                        </li>
-                        <li className="d-flex justify-content-between py-1">
-                          <span>From:</span>
+                          <span>
+                            {item.is_daylong ? "Package Type:" : "Room Name:"}
+                          </span>
                           <span className="fw-semibold">
-                            {new Date(dates[index].from).toLocaleDateString(
-                              "en-US",
-                              {
-                                day: "2-digit",
-                                month: "short",
-                                year: "numeric",
-                              }
-                            )}
+                            {item.is_daylong ? "Day Long" : item.name}
                           </span>
                         </li>
-                        <li className="d-flex justify-content-between py-1">
-                          <span>To:</span>
-                          <span className="fw-semibold">
-                            {new Date(dates[index].to).toLocaleDateString(
-                              "en-US",
-                              {
-                                day: "2-digit",
-                                month: "short",
-                                year: "numeric",
-                              }
-                            )}
-                          </span>
-                        </li>
+
+                        {item.is_daylong ? (
+                          <li className="d-flex justify-content-between py-1">
+                            <span>Check-In Date:</span>
+                            <span className="fw-semibold">
+                              {new Date(checkInDate).toLocaleDateString(
+                                "en-US",
+                                {
+                                  weekday: "short",
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                }
+                              )}
+                            </span>
+                          </li>
+                        ) : (
+                          <>
+                            <li className="d-flex justify-content-between py-1">
+                              <span>From:</span>
+                              <span className="fw-semibold">
+                                {new Date(dates[index].from).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                  }
+                                )}
+                              </span>
+                            </li>
+                            <li className="d-flex justify-content-between py-1">
+                              <span>To:</span>
+                              <span className="fw-semibold">
+                                {new Date(dates[index].to).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    day: "2-digit",
+                                    month: "short",
+                                    year: "numeric",
+                                  }
+                                )}
+                              </span>
+                            </li>
+                          </>
+                        )}
+
                         <li className="d-flex justify-content-between py-1">
                           <span>Adults:</span>
                           <span className="fw-semibold">
@@ -506,12 +550,16 @@ const CheckoutClient = () => {
                             {guestData[index].childGuests}
                           </span>
                         </li>
-                        <li className="d-flex justify-content-between py-1">
-                          <span>Night(s):</span>
-                          <span className="fw-semibold">
-                            {guestData[index].nightStay}
-                          </span>
-                        </li>
+
+                        {isDayLong == false && (
+                          <li className="d-flex justify-content-between py-1">
+                            <span>Night(s):</span>
+                            <span className="fw-semibold">
+                              {guestData[index].nightStay}
+                            </span>
+                          </li>
+                        )}
+
                         <li className="d-flex justify-content-between py-1">
                           <span>Price:</span>
                           <span className="fw-semibold">

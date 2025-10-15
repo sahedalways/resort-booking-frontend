@@ -56,6 +56,7 @@ const RoomContent = ({ room, resortName }) => {
             price: room.price,
             adult_cap: room.adult_cap,
             child_cap: room.child_cap,
+            is_daylong: room.is_daylong,
             images: room.images,
           },
         })
@@ -123,7 +124,9 @@ const RoomContent = ({ room, resortName }) => {
                     </span>
                     <span className="text-muted">:</span>
                     <span className="text-block-14-fw-md gray-text">
-                      {room.bed_type.type_name}
+                      {room.is_daylong
+                        ? "N/A"
+                        : room.bed_type?.type_name || "N/A"}
                     </span>
                   </div>
 
@@ -133,7 +136,11 @@ const RoomContent = ({ room, resortName }) => {
                     </span>
                     <span className="text-muted">:</span>
                     <span className="text-block-14-fw-md gray-text">
-                      Adult x {room.adult_cap}, Child x {room.child_cap}
+                      {room.is_daylong
+                        ? "0"
+                        : `Adult x ${room.adult_cap || 0}, Child x ${
+                            room.child_cap || 0
+                          }`}
                     </span>
                   </div>
 
@@ -143,7 +150,9 @@ const RoomContent = ({ room, resortName }) => {
                     </span>
                     <span className="text-muted">:</span>
                     <span className="text-block-14-fw-md gray-text">
-                      {room.view_type.type_name}
+                      {room.is_daylong
+                        ? "Full View"
+                        : room.view_type?.type_name || "N/A"}
                     </span>
                   </div>
 
@@ -151,7 +160,7 @@ const RoomContent = ({ room, resortName }) => {
                     <span className="text-block-14-fw-md gray-text">Area</span>
                     <span className="text-muted">:</span>
                     <span className="text-block-14-fw-md gray-text">
-                      {room.area} sqm
+                      {room.is_daylong ? "N/A" : `${room.area || "N/A"} sqm`}
                     </span>
                   </div>
                 </div>
@@ -162,7 +171,11 @@ const RoomContent = ({ room, resortName }) => {
           <div className="col-xl-8 col-lg-7">
             <div className="p-3">
               <h1 className="text-block-24 text-dark mb-3">
-                {room.name} ({room.view_type.type_name})
+                {room.name} (
+                {room.is_daylong
+                  ? "Full View"
+                  : room.view_type?.type_name || "N/A"}
+                )
               </h1>
 
               <div
@@ -192,7 +205,7 @@ const RoomContent = ({ room, resortName }) => {
                         <span className="secondary-color">
                           BDT {room.price ?? "N/A"}
                         </span>{" "}
-                        per night/room
+                        {room.is_daylong ? "per person" : "per night/room"}
                       </p>
 
                       <p className="text-block-14-fw-md gray-text mt-1">
