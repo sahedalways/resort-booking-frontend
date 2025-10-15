@@ -10,10 +10,14 @@ import ResortFilter from "@/src/components/ResortFilter";
 
 export default function ResortsPage({ resortData: initialData }) {
   const [resorts, setResorts] = useState(initialData.resort_info);
-  const [currentPage, setCurrentPage] = useState(initialData.pagination.current_page);
+  const [currentPage, setCurrentPage] = useState(
+    initialData.pagination.current_page
+  );
   const [lastPage, setLastPage] = useState(initialData.pagination.last_page);
   const [loading, setLoading] = useState(false);
-  const [filteredResorts, setFilteredResorts] = useState(initialData.resort_info);
+  const [filteredResorts, setFilteredResorts] = useState(
+    initialData.resort_info
+  );
 
   const observer = useRef();
 
@@ -59,14 +63,26 @@ export default function ResortsPage({ resortData: initialData }) {
     setFilteredResorts(filtered);
   };
 
-  if (!resorts || loading && resorts.length === 0) return <Skeleton type="resorts" />;
+  if (!resorts || (loading && resorts.length === 0))
+    return <Skeleton type="resorts" />;
+
+  const lowestPrice = Math.min(
+    ...resorts.map((r) => parseFloat(r.lowest_price || 0))
+  );
+  const highestPrice = Math.max(
+    ...resorts.map((r) => parseFloat(r.highest_price || 0))
+  );
 
   return (
     <section className="section-gap resorts border-bottom">
       <div className="container">
         <div className="row g-4">
           {/* Left Side (Filter Section) */}
-          <ResortFilter onFilterChange={handleFilterChange} />
+          <ResortFilter
+            onFilterChange={handleFilterChange}
+            minPrice={lowestPrice}
+            maxPrice={highestPrice}
+          />
 
           {/* Right Side (Resorts Content Section) */}
           <div className="col-lg-9 col-md-7">
@@ -94,10 +110,12 @@ export default function ResortsPage({ resortData: initialData }) {
 
                       {/* Resort Info */}
                       <div className="resort-info col-lg-7">
-                        <Link href={`/resorts/${resort.id}`} className="text-decoration-none">
-                        <h5 className="resort-name mb-1">{resort.name}</h5>
+                        <Link
+                          href={`/resorts/${resort.id}`}
+                          className="text-decoration-none"
+                        >
+                          <h5 className="resort-name mb-1">{resort.name}</h5>
                         </Link>
-                        
 
                         <div className="d-flex gap-4 resort-location">
                           <span>Resort - {resort.distance} km</span>
@@ -162,4 +180,3 @@ export default function ResortsPage({ resortData: initialData }) {
     </section>
   );
 }
-

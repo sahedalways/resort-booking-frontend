@@ -38,7 +38,15 @@ const SingleResortInfo = ({ resortData }) => {
         <ResortFacilities facilities={resort.facilities} />
       )}
 
-      <ResortPolicyTable resort={resortData} sectionTitle="Resort Policy" />
+      {/* <ResortPolicyTable resort={resortData} sectionTitle="Resort Policy" /> */}
+
+      <div className="container">
+        <div className="row">
+          <div className="col-md-9">
+            <h3 className="text-block-20 primary-color mt-4">Resort Policy</h3>
+          </div>
+        </div>
+      </div>
 
       {/* Night & Day Stay */}
       <ResortTimings resort={resort} />

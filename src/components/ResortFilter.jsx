@@ -1,29 +1,41 @@
 "use client";
-import { useState } from "react";
+import Slider, { Range } from "rc-slider";
+import "rc-slider/assets/index.css";
+import { useState, useEffect } from "react";
 
-const ResortFilter = ({ onFilterChange }) => {
+const ResortFilter = ({ onFilterChange, maxPrice, minPrice }) => {
   const [showFilter, setShowFilter] = useState(true);
   const [selectedRange, setSelectedRange] = useState(null);
   const [customRange, setCustomRange] = useState({
-    min: "",
-    max: "",
+    min: 0,
+    max: 0,
     enabled: false,
   });
+  const [priceRanges, setPriceRanges] = useState([]);
 
   const toggleFilter = () => setShowFilter((prev) => !prev);
 
-  // Preset price ranges
-  const priceRanges = [
-    [1_049, 4_050],
-    [4_051, 6_050],
-    [6_051, 9_050],
-    [9_051, 12_050],
-    [12_051, 15_050],
-    [15_051, 19_050],
-  ];
+  // Generate price ranges dynamically by 500
+  useEffect(() => {
+    const ranges = [];
+    let start = minPrice;
+    while (start < maxPrice) {
+      const end = Math.min(start + 499, maxPrice);
+      ranges.push([start, end]);
+      start += 500;
+    }
+    setPriceRanges(ranges);
+
+    // Set initial custom range in middle
+    setCustomRange({
+      min: Math.floor(minPrice + (maxPrice - minPrice) / 4),
+      max: Math.ceil(minPrice + ((maxPrice - minPrice) * 3) / 4),
+      enabled: false,
+    });
+  }, [minPrice, maxPrice]);
 
   const handleRangeSelect = (range) => {
-    if (selectedRange == range) {
+    if (selectedRange === range) {
       setSelectedRange(null);
       onFilterChange([]);
     } else {
@@ -32,25 +44,20 @@ const ResortFilter = ({ onFilterChange }) => {
     }
   };
 
-  // Handle custom range toggle
   const handleCustomToggle = () => {
-    const updated = { ...customRange, enabled: !customRange.enabled };
+    let updated;
+    if (!customRange.enabled) {
+      // Set handles to middle of min/max
+      const middleMin = Math.floor(minPrice + (maxPrice - minPrice) / 4);
+      const middleMax = Math.ceil(minPrice + ((maxPrice - minPrice) * 3) / 4);
+      updated = { min: middleMin, max: middleMax, enabled: true };
+      onFilterChange([`${middleMin}-${middleMax}`]);
+    } else {
+      updated = { ...customRange, enabled: false };
+      onFilterChange([]);
+    }
     setCustomRange(updated);
     setSelectedRange(null);
-    if (!updated.enabled) onFilterChange([]);
-  };
-
-  const handleCustomInput = (e) => {
-    const { name, value } = e.target;
-
-    const numericValue = value.replace(/[^0-9]/g, "");
-
-    const updated = { ...customRange, [name]: numericValue };
-    setCustomRange(updated);
-
-    if (updated.enabled && updated.min && updated.max) {
-      onFilterChange([`${updated.min}-${updated.max}`]);
-    }
   };
 
   return (
@@ -105,26 +112,31 @@ const ResortFilter = ({ onFilterChange }) => {
               </div>
             )}
 
-            {/* Custom Range Inputs */}
+            {/* Custom Range Slider */}
             {customRange.enabled && (
-              <div className="custom-range-inputs mt-2">
-                <div className="d-flex gap-2">
-                  <input
-                    type="text"
-                    name="min"
-                    placeholder="Min BDT"
-                    value={customRange.min}
-                    onChange={handleCustomInput}
-                    className="form-control form-control-sm shadow-none"
-                  />
-                  <input
-                    type="text"
-                    name="max"
-                    placeholder="Max BDT"
-                    value={customRange.max}
-                    onChange={handleCustomInput}
-                    className="form-control form-control-sm shadow-none"
-                  />
+              <div className="custom-range-slider mt-2">
+                <Range
+                  min={minPrice}
+                  max={maxPrice}
+                  step={50}
+                  value={[customRange.min, customRange.max]}
+                  onChange={(values) => {
+                    const [min, max] = values;
+                    const updated = { ...customRange, min, max };
+                    setCustomRange(updated);
+                    onFilterChange([`${min}-${max}`]);
+                  }}
+                  allowCross={false}
+                  tipFormatter={(value) => `BDT ${value.toLocaleString()}`}
+                  trackStyle={[{ backgroundColor: "#305fa5ff" }]}
+                  handleStyle={[
+                    { borderColor: "#0d6efd" },
+                    { borderColor: "#0d6efd" },
+                  ]}
+                />
+                <div className="d-flex justify-content-between mt-1">
+                  <small>Min: BDT {customRange.min}</small>
+                  <small>Max: BDT {customRange.max}</small>
                 </div>
               </div>
             )}

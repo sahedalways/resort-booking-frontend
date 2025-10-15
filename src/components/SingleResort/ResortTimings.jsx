@@ -7,19 +7,21 @@ export default function ResortTimings({ resort }) {
         <div className="row">
           {/* Night Stay */}
           <div className="col-md-6 mb-4">
-            <h5 className="text-block-20 primary-color mb-3">Night Stay</h5>
-            <div className="row gx-3">
-              <TimeBox label="Check-in" time={resort.n_check_in} />
-              <TimeBox label="Check-out" time={resort.n_check_out} />
+            <h6 className="text-block-14 primary-color mb-2">Night Stay</h6>{" "}
+            {/* smaller */}
+            <div className="row gx-2">
+              <TimeBox label="Check-in" time={resort.n_check_in} smallText />{" "}
+              {/* pass a prop */}
+              <TimeBox label="Check-out" time={resort.n_check_out} smallText />
             </div>
           </div>
 
           {/* Day Long */}
           <div className="col-md-6 mb-4">
-            <h5 className="text-block-20 primary-color mb-3">Day Long</h5>
-            <div className="row gx-3">
-              <TimeBox label="Check-in" time={resort.d_check_in} />
-              <TimeBox label="Check-out" time={resort.d_check_out} />
+            <h6 className="text-block-14 primary-color mb-2">Day Long</h6>
+            <div className="row gx-2">
+              <TimeBox label="Check-in" time={resort.d_check_in} smallText />
+              <TimeBox label="Check-out" time={resort.d_check_out} smallText />
             </div>
           </div>
         </div>

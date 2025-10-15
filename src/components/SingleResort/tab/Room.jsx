@@ -199,7 +199,7 @@ const RoomContent = ({ room, resortName }) => {
                   <div className="bg-white rounded-3 shadow p-4 border border-light-subtle">
                     <div className="mb-3">
                       <h2 className="text-block-20 mb-2">
-                        {room.package_name ?? "N/A"}
+                        {room.package_name ?? "Option 1"}
                       </h2>
                       <p className="text-block-18-fw-light  d-inline-block me-2 mb-0">
                         <span className="secondary-color">
