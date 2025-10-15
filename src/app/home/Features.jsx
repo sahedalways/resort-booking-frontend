@@ -40,7 +40,7 @@ const Features = ({ featuresData }) => {
 
         <div className="row justify-content-center">
           <div className="col-lg-8 col-md-10 col-12">
-            <div className="row g-4">
+            <div className="row g-5">
               {/* Resort Card */}
               <div className="col-12 col-md-6">
                 <Link href="/resorts" style={{ textDecoration: "none" }}>
