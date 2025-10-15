@@ -47,7 +47,7 @@ const Discount = ({ couponData }) => {
   }, [toastMessage, toastType]);
 
   return (
-    <section className="discount-section section-gap">
+    <section className="discount-section section-gap-sm">
       <div className="container">
         <div className="row align-items-center g-4">
           <div className="col-lg-2 text-lg-start text-center">

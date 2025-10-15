@@ -60,13 +60,35 @@ export default function ImageSliderModal({
       <div className="modal-content">
         {/* Close Button */}
         <button className="close-btn" onClick={onClose}>
-          &times;
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+          </svg>
         </button>
 
         {/* Image Slider */}
         <div className="slider-container">
           <button className="nav-btn prev" onClick={prevImage}>
-            &#10094;
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 18l-6-6 6-6"
+              />
+            </svg>
           </button>
 
           <div className={`image-wrapper ${fade ? "fade-in" : "fade-out"}`}>
@@ -74,7 +96,7 @@ export default function ImageSliderModal({
               src={images[currentIndex]}
               alt={`Image ${currentIndex + 1}`}
               fill
-              className="slider-image"
+              className="slider-image rounded-3"
               sizes="(max-width: 900px) 90vw, 900px"
               style={{ objectFit: "contain" }}
               priority
@@ -82,7 +104,21 @@ export default function ImageSliderModal({
           </div>
 
           <button className="nav-btn next" onClick={nextImage}>
-            &#10095;
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 6l6 6-6 6"
+              />
+            </svg>
           </button>
         </div>
 
@@ -93,6 +129,7 @@ export default function ImageSliderModal({
       </div>
 
       <style jsx>{`
+
         /* Overlay background */
         .modal-overlay {
           position: fixed;
@@ -102,7 +139,7 @@ export default function ImageSliderModal({
           display: flex;
           justify-content: center;
           align-items: center;
-          z-index: 1000;
+          z-index: 99999;
           animation: fadeIn 0.3s ease-in-out;
         }
 
@@ -154,10 +191,14 @@ export default function ImageSliderModal({
           color: #fff;
           cursor: pointer;
           width: 50px;
+          min-width: 50px;
           height: 50px;
           border-radius: 50%;
           margin: 0 15px;
           transition: all 0.3s ease;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         .nav-btn:hover {
           background: rgba(255, 255, 255, 0.3);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import Link from "next/link";
 import ResortPolicyTable from "./ResortPolicyTable";
 import Room from "./tab/Room";
@@ -14,7 +14,10 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
   const { getReviews } = useContext(ResortContext);
   const [reviews, setReviews] = useState([]);
 
-  // ✅ Fetch reviews
+  // Refs for tab links
+  const tabRefs = useRef({});
+
+  // Fetch reviews
   useEffect(() => {
     const fetchReviews = async () => {
       const reviewList = await getReviews(resortData.id);
@@ -23,7 +26,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
     fetchReviews();
   }, [resortData.id, getReviews]);
 
-  // ✅ Intersection Observer for sections (with pre-activation)
+  // Intersection Observer for sections
   useEffect(() => {
     const sections = document.querySelectorAll(
       "#overview, #rooms, #amenities, #location, #policies, #reviews"
@@ -41,7 +44,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
       },
       {
         root: null,
-        rootMargin: "-20% 0px -80% 0px", // pre-activate a little before section reaches top
+        rootMargin: "-20% 0px -80% 0px",
         threshold: 0,
       }
     );
@@ -50,7 +53,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
     return () => observer.disconnect();
   }, []);
 
-  // ✅ Fallback: activate overview near top
+  // Fallback: activate overview near top
   useEffect(() => {
     const handleTopScroll = () => {
       if (window.scrollY < 100) setActiveTab("overview");
@@ -59,7 +62,19 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
     return () => window.removeEventListener("scroll", handleTopScroll);
   }, []);
 
-  // ✅ Smooth scroll
+  // Auto horizontal scroll to active tab
+  useEffect(() => {
+    const activeTabElement = tabRefs.current[activeTab];
+    if (activeTabElement) {
+      activeTabElement.scrollIntoView({
+        behavior: "smooth",
+        inline: "center", // center active tab
+        block: "nearest",
+      });
+    }
+  }, [activeTab]);
+
+  // Smooth scroll to section
   const handleScroll = (e, id) => {
     e.preventDefault();
     if (id === "overview") {
@@ -75,30 +90,24 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
     }
   };
 
+  const tabs = ["overview", "rooms", "amenities", "location", "policies", "reviews"];
+
   return (
     <>
       {/* Sticky Tab Header */}
       <section className="overflow-x-hidden sticky-top bg-white shadow-sm zindex-10">
         <div className="row">
-          <div className="col">
+          <div className="col-12">
             <div className="custom-tab-header">
               <div className="container">
-                <nav className="nav-container d-flex flex-wrap">
-                  {[
-                    "overview",
-                    "rooms",
-                    "amenities",
-                    "location",
-                    "policies",
-                    "reviews",
-                  ].map((tab) => (
+                <nav className="nav-container d-flex overflow-auto">
+                  {tabs.map((tab) => (
                     <Link
                       key={tab}
                       href={`#${tab}`}
-                      className={`nav-link ${
-                        activeTab === tab ? "active" : ""
-                      }`}
+                      className={`nav-link ${activeTab === tab ? "active" : ""}`}
                       onClick={(e) => handleScroll(e, tab)}
+                      ref={(el) => (tabRefs.current[tab] = el)} // store ref
                     >
                       {tab.charAt(0).toUpperCase() + tab.slice(1)}
                     </Link>
@@ -137,7 +146,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
 
               <div id="location" className="mb-5">
                 {mapUrl ? (
-                  <Map mapUrl={mapUrl} sectionTitle="Explore the neighbour" />
+                  <Map mapUrl={mapUrl} sectionTitle="Explore The Neighbour" />
                 ) : (
                   <p>Map not available.</p>
                 )}

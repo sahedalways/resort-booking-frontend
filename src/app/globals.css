@@ -67,17 +67,22 @@
 
   /*###colors*/
 
-/* Font sizes */
---font-50: 50px;
---font-36: 36px;
---font-32: 32px;
---font-24: 22px;  /* updated from 24 to 22 */
---font-20: 18px;  /* updated from 20 to 18 */
---font-18: 16px;  /* updated from 18 to 16 */
---font-16: 14px;  /* updated from 16 to 14 */
---font-14: 14px;
---font-12: 12px;
-/* End font sizes */
+  /* Font sizes */
+  --font-50: 50px;
+  --font-36: 36px;
+  --font-32: 32px;
+  --font-24: 22px;
+  /* updated from 24 to 22 */
+  --font-20: 18px;
+  /* updated from 20 to 18 */
+  --font-18: 16px;
+  /* updated from 18 to 16 */
+  --font-16: 14px;
+  /* updated from 16 to 14 */
+  --font-14: 13px;
+  /* updated from 14 to 13 */
+  --font-12: 12px;
+  /* End font sizes */
 
 }
 
@@ -1345,13 +1350,13 @@ iframe {
 
 .custom-tab-header {
   background: var(--light-gray);
-  padding: 30px 0;
   overflow: auto;
 }
 
 .custom-tab-header .nav-container {
   display: flex;
   gap: 30px;
+  padding: 30px 0;
 }
 
 .custom-tab-header .nav-link {
@@ -1670,12 +1675,16 @@ img.payment-icon-table {
     --font-50: 36px;
     --font-36: 28px;
     --font-32: 24px;
-    --font-24: 20px;
-    --font-20: 18px;
-    --font-18: 16px;
-    --font-16: 15px;
-    --font-14: 13px;
+    --font-24: 18px;
+    --font-20: 16px;
+    --font-18: 14px;
+    --font-16: 13px;
+    --font-14: 12px;
     --font-12: 11px;
+  }
+
+  .btn-custom {
+    padding: 5px 10px;
   }
 
   .section-gap {
@@ -1768,6 +1777,11 @@ img.payment-icon-table {
 
   .separator {
     display: none;
+  }
+
+  .custom-tab-header .nav-container {
+    gap: 15px;
+    ;
   }
 }
 
@@ -2022,18 +2036,21 @@ img.payment-icon-table {
   background-color: var(--white);
   color: var(--black) !important;
 }
+
 .resort-tab img {
   filter: grayscale(100%);
-  transition: filter 0.3s ease; 
+  transition: filter 0.3s ease;
 }
 
 /* Resort Hover */
 .tab-btn.resort-tab:hover {
   color: var(--primary) !important;
 }
+
 .resort-tab:hover img {
-filter: grayscale(0%);
+  filter: grayscale(0%);
 }
+
 .custom-overlay-card img {
   transition: transform 0.3s ease;
 }

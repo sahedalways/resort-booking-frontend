@@ -92,7 +92,7 @@ const SearchForm = ({ resortData }) => {
   return (
     <div className="search-container">
       {/* Tabs */}
-      <div className="tab-buttons col-lg-4 col-md-6 col-10 justify-content-center">
+      <div className="tab-buttons col-lg-4 col-6 justify-content-center">
         <div
           type="button"
           className={`tab-btn resort-tab ${
@@ -265,12 +265,12 @@ const SearchForm = ({ resortData }) => {
                         </Link>
                       </div>
                       {expandedRoom === index && (
-                        <div className="room-details mt-2">
+                        <div className="room-details mt-3">
                           {/* Adults */}
-                          <div className="counter d-flex justify-content-between align-items-center mb-2 border-top pt-2">
-                            <div>
-                              <span className="fw-semibold">Adults</span>
-                              <div>10+ years</div>
+                          <div className="counter d-flex justify-content-between align-items-center mb-3 border-top pt-3">
+                            <div className="text-block-14-fw-md">
+                              <span>Adults</span>
+                              <div className="fw-normal">10+ years</div>
                             </div>
                             <div className="d-flex align-items-center">
                               <Link

@@ -184,7 +184,7 @@ const RoomContent = ({ room, resortName }) => {
               <div className="row">
                 <div className="col-12 col-xl-6 col-lg-8">
                   <div className="bg-white rounded-3 shadow p-4 border border-light-subtle">
-                    <div className="mb-4">
+                    <div className="mb-3">
                       <h2 className="text-block-20 mb-2">
                         {room.package_name ?? "N/A"}
                       </h2>
@@ -200,13 +200,13 @@ const RoomContent = ({ room, resortName }) => {
                       </p>
                     </div>
 
-                    <hr className="my-4" />
+                    <hr className="my-3" />
 
-                    <ul className="list-unstyled space-y-3 mb-4">
+                    <ul className="list-unstyled space-y-3 mb-3">
                       {room.rate_details.map((rate) => (
                         <li
                           key={rate.id}
-                          className="d-flex align-items-start text-dark mb-3"
+                          className="d-flex align-items-start text-dark mb-2"
                         >
                           <span className="icon-size me-3 mt-1 text-success">
                             {rate.is_active ? (
@@ -219,19 +219,19 @@ const RoomContent = ({ room, resortName }) => {
                             )}
                           </span>
 
-                          <span className="text-block-18-fw-md gray-text">
+                          <span className="text-block-16 fw-semibold gray-text">
                             {rate.title}
                           </span>
                         </li>
                       ))}
                     </ul>
 
-                    <p className="text-block-18-fw-md gray-text mb-3 pt-2">
+                    <p className="text-block-16 gray-text mb-3 pt-2">
                       {room.desc ?? "N/A"}
                     </p>
 
                     <button
-                      className="w-100 btn custom-btn-style fw-bold rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2"
+                      className="w-100 btn custom-btn-style fw-bold rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2 text-block-14-fw-md"
                       onClick={handleCartToggle}
                       style={{
                         background: cartItem
