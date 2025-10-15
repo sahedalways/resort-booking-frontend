@@ -129,14 +129,16 @@ const SearchForm = ({ resortData }) => {
                   <input
                     type="text"
                     className="form-control mb-3 shadow-none"
-                    placeholder="Search Resort..."
+                    placeholder="Search by Location..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                   <div className="row">
                     {resortData
                       .filter((r) =>
-                        r.name.toLowerCase().includes(searchTerm.toLowerCase())
+                        r.location
+                          .toLowerCase()
+                          .includes(searchTerm.toLowerCase())
                       )
                       .map((r) => (
                         <div className="col-12 col-lg-6 mb-2" key={r.id}>
