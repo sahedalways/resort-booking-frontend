@@ -23,8 +23,8 @@ export default function ResortGallery({ resort }) {
             <div className="gallery-container">
               <div className="main-photo">
                 <Image
-                  width={800}
-                  height={400}
+                  width={600}
+                  height={300}
                   src={mainImage}
                   alt={resort.name}
                   onClick={() => handleImageClick(0)}
