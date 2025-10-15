@@ -14,7 +14,7 @@ const HotelRoomFacilities = ({ resortData }) => {
             </div>
           </div>
 
-          <div className="row">
+          <div className="row g-4">
             {/** Group facilities by facility name */}
             {Object.values(
               resortData?.facilities?.reduce((acc, item) => {
@@ -24,7 +24,7 @@ const HotelRoomFacilities = ({ resortData }) => {
                 return acc;
               }, {})
             ).map((facility) => (
-              <div key={facility.id} className="col-lg-4 col-md-6 mb-4">
+              <div key={facility.id} className="col-lg-4 col-md-6">
                 <div className="card feature-card">
                   <div className="d-flex align-items-center mb-3">
                     <i className={`${facility.icon} feature-icon`}></i>

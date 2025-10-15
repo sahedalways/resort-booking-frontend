@@ -1266,7 +1266,6 @@ iframe {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 12px;
-  padding: 0 10px;
 }
 
 .facility-item {
@@ -1781,7 +1780,11 @@ img.payment-icon-table {
 
   .custom-tab-header .nav-container {
     gap: 15px;
-    ;
+
+  }
+
+  .resort-info {
+    padding: 10px;
   }
 }
 
