@@ -85,6 +85,7 @@ const cartSlice = createSlice({
           items: state.items,
           guestData: state.guestData,
           bookingDetails: state.bookingDetails,
+          checkInDate: state.checkInDate,
         })
       );
     },

@@ -1,5 +1,6 @@
 "use client";
 
+import DaylongDatePicker from "@/src/components/DaylongDatePicker";
 import {
   removeFromCart,
   setBookingDetails,
@@ -16,6 +17,8 @@ const CartComponent = () => {
   const cart = useSelector((state) => state.cart);
   const cartItems = cart.items;
   const resortName = cart.resortName;
+  const currDate = new Date();
+  const [checkInDate, setCheckInDate] = useState(currDate);
 
   const [guestData, setGuestData] = useState(
     cartItems.map((item) => ({
@@ -25,12 +28,20 @@ const CartComponent = () => {
     }))
   );
 
-  const handleNumberInput = (value, min, max, index, key) => {
-    const filtered = value.replace(/\D/g, "");
-    let num = Number(filtered);
-    if (num < min) num = min;
-    if (max && num > max) num = max;
+  const handleNumberInput = (value, min, max, index, key, item) => {
+    let num;
 
+    if (item?.is_daylong) {
+      const filtered = value.replace(/\D/g, "");
+      num = filtered ? Number(filtered) : 1;
+    } else {
+      const filtered = value.replace(/\D/g, "");
+      num = Number(filtered);
+      if (num < min) num = min;
+      if (max && num > max) num = max;
+    }
+
+    // Update guestData state
     setGuestData((prev) => {
       const updated = [...prev];
       updated[index] = { ...updated[index], [key]: num };
@@ -47,10 +58,16 @@ const CartComponent = () => {
       day: "numeric",
     });
 
-  const grandTotal = cartItems.reduce(
-    (sum, item, i) => sum + item.price * guestData[i].nightStay,
-    0
-  );
+  const grandTotal = cartItems.reduce((sum, item, i) => {
+    if (item?.is_daylong) {
+      const totalGuests =
+        (guestData[i]?.adultGuests || 0) + (guestData[i]?.childGuests || 0);
+      return sum + item.price * totalGuests;
+    } else {
+      const nightStay = guestData[i]?.nightStay || 0;
+      return sum + item.price * nightStay;
+    }
+  }, 0);
 
   const handleRemoveItem = (rooomId) => {
     dispatch(removeFromCart(rooomId));
@@ -64,16 +81,23 @@ const CartComponent = () => {
       return { from: today.toISOString(), to: toDate.toISOString() };
     });
 
-    const grandTotal = cartItems.reduce(
-      (sum, item, i) => sum + item.price * guestData[i].nightStay,
-      0
-    );
+    const grandTotal = cartItems.reduce((sum, item, i) => {
+      if (item?.is_daylong) {
+        const totalGuests =
+          (guestData[i]?.adultGuests || 0) + (guestData[i]?.childGuests || 0);
+        return sum + item.price * totalGuests;
+      } else {
+        const nightStay = guestData[i]?.nightStay || 0;
+        return sum + item.price * nightStay;
+      }
+    }, 0);
 
     dispatch(
       setBookingDetails({
         guestData,
         dates,
         grandTotal,
+        checkInDate,
       })
     );
 
@@ -99,8 +123,9 @@ const CartComponent = () => {
           <h1 className="cart-title">Your Cart!</h1>
         </div>
         {resortName && (
-          <p className="resort-name text-muted mb-2">
-            Resort Name : {resortName}
+          <p className="resort-name mb-2">
+            <span className="fw-semibold text-dark">Resort Name:</span>{" "}
+            <span className="badge bg-light text-dark">{resortName}</span>
           </p>
         )}
 
@@ -134,67 +159,80 @@ const CartComponent = () => {
                           <div className="col-md-8">
                             <h5 className="room-title-checkout">{item.name}</h5>
 
-                            <p className="price-per-night">
-                              <span className="currency">৳</span> {item.price} /
-                              Room/Night
+                            <p className="price-per-night d-flex align-items-center gap-2">
+                              <span className="currency fw-bold text-primary">
+                                ৳
+                              </span>
+                              <span className="fw-semibold">{item.price}</span>
+                              <span className="text-muted">-</span>
+                              <span className="badge bg-light text-dark">
+                                {item.is_daylong
+                                  ? "Per Person"
+                                  : "Night / Room"}
+                              </span>
                             </p>
 
                             {/* Night Stay Input */}
-                            <div className="d-flex align-items-center mb-3 flex-wrap gap-2">
-                              <div className="border d-flex me-2 rounded-1 align-items-center px-2">
-                                <label
-                                  htmlFor={`nightStay-${index}`}
-                                  className="me-2 item-label"
-                                  style={{ whiteSpace: "nowrap" }}
-                                >
-                                  Night Stay No
-                                </label>
-                                <input
-                                  type="number"
-                                  id={`nightStay-${index}`}
-                                  className="form-control item-input shadow-none bg-white"
-                                  value={nightStay}
-                                  onChange={(e) =>
-                                    handleNumberInput(
-                                      e.target.value,
-                                      1,
-                                      99,
-                                      index,
-                                      "nightStay"
-                                    )
-                                  }
-                                />
-                              </div>
-
-                              <div className="d-flex align-items-center border rounded-2 px-3 py-2 bg-white shadow-sm mt-2">
-                                <div className="text-center me-3">
-                                  <span className="d-block fw-semibold text-dark small">
-                                    {formatDate(today)}
-                                  </span>
-                                  <small className="text-muted text-capitalize">
-                                    {today.toLocaleDateString("en-US", {
-                                      weekday: "short",
-                                    })}
-                                  </small>
+                            {item.is_daylong == false && (
+                              <div className="d-flex align-items-center mb-3 flex-wrap gap-2">
+                                <div className="border d-flex me-2 rounded-1 align-items-center px-2">
+                                  <label
+                                    htmlFor={`nightStay-${index}`}
+                                    className="me-2 item-label"
+                                    style={{ whiteSpace: "nowrap" }}
+                                  >
+                                    Night Stay No
+                                  </label>
+                                  <input
+                                    type="number"
+                                    id={`nightStay-${index}`}
+                                    className="form-control item-input shadow-none bg-white"
+                                    value={nightStay}
+                                    onChange={(e) =>
+                                      handleNumberInput(
+                                        e.target.value,
+                                        1,
+                                        99,
+                                        index,
+                                        "nightStay"
+                                      )
+                                    }
+                                  />
                                 </div>
 
-                                <i
-                                  className="fas fa-arrow-right mx-4"
-                                  style={{ color: "#0d6efd", fontSize: "1rem" }}
-                                ></i>
+                                <div className="d-flex align-items-center border rounded-2 px-3 py-2 bg-white shadow-sm mt-2">
+                                  <div className="text-center me-3">
+                                    <span className="d-block fw-semibold text-dark small">
+                                      {formatDate(today)}
+                                    </span>
+                                    <small className="text-muted text-capitalize">
+                                      {today.toLocaleDateString("en-US", {
+                                        weekday: "short",
+                                      })}
+                                    </small>
+                                  </div>
 
-                                <div className="text-center">
-                                  <span className="d-block fw-semibold text-dark small">
-                                    {formatDate(toDate)}
-                                  </span>
-                                  <small className="text-muted text-capitalize">
-                                    {toDate.toLocaleDateString("en-US", {
-                                      weekday: "short",
-                                    })}
-                                  </small>
+                                  <i
+                                    className="fas fa-arrow-right mx-4"
+                                    style={{
+                                      color: "#0d6efd",
+                                      fontSize: "1rem",
+                                    }}
+                                  ></i>
+
+                                  <div className="text-center">
+                                    <span className="d-block fw-semibold text-dark small">
+                                      {formatDate(toDate)}
+                                    </span>
+                                    <small className="text-muted text-capitalize">
+                                      {toDate.toLocaleDateString("en-US", {
+                                        weekday: "short",
+                                      })}
+                                    </small>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
+                            )}
 
                             {/* Adults & Children */}
                             <div className="d-flex align-items-center mb-2 mt-4 gap-2">
@@ -207,7 +245,8 @@ const CartComponent = () => {
                                   Adults
                                 </label>
                                 <input
-                                  type="text"
+                                  min={1}
+                                  type="number"
                                   id={`adultNo-${index}`}
                                   className="form-control item-input shadow-none"
                                   value={adultGuests}
@@ -217,7 +256,8 @@ const CartComponent = () => {
                                       1,
                                       item.adult_cap,
                                       index,
-                                      "adultGuests"
+                                      "adultGuests",
+                                      item
                                     )
                                   }
                                 />
@@ -232,7 +272,7 @@ const CartComponent = () => {
                                   Children
                                 </label>
                                 <input
-                                  type="text"
+                                  type="number"
                                   id={`childNo-${index}`}
                                   className="form-control item-input shadow-none"
                                   value={childGuests}
@@ -250,9 +290,18 @@ const CartComponent = () => {
                             </div>
 
                             <p className="max-persons mt-3">
-                              Maximum {item.adult_cap} Adult(s) and{" "}
-                              {item.child_cap} Child(ren) can stay in this Room.
+                              {item?.is_daylong
+                                ? "Unlimited guests can be added."
+                                : `Maximum ${item.adult_cap} Adult(s) and ${item.child_cap} Child(ren) can stay in this Room.`}
                             </p>
+
+                            {item?.is_daylong == 1 && (
+                              <DaylongDatePicker
+                                checkInDate={checkInDate}
+                                setCheckInDate={setCheckInDate}
+                                today={currDate}
+                              />
+                            )}
                           </div>
                         </div>
                       </div>
@@ -266,9 +315,12 @@ const CartComponent = () => {
                           style={{ cursor: "pointer" }}
                           onClick={() => handleRemoveItem(item.id)}
                         ></i>
-                        <div className="selected-night">
-                          [{nightStay} night]
-                        </div>
+
+                        {item?.is_daylong == false && (
+                          <div className="selected-night">
+                            [{nightStay} night]
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -294,23 +346,30 @@ const CartComponent = () => {
               <div className="p-3">
                 {cartItems.map((item, i) => (
                   <div key={i} className="room-summary mb-4">
-                    <h6 className="booking-details-title">
-                      Room #{i + 1} / of {cartItems.length}
-                    </h6>
+                    {item?.is_daylong == false && (
+                      <h6 className="booking-details-title">
+                        Room #{i + 1} / of {cartItems.length}
+                      </h6>
+                    )}
+
                     <p className="room-name-detail mb-2">{item.name}</p>
-                    <p className="room-details-text mb-0">
-                      {guestData[i].nightStay} Night(s)
-                    </p>
-                    <p className="room-details-text mb-0">
-                      {formatDate(today)} -{" "}
-                      {formatDate(
-                        new Date(
-                          today.getFullYear(),
-                          today.getMonth(),
-                          today.getDate() + guestData[i].nightStay
-                        )
-                      )}
-                    </p>
+                    {item?.is_daylong == false && (
+                      <>
+                        <p className="room-details-text mb-0">
+                          {guestData[i].nightStay} Night(s)
+                        </p>
+                        <p className="room-details-text mb-0">
+                          {formatDate(today)} -{" "}
+                          {formatDate(
+                            new Date(
+                              today.getFullYear(),
+                              today.getMonth(),
+                              today.getDate() + guestData[i].nightStay
+                            )
+                          )}
+                        </p>
+                      </>
+                    )}
                     <p className="room-details-text">
                       {guestData[i].adultGuests + guestData[i].childGuests}{" "}
                       Guest(s)
@@ -325,9 +384,14 @@ const CartComponent = () => {
                       key={i}
                       className="bill-item detail-text d-flex justify-content-between border-bottom pb-3 mb-3"
                     >
-                      <span>
-                        {guestData[i].nightStay} Night(s) - {item.name}
-                      </span>
+                      {item?.is_daylong == false ? (
+                        <span>
+                          {guestData[i].nightStay} Night(s) - {item.name}
+                        </span>
+                      ) : (
+                        <span>{item.name}</span>
+                      )}
+
                       <span>৳{item.price * guestData[i].nightStay}</span>
                     </div>
                   ))}
