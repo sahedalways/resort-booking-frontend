@@ -65,7 +65,7 @@ const RoomContent = ({ room, resortName }) => {
 
   return (
     <>
-      <div key={room.id} className="overview-content mb-5">
+      <div key={room.id} className="overview-content mb-4">
         <div className="row">
           <div className="col-xl-4 col-lg-5">
             <div className="card shadow border-0 overflow-hidden">

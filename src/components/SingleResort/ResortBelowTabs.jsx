@@ -143,10 +143,10 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
           <div className="row">
             <div className="col-12">
               {/* Overview */}
-              <div id="overview" className="mb-3"></div>
+              <div id="overview" ></div>
 
               {/* Rooms */}
-              <div id="rooms" className="mb-3">
+              <div id="rooms" >
                 {resortData?.rooms?.length > 0 ? (
                   resortData.rooms.map((room) => (
                     <Room
@@ -161,7 +161,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
               </div>
 
               {/* Amenities */}
-              <div id="amenities" className="mb-3">
+              <div id="amenities" >
                 {resortData?.facilities?.length > 0 ? (
                   <HotelRoomFacilities resortData={resortData} />
                 ) : (
@@ -170,7 +170,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
               </div>
 
               {/* Location */}
-              <div id="location" className="mb-3">
+              <div id="location" >
                 {mapUrl ? (
                   <Map mapUrl={mapUrl} sectionTitle="Explore The Neighbour" />
                 ) : (
@@ -179,7 +179,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
               </div>
 
               {/* Policies */}
-              <div id="policies" className="mb-3">
+              <div id="policies" >
                 {resortData ? (
                   <ResortPolicyTable
                     resort={resortData}
@@ -191,7 +191,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
               </div>
 
               {/* Reviews */}
-              <div id="reviews" className="mb-3">
+              <div id="reviews" >
                 <Review
                   resortData={resortData}
                   reviews={reviews}

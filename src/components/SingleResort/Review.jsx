@@ -85,7 +85,7 @@ const Review = ({ resortData, sectionTitle, reviews, setReviews }) => {
   };
 
   return (
-    <div className="reviews-section">
+    <div className="reviews-section section-gap-sm">
       <div className="col-12">
         <h2 className="text-block-20 primary-color mb-3">{sectionTitle}</h2>
       </div>
