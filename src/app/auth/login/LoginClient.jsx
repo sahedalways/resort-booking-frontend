@@ -142,7 +142,7 @@ const LoginClient = () => {
     <section className="section-gap">
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-lg-6 col-md-8">
+          <div className="col-lg-4 col-md-8 col-12">
             <div className="d-flex justify-content-center align-items-center">
               <div className="card shadow-sm p-4 w-100">
                 <h4 className="text-center mb-1 fw-bold">Please Sign in</h4>

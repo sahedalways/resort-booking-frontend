@@ -62,7 +62,7 @@ const ForgotPasswordWrapper = () => {
     <section className="section-gap">
       <div className="container">
         <div className="row justify-content-center">
-          <div className="col-lg-8 col-md-10">
+          <div className="col-lg-4 col-md-8 col-12">
             <div className="d-flex justify-content-center align-items-center">
               <div
                 className="card shadow-sm p-5 w-100"

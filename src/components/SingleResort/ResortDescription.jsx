@@ -22,6 +22,7 @@ export default function ResortDescription({ resort, mapUrl }) {
                 width="100%"
                 height="200"
                 loading="lazy"
+                className="rounded-3"
               ></iframe>
             </div>
           </div>

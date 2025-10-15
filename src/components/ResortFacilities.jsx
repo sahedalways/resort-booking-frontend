@@ -13,7 +13,7 @@ export default function ResortFacilities({ facilities }) {
     : allChildFacilities.slice(0, 5);
 
   return (
-    <div className="resort-amenities my-3">
+    <div>
       {visibleFacilities.map((child, index) => (
         <span key={index} className="me-2 d-inline-block">
           <i className={`${child.icon} me-1`}></i>
@@ -25,7 +25,7 @@ export default function ResortFacilities({ facilities }) {
         <p
           onClick={() => setShowAll((prev) => !prev)}
           style={{ cursor: "pointer" }}
-          className="more-btn mt-2"
+          className="more-btn mt-2 mb-0"
         >
           {showAll ? "Show Less" : `+ ${allChildFacilities.length - 5} more`}
         </p>

@@ -67,17 +67,18 @@
 
   /*###colors*/
 
-  /* font size */
-  --font-50: 50px;
-  --font-36: 36px;
-  --font-32: 32px;
-  --font-24: 24px;
-  --font-20: 20px;
-  --font-18: 18px;
-  --font-16: 16px;
-  --font-14: 14px;
-  --font-12: 12px;
-  /* ###font size */
+/* Font sizes */
+--font-50: 50px;
+--font-36: 36px;
+--font-32: 32px;
+--font-24: 22px;  /* updated from 24 to 22 */
+--font-20: 18px;  /* updated from 20 to 18 */
+--font-18: 16px;  /* updated from 18 to 16 */
+--font-16: 14px;  /* updated from 16 to 14 */
+--font-14: 14px;
+--font-12: 12px;
+/* End font sizes */
+
 }
 
 body {
@@ -319,19 +320,19 @@ nav.navbar {
 
 .form-field-wrapper {
   background-color: var(--white);
-  padding: 1rem;
+  padding: 5px 10px;
   border-radius: 8px;
   border: 1px solid var(--primary);
   cursor: pointer;
 }
 
 .form-field-wrapper .label {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 400;
 }
 
 .form-field-wrapper .value {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: 700;
 }
 
@@ -414,16 +415,13 @@ nav.navbar {
 }
 
 .search-container .btn.custom-btn-style {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: 600;
   padding: 13px 41px;
+  border: 0;
 }
 
-.tab-btn.active {
-  background-color: unset;
-  color: var(--secondary);
-  box-shadow: none;
-}
+
 
 .location {
   cursor: pointer;
@@ -441,8 +439,6 @@ nav.navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
-  cursor: pointer;
 }
 
 .rooms-dropdown {
@@ -462,6 +458,8 @@ nav.navbar {
 .room-title {
   font-size: var(--font-16);
   font-weight: 700;
+  cursor: pointer;
+  width: 100%;
 }
 
 .person-count {
@@ -478,7 +476,7 @@ nav.navbar {
 
 button.btn-link {
   font-size: var(--font-14);
-  padding: 6px 12px;
+  padding: 5px 10px;
   border: 1px solid var(--primary);
   text-decoration: none;
   border-radius: 5px;
@@ -717,7 +715,7 @@ button.btn-link.active {
 }
 
 .mySwiper .swiper-slide {
-  height: 300px;
+  height: 400px;
   transition: transform 0.5s ease;
 }
 
@@ -1036,7 +1034,7 @@ button.btn-link.active {
 }
 
 .resort-image img {
-  height: 200px;
+  height: 100%;
   object-fit: cover;
   object-position: center top;
   width: 100%;
@@ -1197,7 +1195,7 @@ button.btn-link.active {
 }
 
 @media (max-width: 768px) {
-  .gallery-container{
+  .gallery-container {
     height: auto;
   }
 
@@ -1269,8 +1267,7 @@ iframe {
 .facility-item {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 15px 5px;
+  padding: 15px;
   border-radius: 6px;
   background-color: var(--facility-item-bg);
   border: 1px solid var(--facility-item-border);
@@ -2011,12 +2008,7 @@ img.payment-icon-table {
   text-decoration: none !important;
 }
 
-/* Resort Hover */
-.tab-btn.resort-tab:hover {
-  background-color: #f0f8ff;
-  color: #000 !important;
-  border-color: #0083bb;
-}
+
 
 /* Event Hover */
 .tab-btn.event-tab:hover {
@@ -2027,11 +2019,21 @@ img.payment-icon-table {
 
 /* Active States */
 .tab-btn.active {
-  background-color: #0083bb;
-  color: #fff !important;
-  border-color: #0083bb;
+  background-color: var(--white);
+  color: var(--black) !important;
+}
+.resort-tab img {
+  filter: grayscale(100%);
+  transition: filter 0.3s ease; 
 }
 
+/* Resort Hover */
+.tab-btn.resort-tab:hover {
+  color: var(--primary) !important;
+}
+.resort-tab:hover img {
+filter: grayscale(0%);
+}
 .custom-overlay-card img {
   transition: transform 0.3s ease;
 }
