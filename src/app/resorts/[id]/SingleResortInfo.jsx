@@ -30,8 +30,7 @@ const SingleResortInfo = ({ resortData }) => {
       {/* Gallery */}
       <ResortGallery resort={resort} />
 
-      {/* Description & Map */}
-      <ResortDescription resort={resort} mapUrl={mapUrl} />
+
 
       {/* Facilities */}
       {resort?.facilities?.length > 0 && (

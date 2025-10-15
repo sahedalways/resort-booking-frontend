@@ -8,6 +8,7 @@ import HotelRoomFacilities from "./tab/HotelRoomFacilities";
 import Map from "./tab/Map";
 import Review from "./Review";
 import { ResortContext } from "@/src/app/hooks/api/ResortContext";
+import ResortDescription from "./ResortDescription";
 
 const ResortBelowTabs = ({ resortData, mapUrl }) => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -143,7 +144,9 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
           <div className="row">
             <div className="col-12">
               {/* Overview */}
-              <div id="overview" ></div>
+              <div id="overview">
+                <ResortDescription resort={resortData} mapUrl={mapUrl} />
+              </div>
 
               {/* Rooms */}
               <div id="rooms" >
