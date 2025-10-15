@@ -81,10 +81,16 @@ const CartComponent = () => {
       return { from: today.toISOString(), to: toDate.toISOString() };
     });
 
-    const grandTotal = cartItems.reduce(
-      (sum, item, i) => sum + item.price * guestData[i].nightStay,
-      0
-    );
+    const grandTotal = cartItems.reduce((sum, item, i) => {
+      if (item?.is_daylong) {
+        const totalGuests =
+          (guestData[i]?.adultGuests || 0) + (guestData[i]?.childGuests || 0);
+        return sum + item.price * totalGuests;
+      } else {
+        const nightStay = guestData[i]?.nightStay || 0;
+        return sum + item.price * nightStay;
+      }
+    }, 0);
 
     dispatch(
       setBookingDetails({

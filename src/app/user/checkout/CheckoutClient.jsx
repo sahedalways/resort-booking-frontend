@@ -16,12 +16,29 @@ const CheckoutClient = () => {
   const [bookingFor, setBookingFor] = useState("me");
   const cart = useSelector((state) => state.cart);
   const { resortName, items, bookingDetails, resortId } = cart;
-  const { guestData, dates, checkInDate } = bookingDetails || {};
   const [appliedCoupon, setAppliedCoupon] = useState(null);
-  const [discountedTotal, setDiscountedTotal] = useState(
-    bookingDetails?.grandTotal || 0
-  );
+
   const isDayLong = items[0].is_daylong;
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+
+  // Safe bookingDetails destructuring with defaults
+  const safeBookingDetails = bookingDetails || {};
+  const safeGuestData =
+    safeBookingDetails.guestData?.length > 0
+      ? safeBookingDetails.guestData
+      : [{ adultGuests: 1, childGuests: 0, nightStay: 1 }];
+  const safeDates =
+    safeBookingDetails.dates?.length > 0
+      ? safeBookingDetails.dates
+      : [{ from: today.toISOString(), to: tomorrow.toISOString() }];
+  const safeCheckInDate = safeBookingDetails.checkInDate || today;
+  const safeGrandTotal =
+    safeBookingDetails?.grandTotal || items?.[0]?.price || 0;
+
+  const [discountedTotal, setDiscountedTotal] = useState(safeGrandTotal || 0);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -110,18 +127,20 @@ const CheckoutClient = () => {
       is_used_coupon: formData.coupon ? 1 : 0,
       resort_id: resortId || "",
       room_id: items[0]?.id || "",
-      adult: guestData?.adultGuests || 1,
-      child: guestData?.childGuests || 0,
+      adult: safeGuestData?.adultGuests || 1,
+      child: safeGuestData?.childGuests || 0,
       start_date: isDayLong
-        ? formatDate(checkInDate)
-        : formatDate(dates?.[0]?.from),
+        ? formatDate(safeCheckInDate)
+        : formatDate(safeDates?.[0]?.from),
       end_date: isDayLong
         ? formatDate(
             new Date(
-              new Date(checkInDate).setDate(new Date(checkInDate).getDate() + 1)
+              new Date(safeCheckInDate).setDate(
+                new Date(safeCheckInDate).getDate() + 1
+              )
             )
           )
-        : formatDate(dates?.[0]?.to),
+        : formatDate(safeDates?.[0]?.to),
       amount: discountedTotal || "",
     };
 
@@ -496,7 +515,7 @@ const CheckoutClient = () => {
                           <li className="d-flex justify-content-between py-1">
                             <span>Check-In Date:</span>
                             <span className="fw-semibold">
-                              {new Date(checkInDate).toLocaleDateString(
+                              {new Date(safeCheckInDate).toLocaleDateString(
                                 "en-US",
                                 {
                                   weekday: "short",
@@ -512,27 +531,25 @@ const CheckoutClient = () => {
                             <li className="d-flex justify-content-between py-1">
                               <span>From:</span>
                               <span className="fw-semibold">
-                                {new Date(dates[index].from).toLocaleDateString(
-                                  "en-US",
-                                  {
-                                    day: "2-digit",
-                                    month: "short",
-                                    year: "numeric",
-                                  }
-                                )}
+                                {new Date(
+                                  safeDates[index].from
+                                ).toLocaleDateString("en-US", {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                })}
                               </span>
                             </li>
                             <li className="d-flex justify-content-between py-1">
                               <span>To:</span>
                               <span className="fw-semibold">
-                                {new Date(dates[index].to).toLocaleDateString(
-                                  "en-US",
-                                  {
-                                    day: "2-digit",
-                                    month: "short",
-                                    year: "numeric",
-                                  }
-                                )}
+                                {new Date(
+                                  safeDates[index].to
+                                ).toLocaleDateString("en-US", {
+                                  day: "2-digit",
+                                  month: "short",
+                                  year: "numeric",
+                                })}
                               </span>
                             </li>
                           </>
@@ -541,13 +558,13 @@ const CheckoutClient = () => {
                         <li className="d-flex justify-content-between py-1">
                           <span>Adults:</span>
                           <span className="fw-semibold">
-                            {guestData[index].adultGuests}
+                            {safeGuestData[index].adultGuests}
                           </span>
                         </li>
                         <li className="d-flex justify-content-between py-1">
                           <span>Children:</span>
                           <span className="fw-semibold">
-                            {guestData[index].childGuests}
+                            {safeGuestData[index].childGuests}
                           </span>
                         </li>
 
@@ -555,7 +572,7 @@ const CheckoutClient = () => {
                           <li className="d-flex justify-content-between py-1">
                             <span>Night(s):</span>
                             <span className="fw-semibold">
-                              {guestData[index].nightStay}
+                              {safeGuestData[index].nightStay}
                             </span>
                           </li>
                         )}
@@ -563,7 +580,7 @@ const CheckoutClient = () => {
                         <li className="d-flex justify-content-between py-1">
                           <span>Price:</span>
                           <span className="fw-semibold">
-                            ৳{item.price * guestData[index].nightStay}
+                            ৳{item.price * safeGuestData[index].nightStay}
                           </span>
                         </li>
                       </ul>
@@ -574,10 +591,7 @@ const CheckoutClient = () => {
                     <div className="d-flex justify-content-between align-items-center">
                       <h6 className="mb-0 fw-bold">Total Price:</h6>
                       <span className="fw-bold fs-5 text-success">
-                        ৳
-                        {appliedCoupon
-                          ? discountedTotal
-                          : bookingDetails.grandTotal}
+                        ৳{appliedCoupon ? discountedTotal : safeGrandTotal}
                       </span>
                     </div>
                     <p className="text-muted small mt-2 mb-0">
