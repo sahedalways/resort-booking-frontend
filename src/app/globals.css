@@ -772,11 +772,9 @@ button.btn-link.active {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    var(--overlay-bg-dark),
-    var(--overlay-bg-darker)
-  );
+  background: linear-gradient(to bottom,
+      var(--overlay-bg-dark),
+      var(--overlay-bg-darker));
   display: flex;
   align-items: flex-end;
   padding: 15px;
@@ -977,11 +975,11 @@ button.btn-link.active {
   transition: 0.3s;
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background-color: var(--primary);
 }
 
-.switch input:checked + .slider:before {
+.switch input:checked+.slider:before {
   transform: translateX(16px);
 }
 
@@ -1117,7 +1115,7 @@ button.btn-link.active {
   align-items: center;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
   content: none !important;
 }
 
@@ -1590,7 +1588,7 @@ img.payment-icon-table {
 
 /* about us style */
 
-.aboutus-header {
+/*.aboutus-header {
   background-image: url("https://img.freepik.com/free-vector/realistic-travel-background-with-elements_52683-77784.jpg?semt=ais_hybrid&w=740&q=80");
   background-size: cover;
   background-position: center;
@@ -1607,6 +1605,10 @@ img.payment-icon-table {
   position: absolute;
   inset: 0;
   background-color: var(--overlay-bg-dark);
+}*/
+
+.about-sec {
+  background: #ebf0f4;
 }
 
 /* ###about us style */
@@ -2519,12 +2521,10 @@ img.payment-icon-table {
   left: -100%;
   height: 100%;
   width: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%);
   animation: loading 1.5s infinite;
 }
 
