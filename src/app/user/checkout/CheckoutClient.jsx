@@ -18,7 +18,7 @@ const CheckoutClient = () => {
   const { resortName, items, bookingDetails, resortId } = cart;
   const [appliedCoupon, setAppliedCoupon] = useState(null);
 
-  const isDayLong = items[0].is_daylong;
+  const isDayLong = items[0]?.is_daylong;
 
   const today = new Date();
   const tomorrow = new Date(today);
@@ -505,14 +505,14 @@ const CheckoutClient = () => {
 
                         <li className="d-flex justify-content-between py-1">
                           <span>
-                            {item.is_daylong ? "Package Type:" : "Room Name:"}
+                            {item?.is_daylong ? "Package Type:" : "Room Name:"}
                           </span>
                           <span className="fw-semibold">
-                            {item.is_daylong ? "Day Long" : item.name}
+                            {item?.is_daylong ? "Day Long" : item.name}
                           </span>
                         </li>
 
-                        {item.is_daylong ? (
+                        {item?.is_daylong ? (
                           <li className="d-flex justify-content-between py-1">
                             <span>Check-In Date:</span>
                             <span className="fw-semibold">
