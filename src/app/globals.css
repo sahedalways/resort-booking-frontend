@@ -1613,6 +1613,74 @@ img.payment-icon-table {
 
 /* ###about us style */
 
+/* why choose us */
+.icon-box {
+  width: 50px;
+  /* Default size for icon container */
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  /* Slightly rounded corners */
+  margin-bottom: 1rem;
+}
+
+.icon-box svg {
+  font-size: 1.25rem;
+  /* Default icon size */
+  color: white;
+}
+
+/* Larger icon box for the middle item */
+.icon-box.middle-icon {
+  width: 70px;
+  /* Larger size */
+  height: 70px;
+}
+
+.icon-box.middle-icon i {
+  font-size: 2rem;
+  /* Larger icon size */
+}
+
+/* Specific colors from the image */
+.color-red {
+  background-color: #e54c4c;
+  /* Reddish-orange */
+}
+
+.color-blue {
+  background-color: #3b50c0;
+  /* Deep blue */
+}
+
+.color-green {
+  background-color: #28a745;
+  /* Green - adjusted to a standard shade */
+}
+
+.feature-number {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #ccc;
+  /* Light gray for the numbers */
+  margin-bottom: 0.5rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  /* Spacing between the icon/text and the number */
+}
+
+.feature-content {
+  flex-grow: 1;
+}
+
+/* ###why choose us */
+
 /* refund policy */
 .refund-header {
   background-image: url("https://png.pngtree.com/thumb_back/fh260/back_our/20190622/ourmid/pngtree-travel-summer-travel-blue-cartoon-poster-background-image_231684.jpg");

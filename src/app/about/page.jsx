@@ -27,7 +27,7 @@ const AboutUs = () => {
             <div className="card border-0">
               <div className="card-body p-4">
                 <div>
-                  <div className="mb-5">
+                  <div className="mb-lg-5 mb-md-4">
                     <h3 className="text-block-24 fw-bold mb-3 primary-color">
                       About us
                     </h3>
@@ -74,7 +74,7 @@ const AboutUs = () => {
                     </p>
                   </div>
 
-                  <div className="mb-5">
+                  <div className="mb-lg-5 mb-md-4">
                     <h3 className="text-block-24 mb-3 primary-color fw-bold">
                       Our Offices
                     </h3>
