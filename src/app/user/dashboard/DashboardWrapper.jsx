@@ -20,7 +20,7 @@ export function DashboardWrapper() {
   useEffect(() => {
     getProfileOverview();
   }, []);
-  console.log("profileData555", profileData);
+
   const profileRef = useRef(null);
   const bookingInfoRef = useRef(null);
   const settingsRef = useRef(null);

@@ -2,16 +2,12 @@
 
 import Skeleton from "@/src/components/Skeleton";
 import Image from "next/image";
-import LightGallery from "lightgallery/react";
 
 // import styles
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
 import Contact from "../../contact/page";
-
-import lgThumbnail from "lightgallery/plugins/thumbnail";
-import lgZoom from "lightgallery/plugins/zoom";
 import ImageGallery from "@/src/components/ImageGallery";
 
 export default function SingleEventServicePage({ eventData }) {
