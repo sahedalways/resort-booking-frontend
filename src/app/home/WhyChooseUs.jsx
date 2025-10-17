@@ -22,15 +22,15 @@ const WhyChooseUs = () => {
           </div>
         </div>
 
-        <div className="row g-5 text-start justify-content-center py-5">
+        <div className="row g-lg-5 g-4 text-start justify-content-center py-5">
           {/* Feature 1 - Trust */}
           <div className="col-lg-4 col-md-6">
             <div className="feature-item">
               <div className="feature-content">
                 <div className="icon-box color-red">
-                  <FontAwesomeIcon icon={faHandshake} size="2x" />
+                  <FontAwesomeIcon icon={faHandshake}  />
                 </div>
-                <h5 className="fw-bold mt-2">You Can Trust</h5>
+                <h5 className="text-block-24 fw-bold mt-2">You Can Trust</h5>
                 <p className="text-secondary">
                   With over <strong>[X]</strong> years of experience, our team of
                   travel experts has traversed the globe.
@@ -42,12 +42,12 @@ const WhyChooseUs = () => {
 
           {/* Feature 2 - Tailored for You */}
           <div className="col-lg-4 col-md-6">
-            <div className="feature-item mt-5">
+            <div className="feature-item mt-lg-5">
               <div className="feature-content">
                 <div className="icon-box color-blue middle-icon">
-                  <FontAwesomeIcon icon={faShieldHeart} size="3x" />
+                  <FontAwesomeIcon icon={faShieldHeart}  />
                 </div>
-                <h5 className="fw-bold mt-2">Tailored for You</h5>
+                <h5 className="text-block-24 fw-bold mt-2">Tailored for You</h5>
                 <p className="text-secondary">
                   We believe in the power of personalized travel. Your journey
                   should reflect your unique desires and interests.
@@ -62,9 +62,9 @@ const WhyChooseUs = () => {
             <div className="feature-item">
               <div className="feature-content">
                 <div className="icon-box color-green">
-                  <FontAwesomeIcon icon={faStar} size="2x" />
+                  <FontAwesomeIcon icon={faStar} />
                 </div>
-                <h5 className="fw-bold mt-2">Safety and Quality</h5>
+                <h5 className="text-block-24 fw-bold mt-2">Safety and Quality</h5>
                 <p className="text-secondary">
                   Your well-being is at the heart of everything we do. We adhere
                   to the highest safety and quality standards.

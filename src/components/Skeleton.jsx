@@ -78,62 +78,66 @@ const Skeleton = ({ type, className = "" }) => {
 
       case "searchForm":
         return (
-          <div className="search-container">
-            {/* Tabs */}
-            <div className="tab-buttons col-lg-4 col-md-6 col-10 d-flex gap-2 mb-3">
-              {[...Array(2)].map((_, i) => (
-                <div
-                  key={i}
-                  className="skeleton skeleton-tab"
-                  style={{
-                    width: "100px",
-                    height: "40px",
-                    borderRadius: "8px",
-                  }}
-                ></div>
-              ))}
-            </div>
-
-            {/* Form Fields */}
-            <div className="form-content">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="row g-3 mb-3">
-                  {[...Array(3)].map((__, j) => (
-                    <div key={j} className="col-lg-4 col-12">
-                      <div
-                        className="skeleton"
-                        style={{
-                          width: "100%",
-                          height: "50px",
-                          borderRadius: "6px",
-                        }}
-                      ></div>
-                    </div>
+          <div className="row">
+            <div className="col-md-10 mx-auto">
+              <div className="search-container">
+                {/* Tabs */}
+                <div className="tab-buttons col-lg-4 col-md-6 col-10 d-flex gap-2 mb-3">
+                  {[...Array(2)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="skeleton skeleton-tab"
+                      style={{
+                        width: "100px",
+                        height: "40px",
+                        borderRadius: "8px",
+                      }}
+                    ></div>
                   ))}
                 </div>
-              ))}
 
-              {/* Rooms & Guests / Calendar Dropdown Skeleton */}
-              <div
-                className="skeleton"
-                style={{
-                  height: "100px",
-                  borderRadius: "8px",
-                  marginBottom: "15px",
-                }}
-              ></div>
+                {/* Form Fields */}
+                <div className="form-content">
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} className="row g-3 mb-3">
+                      {[...Array(3)].map((__, j) => (
+                        <div key={j} className="col-lg-4 col-12">
+                          <div
+                            className="skeleton"
+                            style={{
+                              width: "100%",
+                              height: "50px",
+                              borderRadius: "6px",
+                            }}
+                          ></div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
 
-              {/* Search Button Skeleton */}
-              <div className="text-center mt-3">
-                <div
-                  className="skeleton"
-                  style={{
-                    width: "150px",
-                    height: "45px",
-                    borderRadius: "6px",
-                    margin: "0 auto",
-                  }}
-                ></div>
+                  {/* Rooms & Guests / Calendar Dropdown Skeleton */}
+                  <div
+                    className="skeleton"
+                    style={{
+                      height: "100px",
+                      borderRadius: "8px",
+                      marginBottom: "15px",
+                    }}
+                  ></div>
+
+                  {/* Search Button Skeleton */}
+                  <div className="text-center mt-3">
+                    <div
+                      className="skeleton"
+                      style={{
+                        width: "150px",
+                        height: "45px",
+                        borderRadius: "6px",
+                        margin: "0 auto",
+                      }}
+                    ></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -141,7 +145,7 @@ const Skeleton = ({ type, className = "" }) => {
 
       case "features":
         return (
-          <section className="features-section section-gap">
+          <section className="features-section section-gap overflowX-hidden">
             <div className="container">
               {/* Section header skeleton */}
               <div className="row mb-4">
