@@ -133,9 +133,13 @@ const BookingHistoryContent = React.forwardRef((props, ref) => {
                 <div className="col-6 col-md-3 mb-2">
                   <strong>Check In:</strong> {formatDate(item.start_date)}
                 </div>
-                <div className="col-6 col-md-3 mb-2">
-                  <strong>Check Out:</strong> {formatDate(item.end_date)}
-                </div>
+
+                {item.room?.name !== "Day Long" && (
+                  <div className="col-6 col-md-3 mb-2">
+                    <strong>Check Out:</strong> {formatDate(item.end_date)}
+                  </div>
+                )}
+
                 <div className="col-6 col-md-3 mb-2">
                   <strong>Total Price:</strong> ৳{" "}
                   {parseFloat(item.amount || 0).toFixed(2)}
