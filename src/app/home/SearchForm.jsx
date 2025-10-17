@@ -90,287 +90,296 @@ const SearchForm = ({ resortData }) => {
   };
 
   return (
-    <div className="search-container">
-      {/* Tabs */}
-      <div className="tab-buttons col-lg-4 col-6 justify-content-center">
-        <div
-          type="button"
-          className={`tab-btn resort-tab ${
-            activeTab === "resort" ? "active" : ""
-          }`}
-          onClick={() => setActiveTab("resort")}
-        >
-          <Image
-            src="/img/resort_icon.png"
-            width={30}
-            height={30}
-            alt="Resort Icon"
-          />
-          Resort
-        </div>
-      </div>
-
-      <div className="form-content">
-        <form onSubmit={handleSubmit} className="position-relative">
-          <div className="row g-3">
-            {/* Resort Selection */}
-            <div className="col-lg-3 col-12" ref={locationRef}>
-              <div
-                className="form-field-wrapper"
-                onClick={() => setLocationOpen(!locationOpen)}
-              >
-                <span className="label">Resort/Area</span>
-                <div className="value">
-                  {selectedResort.name || "Select Resort"}
-                </div>
-              </div>
-              {locationOpen && (
-                <div className="location-dropdown shadow p-3 mt-2 bg-white rounded position-absolute col-lg-8">
-                  <input
-                    type="text"
-                    className="form-control mb-3 shadow-none"
-                    placeholder="Search by Location..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <div className="row">
-                    {resortData
-                      .filter((r) =>
-                        r.location
-                          .toLowerCase()
-                          .includes(searchTerm.toLowerCase())
-                      )
-                      .map((r) => (
-                        <div className="col-12 col-lg-6 mb-2" key={r.id}>
-                          <Link
-                            href="#"
-                            className={`btn w-100 text-start d-flex align-items-center ${
-                              selectedResort.id === r.id
-                                ? "btn-primary"
-                                : "btn-outline-secondary"
-                            }`}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleSelectResort(r);
-                            }}
-                          >
-                            {r.images[0] && (
-                              <Image
-                                src={r.images[0].image}
-                                width={40}
-                                height={40}
-                                alt={r.name}
-                                className="me-2"
-                              />
-                            )}
-                            <div>
-                              <h5>{r.name}</h5>
-                              <p>{r.location}</p>
-                            </div>
-                          </Link>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Check In */}
-            <div className="col-lg-3 col-12 position-relative">
-              <div
-                className="form-field-wrapper"
-                onClick={() => setCheckInOpen(!checkInOpen)}
-              >
-                <span className="label">Check In</span>
-                <div className="value">{formatDate(checkInDate)}</div>
-              </div>
-
-              {checkInOpen && (
-                <div className="calendar-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
-                  <Calendar
-                    date={checkInDate}
-                    onChange={(date) => setCheckInDate(date)}
-                    months={1}
-                    direction="vertical"
-                  />
-                  <button
-                    className="btn btn-primary mt-2 w-100"
-                    onClick={() => setCheckInOpen(false)}
-                  >
-                    Done
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Check Out */}
-            <div className="col-lg-3 col-12 position-relative">
-              <div
-                className="form-field-wrapper"
-                onClick={() => setCheckOutOpen(!checkOutOpen)}
-              >
-                <span className="label">Check Out</span>
-                <div className="value">{formatDate(checkOutDate)}</div>
-              </div>
-
-              {checkOutOpen && (
-                <div className="calendar-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
-                  <Calendar
-                    date={checkOutDate}
-                    onChange={(date) => setCheckOutDate(date)}
-                    months={1}
-                    direction="vertical"
-                  />
-                  <button
-                    className="btn btn-primary mt-2 w-100"
-                    onClick={() => setCheckOutOpen(false)}
-                  >
-                    Done
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Rooms & Guests */}
-            <div className="col-lg-3 col-12 position-relative" ref={roomsRef}>
-              <div
-                className="form-field-wrapper"
-                onClick={() => setRoomsOpen(!roomsOpen)}
-              >
-                <span className="label">Rooms & Guests</span>
-                <div className="value">
-                  {rooms.length} Room, {getTotalGuests()} Guests
-                </div>
-              </div>
-              {roomsOpen && (
-                <div className="rooms-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
-                  {rooms.map((room, index) => (
-                    <div
-                      key={index}
-                      className="room-item mb-3 border-bottom pb-3"
-                    >
-                      <div className="room-header d-flex justify-content-between">
-                        <div
-                          className="room-title"
-                          onClick={() =>
-                            setExpandedRoom(expandedRoom === index ? -1 : index)
-                          }
-                        >
-                          Room {index + 1}
-                        </div>
-                        <Link
-                          href="#"
-                          className="ms-2"
-                          onClick={() => deleteRoom(index)}
-                        >
-                          <i className="bi bi-trash3 text-danger"></i>
-                        </Link>
-                      </div>
-                      {expandedRoom === index && (
-                        <div className="room-details mt-3">
-                          {/* Adults */}
-                          <div className="counter d-flex justify-content-between align-items-center mb-3 border-top pt-3">
-                            <div className="text-block-14-fw-md">
-                              <span>Adults</span>
-                              <div className="fw-normal">10+ years</div>
-                            </div>
-                            <div className="d-flex align-items-center">
-                              <Link
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  handleGuestChange(index, "adults", -1);
-                                }}
-                              >
-                                <i className="bi bi-dash-circle"></i>
-                              </Link>
-                              <span className="mx-2">{room.adults}</span>
-                              <Link
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  handleGuestChange(index, "adults", 1);
-                                }}
-                              >
-                                <i className="bi bi-plus-circle"></i>
-                              </Link>
-                            </div>
-                          </div>
-                          {/* Children */}
-                          <div className="counter d-flex justify-content-between align-items-center border-top pt-2">
-                            <div>
-                              <span className="fw-semibold">Children</span>
-                              <div>0 to 10 years</div>
-                            </div>
-                            <div className="d-flex align-items-center">
-                              <Link
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  handleGuestChange(index, "children", -1);
-                                }}
-                              >
-                                <i className="bi bi-dash-circle"></i>
-                              </Link>
-                              <span className="mx-2">{room.children}</span>
-                              <Link
-                                href="#"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  handleGuestChange(index, "children", 1);
-                                }}
-                              >
-                                <i className="bi bi-plus-circle"></i>
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                  <div className="d-flex justify-content-between">
-                    <button
-                      type="button"
-                      className="btn-link"
-                      onClick={addRoom}
-                    >
-                      Add New Room
-                    </button>
-                    <button
-                      type="button"
-                      className="btn-link active"
-                      onClick={() => setRoomsOpen(false)}
-                    >
-                      Done
-                    </button>
-                  </div>
-                </div>
-              )}
+    <div className="row">
+      <div className="col-md-10 mx-auto">
+        <div className="search-container">
+          {/* Tabs */}
+          <div className="tab-buttons col-lg-4 col-6 justify-content-center">
+            <div
+              type="button"
+              className={`tab-btn resort-tab ${
+                activeTab === "resort" ? "active" : ""
+              }`}
+              onClick={() => setActiveTab("resort")}
+            >
+              <Image
+                src="/img/resort_icon.png"
+                width={30}
+                height={30}
+                alt="Resort Icon"
+              />
+              Resort
             </div>
           </div>
-        </form>
 
-        {/* Submit Button */}
-        <div className="text-center src-btn-wrapper mt-3">
-          <button
-            onClick={handleSubmit}
-            type="submit"
-            className="btn primary-bg search-btn custom-btn-style d-flex align-items-center justify-content-center"
-            disabled={isLoadingSubmitting}
-          >
-            {isLoadingSubmitting ? (
-              <>
-                <span
-                  className="spinner-border spinner-border-sm me-2"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
-                Searching...
-              </>
-            ) : (
-              "Search"
-            )}
-          </button>
+          <div className="form-content">
+            <form onSubmit={handleSubmit} className="position-relative">
+              <div className="row g-3">
+                {/* Resort Selection */}
+                <div className="col-lg-3 col-12" ref={locationRef}>
+                  <div
+                    className="form-field-wrapper"
+                    onClick={() => setLocationOpen(!locationOpen)}
+                  >
+                    <span className="label">Resort/Area</span>
+                    <div className="value">
+                      {selectedResort.name || "Select Resort"}
+                    </div>
+                  </div>
+                  {locationOpen && (
+                    <div className="location-dropdown shadow p-3 mt-2 bg-white rounded position-absolute col-lg-8">
+                      <input
+                        type="text"
+                        className="form-control mb-3 shadow-none"
+                        placeholder="Search by Location..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                      <div className="row">
+                        {resortData
+                          .filter((r) =>
+                            r.location
+                              .toLowerCase()
+                              .includes(searchTerm.toLowerCase())
+                          )
+                          .map((r) => (
+                            <div className="col-12 col-lg-6 mb-2" key={r.id}>
+                              <Link
+                                href="#"
+                                className={`btn w-100 text-start d-flex align-items-center ${
+                                  selectedResort.id === r.id
+                                    ? "btn-primary"
+                                    : "btn-outline-secondary"
+                                }`}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleSelectResort(r);
+                                }}
+                              >
+                                {r.images[0] && (
+                                  <Image
+                                    src={r.images[0].image}
+                                    width={40}
+                                    height={40}
+                                    alt={r.name}
+                                    className="me-2"
+                                  />
+                                )}
+                                <div>
+                                  <h5>{r.name}</h5>
+                                  <p>{r.location}</p>
+                                </div>
+                              </Link>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Check In */}
+                <div className="col-lg-3 col-12 position-relative">
+                  <div
+                    className="form-field-wrapper"
+                    onClick={() => setCheckInOpen(!checkInOpen)}
+                  >
+                    <span className="label">Check In</span>
+                    <div className="value">{formatDate(checkInDate)}</div>
+                  </div>
+
+                  {checkInOpen && (
+                    <div className="calendar-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
+                      <Calendar
+                        date={checkInDate}
+                        onChange={(date) => setCheckInDate(date)}
+                        months={1}
+                        direction="vertical"
+                      />
+                      <button
+                        className="btn btn-primary mt-2 w-100"
+                        onClick={() => setCheckInOpen(false)}
+                      >
+                        Done
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Check Out */}
+                <div className="col-lg-3 col-12 position-relative">
+                  <div
+                    className="form-field-wrapper"
+                    onClick={() => setCheckOutOpen(!checkOutOpen)}
+                  >
+                    <span className="label">Check Out</span>
+                    <div className="value">{formatDate(checkOutDate)}</div>
+                  </div>
+
+                  {checkOutOpen && (
+                    <div className="calendar-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
+                      <Calendar
+                        date={checkOutDate}
+                        onChange={(date) => setCheckOutDate(date)}
+                        months={1}
+                        direction="vertical"
+                      />
+                      <button
+                        className="btn btn-primary mt-2 w-100"
+                        onClick={() => setCheckOutOpen(false)}
+                      >
+                        Done
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Rooms & Guests */}
+                <div
+                  className="col-lg-3 col-12 position-relative"
+                  ref={roomsRef}
+                >
+                  <div
+                    className="form-field-wrapper"
+                    onClick={() => setRoomsOpen(!roomsOpen)}
+                  >
+                    <span className="label">Rooms & Guests</span>
+                    <div className="value">
+                      {rooms.length} Room, {getTotalGuests()} Guests
+                    </div>
+                  </div>
+                  {roomsOpen && (
+                    <div className="rooms-dropdown shadow p-3 mt-2 bg-white rounded position-absolute">
+                      {rooms.map((room, index) => (
+                        <div
+                          key={index}
+                          className="room-item mb-3 border-bottom pb-3"
+                        >
+                          <div className="room-header d-flex justify-content-between">
+                            <div
+                              className="room-title"
+                              onClick={() =>
+                                setExpandedRoom(
+                                  expandedRoom === index ? -1 : index
+                                )
+                              }
+                            >
+                              Room {index + 1}
+                            </div>
+                            <Link
+                              href="#"
+                              className="ms-2"
+                              onClick={() => deleteRoom(index)}
+                            >
+                              <i className="bi bi-trash3 text-danger"></i>
+                            </Link>
+                          </div>
+                          {expandedRoom === index && (
+                            <div className="room-details mt-3">
+                              {/* Adults */}
+                              <div className="counter d-flex justify-content-between align-items-center mb-3 border-top pt-3">
+                                <div className="text-block-14-fw-md">
+                                  <span>Adults</span>
+                                  <div className="fw-normal">10+ years</div>
+                                </div>
+                                <div className="d-flex align-items-center">
+                                  <Link
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      handleGuestChange(index, "adults", -1);
+                                    }}
+                                  >
+                                    <i className="bi bi-dash-circle"></i>
+                                  </Link>
+                                  <span className="mx-2">{room.adults}</span>
+                                  <Link
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      handleGuestChange(index, "adults", 1);
+                                    }}
+                                  >
+                                    <i className="bi bi-plus-circle"></i>
+                                  </Link>
+                                </div>
+                              </div>
+                              {/* Children */}
+                              <div className="counter d-flex justify-content-between align-items-center border-top pt-2">
+                                <div>
+                                  <span className="fw-semibold">Children</span>
+                                  <div>0 to 10 years</div>
+                                </div>
+                                <div className="d-flex align-items-center">
+                                  <Link
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      handleGuestChange(index, "children", -1);
+                                    }}
+                                  >
+                                    <i className="bi bi-dash-circle"></i>
+                                  </Link>
+                                  <span className="mx-2">{room.children}</span>
+                                  <Link
+                                    href="#"
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      handleGuestChange(index, "children", 1);
+                                    }}
+                                  >
+                                    <i className="bi bi-plus-circle"></i>
+                                  </Link>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      <div className="d-flex justify-content-between">
+                        <button
+                          type="button"
+                          className="btn-link"
+                          onClick={addRoom}
+                        >
+                          Add New Room
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-link active"
+                          onClick={() => setRoomsOpen(false)}
+                        >
+                          Done
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </form>
+
+            {/* Submit Button */}
+            <div className="text-center src-btn-wrapper mt-3">
+              <button
+                onClick={handleSubmit}
+                type="submit"
+                className="btn primary-bg search-btn custom-btn-style d-flex align-items-center justify-content-center"
+                disabled={isLoadingSubmitting}
+              >
+                {isLoadingSubmitting ? (
+                  <>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Searching...
+                  </>
+                ) : (
+                  "Search"
+                )}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -9,7 +9,7 @@ const Features = ({ featuresData }) => {
 
   if (!featuresData || Object.keys(featuresData).length === 0) {
     return (
-      <section className="features-section section-gap">
+      <section className="features-section section-gap overflowX-hidden">
         <div className="container text-center">
           <h2>No features available at the moment</h2>
           <p>Please check back later.</p>
@@ -40,7 +40,7 @@ const Features = ({ featuresData }) => {
 
         <div className="row justify-content-center">
           <div className="col-lg-8 col-md-10 col-12">
-            <div className="row g-5">
+            <div className="row g-4">
               {/* Resort Card */}
               <div className="col-12 col-md-6">
                 <Link href="/resorts" style={{ textDecoration: "none" }}>

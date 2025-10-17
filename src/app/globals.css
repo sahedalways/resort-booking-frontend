@@ -72,28 +72,23 @@
   --font-36: 36px;
   --font-32: 32px;
   --font-24: 22px;
-  /* updated from 24 to 22 */
-  --font-20: 18px;
-  /* updated from 20 to 18 */
-  --font-18: 16px;
-  /* updated from 18 to 16 */
-  --font-16: 14px;
-  /* updated from 16 to 14 */
-  --font-14: 13px;
-  /* updated from 14 to 13 */
+  --font-18: 18px;
+  --font-16: 16px;
+  --font-14: 14px;
+  --font-13: 13px;
   --font-12: 12px;
   /* End font sizes */
 }
 
 body {
-  font-family: "inter" !important;
-  font-size: var(--font-16);
+  font-family: "inter", sans-serif !important;
+  font-size: var(--font-14);
 }
 
 .form-control,
 .custom-dropdown-style,
 .dropdown-menu {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
 }
 
 /*************** common style ******************/
@@ -118,38 +113,38 @@ body {
 }
 
 .text-block-20 {
-  font-size: var(--font-20);
+  font-size: var(--font-18);
   font-weight: 600;
 }
 
 .paragraph-md {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 500;
   color: var(--gray);
 }
 
 .paragraph-sm {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   font-weight: 400;
   color: var(--gray);
 }
 
 .text-block-18-fw-md {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: 500;
 }
 
 .text-block-16 {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
 }
 
 .text-block-18-fw-light {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: 400;
 }
 
 .text-block-14-fw-md {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   font-weight: 500;
 }
 
@@ -254,7 +249,7 @@ nav.navbar {
 
 .nav-link {
   padding: 0 !important;
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 600;
   color: var(--primary);
 }
@@ -300,7 +295,7 @@ nav.navbar {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   -webkit-transition: background-color 0.3s, color 0.3s;
   -moz-transition: background-color 0.3s, color 0.3s;
   -ms-transition: background-color 0.3s, color 0.3s;
@@ -331,12 +326,12 @@ nav.navbar {
 }
 
 .form-field-wrapper .label {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   font-weight: 400;
 }
 
 .form-field-wrapper .value {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 700;
 }
 
@@ -349,12 +344,12 @@ nav.navbar {
 }
 
 .search-for-wrapper .form-label {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   font-weight: 600;
 }
 
 .search-for-wrapper .form-check-label {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   font-weight: 400;
   color: var(--black);
   line-height: 1.7;
@@ -377,7 +372,7 @@ nav.navbar {
 .form-field-wrapper .form-control {
   border: none;
   padding: 0;
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 600;
   color: var(--text-dark);
 }
@@ -402,7 +397,7 @@ nav.navbar {
   border-radius: 10px;
   bottom: 0;
   color: var(--btn-text-dark);
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: 700;
   left: 50%;
   outline: none;
@@ -419,7 +414,7 @@ nav.navbar {
 }
 
 .search-container .btn.custom-btn-style {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 600;
   padding: 13px 41px;
   border: 0;
@@ -458,14 +453,14 @@ nav.navbar {
 }
 
 .room-title {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 700;
   cursor: pointer;
   width: 100%;
 }
 
 .person-count {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   font-weight: 400;
   color: var(--person-count-text);
   display: flex;
@@ -477,7 +472,7 @@ nav.navbar {
 }
 
 button.btn-link {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   padding: 5px 10px;
   border: 1px solid var(--primary);
   text-decoration: none;
@@ -494,7 +489,7 @@ button.btn-link.active {
 }
 
 .counter {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
 }
 
 .location-dropdown {
@@ -527,7 +522,7 @@ button.btn-link.active {
 
 .location-dropdown h5 {
   margin-bottom: 5px;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   font-weight: 600;
   color: var(--secondary);
 }
@@ -548,6 +543,9 @@ button.btn-link.active {
 }
 
 /* our features */
+.features-section{
+  overflow-x: hidden;
+}
 .section-header-container {
   text-align: center;
   display: flex;
@@ -582,7 +580,7 @@ button.btn-link.active {
 }
 
 .feature-pill span {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   font-weight: 600;
   color: var(--feature-pill-text);
 }
@@ -595,7 +593,7 @@ button.btn-link.active {
 }
 
 .subtitle {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   color: var(--subtitle-text);
   margin: 0;
 }
@@ -688,7 +686,7 @@ button.btn-link.active {
 
 .discount-text p {
   color: var(--black);
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   font-weight: 400;
   margin-bottom: 0;
 }
@@ -772,11 +770,9 @@ button.btn-link.active {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    var(--overlay-bg-dark),
-    var(--overlay-bg-darker)
-  );
+  background: linear-gradient(to bottom,
+      var(--overlay-bg-dark),
+      var(--overlay-bg-darker));
   display: flex;
   align-items: flex-end;
   padding: 15px;
@@ -790,13 +786,13 @@ button.btn-link.active {
 
 .slider-card-content h3 {
   margin: 0;
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: bold;
 }
 
 .slider-card-content p {
   margin: 4px 0 0;
-  font-size: var(--font-16);
+  font-size: var(--font-14);
 }
 
 .mySwiper .swiper-pagination {
@@ -846,18 +842,18 @@ button.btn-link.active {
 
 .map-link i {
   margin-right: 6px;
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   color: var(--map-icon-color);
 }
 
 .footer h5 {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 700;
 }
 
 .footer ul li a,
 .footer ul li p {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   text-decoration: none;
   font-weight: 500;
   color: var(--black);
@@ -872,7 +868,7 @@ button.btn-link.active {
 }
 
 .contact-social-links i {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   border: 1px solid var(--black);
   padding: 5px;
   border-radius: 50%;
@@ -913,13 +909,13 @@ button.btn-link.active {
 
 .filter-header h5 {
   margin: 0;
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: bold;
   color: var(--text-dark);
 }
 
 .toggle-icon {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   color: var(--toggle-icon-color);
 }
 
@@ -929,7 +925,7 @@ button.btn-link.active {
   align-items: center;
   margin-bottom: 0;
   padding: 15px;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: var(--custom-budget-text);
   border-top: 1px solid var(--breadcrumb-bg);
 }
@@ -977,18 +973,18 @@ button.btn-link.active {
   transition: 0.3s;
 }
 
-.switch input:checked + .slider {
+.switch input:checked+.slider {
   background-color: var(--primary);
 }
 
-.switch input:checked + .slider:before {
+.switch input:checked+.slider:before {
   transform: translateX(16px);
 }
 
 .price-options label {
   display: flex;
   margin-bottom: 10px;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: var(--text-dark);
 }
 
@@ -1015,12 +1011,12 @@ button.btn-link.active {
 
 .resort-amenities span {
   margin: 5px;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: var(--gray);
 }
 
 .more-btn {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   text-decoration: none;
   color: var(--primary);
 }
@@ -1045,31 +1041,31 @@ button.btn-link.active {
 }
 
 .res-card-title {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: 600;
   color: var(--primary);
   margin-bottom: 15px;
 }
 
 .resort-name {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: 600;
   color: var(--primary);
 }
 
 .resort-location {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: var(--gray);
 }
 
 .room-quality {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 600;
   line-height: 1;
 }
 
 .reservation-type {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: var(--gray);
 }
 
@@ -1079,12 +1075,12 @@ button.btn-link.active {
 
 .start-price,
 .per-night {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: var(--gray);
 }
 
 .price-amount {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
 }
 
 .resort-price {
@@ -1117,7 +1113,7 @@ button.btn-link.active {
   align-items: center;
 }
 
-.breadcrumb-item + .breadcrumb-item::before {
+.breadcrumb-item+.breadcrumb-item::before {
   content: none !important;
 }
 
@@ -1126,7 +1122,7 @@ button.btn-link.active {
   /* or "→" or "»" */
   margin: 0 8px;
   color: var(--breadcrumb-separator);
-  font-size: var(--font-18);
+  font-size: var(--font-16);
 }
 
 .breadcrumb-item a {
@@ -1146,7 +1142,7 @@ button.btn-link.active {
 .details-container {
   display: flex;
   align-items: center;
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   color: var(--text-dark);
 }
 
@@ -1275,7 +1271,7 @@ iframe {
   background-color: var(--facility-item-bg);
   border: 1px solid var(--facility-item-border);
   color: var(--facility-item-text);
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 500;
   white-space: nowrap;
 }
@@ -1283,7 +1279,7 @@ iframe {
 .facility-item .wifi-icon {
   margin-right: 8px;
   color: var(--wifi-icon-color);
-  font-size: var(--font-16);
+  font-size: var(--font-14);
 }
 
 @media (min-width: 480px) {
@@ -1330,7 +1326,7 @@ iframe {
 .custom-time-box .icon-text {
   display: flex;
   align-items: center;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: var(--breadcrumb-separator);
 }
 
@@ -1341,7 +1337,7 @@ iframe {
 }
 
 .custom-time-box .time-text {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: bold;
   color: var(--time-text-color);
 }
@@ -1360,7 +1356,7 @@ iframe {
 .custom-tab-header .nav-link {
   text-decoration: none;
   color: var(--primary);
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   font-weight: 500;
   padding-bottom: 5px;
   position: relative;
@@ -1428,7 +1424,7 @@ iframe {
   display: flex;
   gap: 10px;
   align-items: center;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
 }
 
 .amenity-chip img {
@@ -1450,25 +1446,25 @@ iframe {
 
 .feature-icon {
   color: var(--feature-icon-color);
-  font-size: var(--font-20);
+  font-size: var(--font-18);
   margin-right: 0.75rem;
 }
 
 .feature-title {
   font-weight: 600;
   color: var(--text-color);
-  font-size: var(--font-16);
+  font-size: var(--font-14);
 }
 
 .feature-item {
   color: var(--feature-item-text);
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   margin-bottom: 0.5rem;
 }
 
 .check-icon {
   color: var(--gray);
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   width: 1.25rem;
 }
 
@@ -1521,7 +1517,7 @@ img.payment-icon-table {
 }
 
 .service-text {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   margin-top: 10px;
   text-align: center;
   font-weight: 500;
@@ -1545,7 +1541,7 @@ img.payment-icon-table {
   background-color: var(--primary);
   color: var(--white);
   border-radius: 8px;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   padding: 10px 20px;
 }
 
@@ -1590,7 +1586,7 @@ img.payment-icon-table {
 
 /* about us style */
 
-/*.aboutus-header {
+.aboutus-header {
   background-image: url("https://img.freepik.com/free-vector/realistic-travel-background-with-elements_52683-77784.jpg?semt=ais_hybrid&w=740&q=80");
   background-size: cover;
   background-position: center;
@@ -1607,7 +1603,7 @@ img.payment-icon-table {
   position: absolute;
   inset: 0;
   background-color: var(--overlay-bg-dark);
-}*/
+}
 
 .about-sec {
   background: #ebf0f4;
@@ -1616,65 +1612,56 @@ img.payment-icon-table {
 /* ###about us style */
 
 /* why choose us */
+.why-choose-us-section{
+  overflow-x: hidden;
+}
 .icon-box {
   width: 50px;
-  /* Default size for icon container */
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
-  /* Slightly rounded corners */
   margin-bottom: 1rem;
 }
 
 .icon-box svg {
   font-size: 1.25rem;
-  /* Default icon size */
   color: white;
 }
 
-/* Larger icon box for the middle item */
+
 .icon-box.middle-icon {
   width: 70px;
-  /* Larger size */
   height: 70px;
 }
 
-.icon-box.middle-icon i {
+.icon-box.middle-icon svg {
   font-size: 2rem;
-  /* Larger icon size */
 }
 
-/* Specific colors from the image */
 .color-red {
   background-color: #e54c4c;
-  /* Reddish-orange */
 }
 
 .color-blue {
   background-color: #3b50c0;
-  /* Deep blue */
 }
 
 .color-green {
   background-color: #28a745;
-  /* Green - adjusted to a standard shade */
 }
 
 .feature-number {
-  font-size: 2rem;
+  font-size: var(--font-32);
   font-weight: 500;
   color: #ccc;
-  /* Light gray for the numbers */
-  margin-bottom: 0.5rem;
 }
 
 .feature-item {
   display: flex;
   align-items: flex-start;
   gap: 20px;
-  /* Spacing between the icon/text and the number */
 }
 
 .feature-content {
@@ -1746,10 +1733,10 @@ img.payment-icon-table {
     --font-36: 28px;
     --font-32: 24px;
     --font-24: 18px;
-    --font-20: 16px;
-    --font-18: 14px;
-    --font-16: 13px;
-    --font-14: 12px;
+    --font-18: 16px;
+    --font-16: 14px;
+    --font-14: 13px;
+    --font-13: 12px;
     --font-12: 11px;
   }
 
@@ -1818,6 +1805,11 @@ img.payment-icon-table {
 
   .location-dropdown {
     max-height: 300px;
+  }
+
+  .icon-box.middle-icon {
+    width: 50px;
+    height: 50px;
   }
 }
 
@@ -1928,7 +1920,7 @@ img.payment-icon-table {
 
 .avatar-edit-btn {
   position: absolute;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   right: 0;
   top: 50%;
   transform: translateY(-50%);
@@ -2003,7 +1995,7 @@ img.payment-icon-table {
 }
 
 .edit-icon {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
 }
 
 .custom-badge-style {
@@ -2241,14 +2233,14 @@ img.payment-icon-table {
 }
 
 .room-title-checkout {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: 600;
   color: var(--danger);
 }
 
 .price-per-night {
   color: var(--primary);
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   font-weight: 600;
   margin-bottom: 10px;
 }
@@ -2259,7 +2251,7 @@ img.payment-icon-table {
 
 /* --- Item Inputs and Updates --- */
 .item-label {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   white-space: nowrap;
   background: #ededed;
   display: flex;
@@ -2271,7 +2263,7 @@ img.payment-icon-table {
   width: 60px !important;
   padding: 0.25rem 0.5rem;
   height: 30px;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   text-align: center;
   border: 0;
 }
@@ -2279,7 +2271,7 @@ img.payment-icon-table {
 .btn-update {
   background-color: #ff9800;
   color: white;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   padding: 0.2rem 0.6rem;
   border: none;
   line-height: 1.5;
@@ -2292,20 +2284,20 @@ img.payment-icon-table {
 }
 
 .max-persons {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: var(--primary);
   font-weight: 600;
 }
 
 /* --- Price and Date Styles --- */
 .price-total {
-  font-size: var(--font-20);
+  font-size: var(--font-18);
   color: var(--primary);
   font-weight: bold;
 }
 
 .selected-night {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: var(--secondary);
 }
 
@@ -2316,7 +2308,7 @@ img.payment-icon-table {
 .close-icon {
   color: #f44336;
   cursor: pointer;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   position: absolute;
   top: 5px;
   right: 5px;
@@ -2338,13 +2330,13 @@ img.payment-icon-table {
 }
 
 .date-text {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   text-align: center;
 }
 
 .day-text {
   color: #666;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   display: block;
 }
 
@@ -2352,7 +2344,7 @@ img.payment-icon-table {
   background-color: var(--white);
   color: var(--primary);
   border: 1px solid var(--primary);
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   padding: 0.1rem 0.5rem;
   border-radius: 3px;
   align-self: flex-start;
@@ -2374,7 +2366,7 @@ img.payment-icon-table {
   background-color: #ff9800;
   color: white;
   border: none;
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   padding: 0.5rem 1rem;
   transition: background-color 0.3s ease;
 }
@@ -2389,7 +2381,7 @@ img.payment-icon-table {
   background-color: #4caf50;
   color: white;
   border: none;
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   padding: 0.5rem 1rem;
   transition: background-color 0.3s ease;
 }
@@ -2403,14 +2395,14 @@ img.payment-icon-table {
 .looking-for-title {
   font-weight: 300;
   color: #555;
-  font-size: var(--font-20);
+  font-size: var(--font-18);
 }
 
 /*.btn-secondary-action {
   background-color: #fff;
   color: #1a73e8;
   border: 1px solid #ccc;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   padding: 0.4rem 0.8rem;
   white-space: nowrap;
   margin-top: 5px;
@@ -2420,7 +2412,7 @@ img.payment-icon-table {
   background-color: #fff;
   color: #1a73e8;
   border: 1px solid #ccc;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   padding: 0.4rem 0.8rem;
   white-space: nowrap;
   margin-top: 5px;
@@ -2493,13 +2485,13 @@ img.payment-icon-table {
 }
 
 .booking-details-title {
-  font-size: var(--font-16);
+  font-size: var(--font-14);
   color: var(--primary);
   font-weight: bold;
 }
 
 .booking-for p {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: #666;
   margin: 0;
 }
@@ -2511,12 +2503,12 @@ img.payment-icon-table {
 
 .room-name-detail {
   font-weight: bold;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: #333;
 }
 
 .room-details-text {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: #666;
   border-bottom: 1px solid #ededed;
   padding: 5px 0;
@@ -2524,7 +2516,7 @@ img.payment-icon-table {
 
 /* --- Bill Summary --- */
 .bill-item {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: #333;
 }
 
@@ -2533,7 +2525,7 @@ img.payment-icon-table {
 }
 
 .detail-text {
-  font-size: var(--font-14);
+  font-size: var(--font-13);
   color: #888;
 }
 
@@ -2542,12 +2534,12 @@ img.payment-icon-table {
   align-items: center;
   gap: 5px;
   justify-content: space-between;
-  font-size: var(--font-14);
+  font-size: var(--font-13);
 }
 
 /* --- Grand Total --- */
 .grand-total {
-  font-size: var(--font-18);
+  font-size: var(--font-16);
   font-weight: 600;
   background: #ededed;
 }
@@ -2558,7 +2550,7 @@ img.payment-icon-table {
 
 .total-value {
   color: #f44336;
-  font-size: var(--font-20);
+  font-size: var(--font-18);
   font-weight: bold;
 }
 
@@ -2591,12 +2583,10 @@ img.payment-icon-table {
   left: -100%;
   height: 100%;
   width: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%);
   animation: loading 1.5s infinite;
 }
 
@@ -2674,6 +2664,7 @@ html {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
