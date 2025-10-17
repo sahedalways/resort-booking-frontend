@@ -160,7 +160,7 @@ const Footer = ({ data }) => {
             {site_info?.copyright_text ? (
               <>
                 {site_info.copyright_text
-                  .split("BookingXpart")
+                  .split("BookingXpert")
                   .map((part, index, arr) => (
                     <span key={index}>
                       {part}
@@ -171,7 +171,7 @@ const Footer = ({ data }) => {
                           rel="noopener noreferrer"
                           style={{ color: "#305fa5", textDecoration: "none" }}
                         >
-                          BookingXpart
+                          BookingXpert
                         </a>
                       )}
                     </span>

@@ -18,7 +18,7 @@ const AboutUs = () => {
     "Plot 12, Shafipur Main Road, Kaliakoir, Gazipur, Bangladesh";
   const phone = contactInfo?.phone || "+8801877556633";
   const email = contactInfo?.email || "info@bookingxpart.org";
-  const website = "https://www.bookingxpart.org";
+  const website = "https://www.bookingxpert.org";
 
   useEffect(() => {
     document.title = `${siteTitle} | About Us`;
