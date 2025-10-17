@@ -10,9 +10,7 @@ const fetchHeaderData = async () => {
 
     return res.data.data;
   } catch (error) {
-    const message =
-      error.response?.data?.message || "Failed to fetch header data";
-    throw new Error(message);
+    return null;
   }
 };
 
