@@ -1,12 +1,18 @@
-// app/loading.js
 "use client";
 
 export default function GlobalLoading() {
   return (
-    <div className="full-page-loader">
-      <div className="spinner-border text-primary" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
+    <div className="full-page-loader d-flex flex-column align-items-center justify-content-center">
+      <img
+        src="/HMS Loading.gif"
+        alt="Loading..."
+        className="mb-3"
+        style={{
+          width: "280px",
+          height: "280px",
+          objectFit: "contain",
+        }}
+      />
     </div>
   );
 }
