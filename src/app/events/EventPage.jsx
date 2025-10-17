@@ -3,6 +3,7 @@ import Skeleton from "@/src/components/Skeleton";
 import EventHero from "@/src/components/EventHero";
 import EventServices from "@/src/components/EventServices";
 import Contact from "../contact/page";
+import ContactForm from "@/src/components/ContactForm";
 
 export default function EventPage({ eventData }) {
   if (!eventData) return <Skeleton type="eventList" />;
@@ -65,8 +66,7 @@ export default function EventPage({ eventData }) {
           </div>
         </div>
       </section>
-
-      <Contact />
+      <ContactForm />
     </>
   );
 }

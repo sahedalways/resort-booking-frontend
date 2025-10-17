@@ -1709,7 +1709,7 @@ img.payment-icon-table {
   color: var(--white);
   padding: 100px 0;
   text-align: center;
-  height: 80vh;
+  height: 65vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2677,4 +2677,24 @@ html {
   to {
     opacity: 1;
   }
+}
+
+.event-details-header {
+  position: relative;
+  background-image: url("/img/event_img.png") center center / cover no-repeat;
+  color: #fff;
+  padding: 120px 0;
+  overflow: hidden;
+}
+
+.aboutus-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.event-details-header > .position-relative {
+  position: relative;
+  z-index: 2;
 }

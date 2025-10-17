@@ -9,6 +9,7 @@ import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
 import Contact from "../../contact/page";
 import ImageGallery from "@/src/components/ImageGallery";
+import ContactForm from "@/src/components/ContactForm";
 
 export default function SingleEventServicePage({ eventData }) {
   if (!eventData) return <Skeleton type="singleEvent" />;
@@ -17,9 +18,9 @@ export default function SingleEventServicePage({ eventData }) {
     <>
       <section className="position-relative">
         {/* Header Section */}
-        <div className="event-details-header mb-5">
+        <div className="event-details-header mb-5 position-relative">
           <div className="aboutus-overlay"></div>
-          <div className="position-relative">
+          <div className="position-relative text-center text-white">
             <h1 className="text-block-50 fw-bold">Event Details</h1>
             <p className="text-block-20">
               Your trusted partner in planning the perfect escape.
@@ -103,7 +104,7 @@ export default function SingleEventServicePage({ eventData }) {
         </div>
       </section>
 
-      <Contact />
+      <ContactForm />
     </>
   );
 }
