@@ -3,55 +3,77 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { http } from "../app/services/httpService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPhone,
+  faEnvelope,
+  faMapMarkerAlt,
+  faClock,
+} from "@fortawesome/free-solid-svg-icons";
+
+// --- CAPTCHA UTILITY ---
+const generateCaptcha = () => {
+  const chars = "abcdefghjkmnpqrstuvwxyz23456789";
+  let captcha = "";
+  for (let i = 0; i < 5; i++) {
+    captcha += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return captcha;
+};
+// -----------------------
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: "",
+    email: "", // ✅ new field added
     phone: "",
     date_of_function: "",
     gathering_size: "",
-    preferred_location: "",
-    budget: "",
     message: "",
+    userCaptcha: "",
   });
 
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaText, setCaptchaText] = useState(generateCaptcha());
 
-  // Handle field changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
     setErrors({ ...errors, [e.target.id]: "" });
   };
 
-  // Handle budget dropdown
-  const handleBudgetSelect = (budget) => {
-    setFormData({ ...formData, budget });
-    setErrors({ ...errors, budget: "" });
-  };
-
-  // Validate form
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name) newErrors.name = "Name is required.";
+    if (!formData.name) newErrors.name = "Your Name is required.";
+
+    if (!formData.email) newErrors.email = "Email is required.";
+    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email))
+      newErrors.email = "Please enter a valid email address.";
+
     if (!formData.phone) newErrors.phone = "Phone number is required.";
     else if (!/^[0-9+\-\s()]+$/.test(formData.phone))
       newErrors.phone = "Please enter a valid phone number.";
 
     if (!formData.date_of_function)
       newErrors.date_of_function = "Date of function is required.";
+
     if (!formData.gathering_size)
       newErrors.gathering_size = "Gathering size is required.";
-    if (!formData.preferred_location)
-      newErrors.preferred_location = "Preferred location is required.";
-    if (!formData.budget) newErrors.budget = "Budget is required.";
+
+    if (!formData.userCaptcha) {
+      newErrors.userCaptcha = "The characters are required.";
+    } else if (
+      formData.userCaptcha.toLowerCase() !== captchaText.toLowerCase()
+    ) {
+      newErrors.userCaptcha = "Incorrect characters. Please try again.";
+      setCaptchaText(generateCaptcha());
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -67,15 +89,14 @@ const ContactForm = () => {
           theme: "colored",
         });
 
-        // Reset form
         setFormData({
           name: "",
+          email: "",
           phone: "",
           date_of_function: "",
           gathering_size: "",
-          preferred_location: "",
-          budget: "",
           message: "",
+          userCaptcha: "",
         });
         setErrors({});
       } else {
@@ -91,178 +112,244 @@ const ContactForm = () => {
       });
     } finally {
       setIsSubmitting(false);
+      setCaptchaText(generateCaptcha());
     }
   };
 
+  // --- CONTACT INFO CARD COMPONENT ---
+  const ContactInfoCard = ({ icon, title, content }) => (
+    <div className="p-3 mb-3" style={{ borderBottom: "1px solid #0f3a63" }}>
+      <div className="d-flex align-items-center mb-2">
+        <span className="me-3 fs-4 text-white">{icon}</span>
+        <h5 className="mb-0 fw-bold text-white">{title}</h5>
+      </div>
+      {content.map((item, index) => (
+        <p
+          key={index}
+          className="mb-0 text-light"
+          style={{ fontSize: "0.9rem" }}
+        >
+          {item}
+        </p>
+      ))}
+    </div>
+  );
+  // -----------------------------------
+
   return (
-    <section className="section-gap">
+    <section className="section-gap py-5">
       <div className="container">
-        <div className="section-header-container text-center mb-5">
-          <h1 className="main-title">Ready to Make It Happen? Let’s Talk!</h1>
-          <p className="primary-color fw-semibold col-md-8 mx-auto">
-            Let us help you find the venue of your dreams. Contact us today to
-            start your journey to an unforgettable experience.
-          </p>
-        </div>
+        <div className="row g-0 rounded shadow-lg overflow-hidden">
+          {/* LEFT PANEL */}
+          <div
+            className="col-md-5"
+            style={{ backgroundColor: "#1a237e", color: "#ffffff" }}
+          >
+            <div className="p-4 p-md-5 h-100">
+              <h3
+                className="mb-4 fw-bold text-center border-bottom pb-3"
+                style={{ borderColor: "#3d4a8e" }}
+              >
+                Get In Touch With Us Now!
+              </h3>
 
-        <div className="row">
-          <div className="col-lg-8 col-md-10 col-12 mx-auto">
-            <form onSubmit={handleSubmit} noValidate>
-              {/* Name & Phone */}
-              <div className="row mb-3">
-                <div className="col-md-6 mb-3 mb-md-0">
-                  <input
-                    type="text"
-                    id="name"
-                    className="form-control shadow-none"
-                    placeholder="Your Name *"
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
-                  {errors.name && (
-                    <small className="text-danger">{errors.name}</small>
-                  )}
-                </div>
-                <div className="col-md-6">
-                  <input
-                    type="tel"
-                    id="phone"
-                    className="form-control shadow-none"
-                    placeholder="Your Phone *"
-                    value={formData.phone}
-                    onChange={handleChange}
-                  />
-                  {errors.phone && (
-                    <small className="text-danger">{errors.phone}</small>
-                  )}
-                </div>
-              </div>
+              <ContactInfoCard
+                icon={<FontAwesomeIcon icon={faPhone} />}
+                title="Phone Number"
+                content={["+91 80004 36640"]}
+              />
 
-              {/* Date & Gathering */}
-              <div className="row mb-3">
-                <div className="col-md-6 mb-3 mb-md-0">
-                  <input
-                    type="text"
-                    id="date_of_function"
-                    className="form-control shadow-none"
-                    placeholder="Date of Function *"
-                    value={formData.date_of_function}
-                    onChange={handleChange}
-                  />
-                  {errors.date_of_function && (
-                    <small className="text-danger">
-                      {errors.date_of_function}
-                    </small>
-                  )}
-                </div>
-                <div className="col-md-6">
-                  <input
-                    type="number"
-                    id="gathering_size"
-                    className="form-control shadow-none"
-                    placeholder="Gathering Size *"
-                    value={formData.gathering_size}
-                    onChange={handleChange}
-                  />
-                  {errors.gathering_size && (
-                    <small className="text-danger">
-                      {errors.gathering_size}
-                    </small>
-                  )}
-                </div>
-              </div>
+              <ContactInfoCard
+                icon={<FontAwesomeIcon icon={faEnvelope} />}
+                title="Email"
+                content={[
+                  "info@expertwebdesigning.com",
+                  "sales@expertwebdesigning.com",
+                ]}
+              />
 
-              {/* Location & Budget */}
-              <div className="row mb-3">
-                <div className="col-md-6 mb-3 mb-md-0">
-                  <input
-                    type="text"
-                    id="preferred_location"
-                    className="form-control shadow-none"
-                    placeholder="Preferred Location *"
-                    value={formData.preferred_location}
-                    onChange={handleChange}
-                  />
-                  {errors.preferred_location && (
-                    <small className="text-danger">
-                      {errors.preferred_location}
-                    </small>
-                  )}
-                </div>
-                <div className="col-md-6">
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-outline-secondary dropdown-toggle custom-dropdown-style w-100"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                    >
-                      {formData.budget
-                        ? `৳ ${formData.budget}`
-                        : "Select Budget *"}
-                    </button>
-                    <ul className="dropdown-menu w-100">
-                      <li>
-                        <button
-                          type="button"
-                          className="dropdown-item"
-                          onClick={() => handleBudgetSelect("100 - 500")}
-                        >
-                          ৳100 - ৳500
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          type="button"
-                          className="dropdown-item"
-                          onClick={() => handleBudgetSelect("500 - 1,000")}
-                        >
-                          ৳500 - ৳1,000
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          type="button"
-                          className="dropdown-item"
-                          onClick={() => handleBudgetSelect("1,000+")}
-                        >
-                          ৳1,000+
-                        </button>
-                      </li>
-                    </ul>
+              <ContactInfoCard
+                icon={<FontAwesomeIcon icon={faMapMarkerAlt} />}
+                title="Location"
+                content={[
+                  "518, Rhythm Plaza, Amar Javan Circle, Nikal, Ahmedabad, Gujarat - 382350",
+                ]}
+              />
+
+              <ContactInfoCard
+                icon={<FontAwesomeIcon icon={faClock} />}
+                title="Working Hours"
+                content={["Monday To Saturday", "09:00 AM To 06:00 PM"]}
+              />
+            </div>
+          </div>
+
+          {/* RIGHT PANEL */}
+          <div className="col-md-7" style={{ backgroundColor: "#f8f9fa" }}>
+            <div className="p-4 p-md-5 h-100">
+              <h3 className="mb-4 fw-bold text-dark border-bottom pb-3">
+                Contact Us
+              </h3>
+
+              <form onSubmit={handleSubmit} noValidate>
+                {/* Name, Email & Phone */}
+                <div className="row mb-3">
+                  <div className="col-md-4 mb-3 mb-md-0">
+                    <input
+                      type="text"
+                      id="name"
+                      className={`form-control shadow-none ${
+                        errors.name ? "is-invalid" : ""
+                      }`}
+                      placeholder="Your Name *"
+                      value={formData.name}
+                      onChange={handleChange}
+                    />
+                    {errors.name && (
+                      <div className="invalid-feedback">{errors.name}</div>
+                    )}
                   </div>
-                  {errors.budget && (
-                    <small className="text-danger">{errors.budget}</small>
-                  )}
+                  <div className="col-md-4 mb-3 mb-md-0">
+                    <input
+                      type="email"
+                      id="email"
+                      className={`form-control shadow-none ${
+                        errors.email ? "is-invalid" : ""
+                      }`}
+                      placeholder="Your Email *"
+                      value={formData.email}
+                      onChange={handleChange}
+                    />
+                    {errors.email && (
+                      <div className="invalid-feedback">{errors.email}</div>
+                    )}
+                  </div>
+                  <div className="col-md-4">
+                    <input
+                      type="tel"
+                      id="phone"
+                      className={`form-control shadow-none ${
+                        errors.phone ? "is-invalid" : ""
+                      }`}
+                      placeholder="Your Phone *"
+                      value={formData.phone}
+                      onChange={handleChange}
+                    />
+                    {errors.phone && (
+                      <div className="invalid-feedback">{errors.phone}</div>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              {/* Message */}
-              <div className="row mb-4">
-                <div className="col-12">
-                  <textarea
-                    id="message"
-                    className="form-control shadow-none"
-                    rows={5}
-                    placeholder="Tell Us More"
-                    value={formData.message}
-                    onChange={handleChange}
-                  ></textarea>
+                {/* Date & Gathering */}
+                <div className="row mb-3">
+                  <div className="col-md-6 mb-3 mb-md-0">
+                    <input
+                      type="text"
+                      id="date_of_function"
+                      className={`form-control shadow-none ${
+                        errors.date_of_function ? "is-invalid" : ""
+                      }`}
+                      placeholder="Date of Function *"
+                      value={formData.date_of_function}
+                      onChange={handleChange}
+                    />
+                    {errors.date_of_function && (
+                      <div className="invalid-feedback">
+                        {errors.date_of_function}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-md-6">
+                    <input
+                      type="number"
+                      id="gathering_size"
+                      className={`form-control shadow-none ${
+                        errors.gathering_size ? "is-invalid" : ""
+                      }`}
+                      placeholder="Gathering Size *"
+                      value={formData.gathering_size}
+                      onChange={handleChange}
+                    />
+                    {errors.gathering_size && (
+                      <div className="invalid-feedback">
+                        {errors.gathering_size}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              {/* Submit */}
-              <div className="row">
-                <div className="col-12 text-center">
-                  <button
-                    type="submit"
-                    className="btn btn-custom"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "SENDING..." : "SEND YOUR MESSAGE"}
-                  </button>
+                {/* Message */}
+                <div className="row mb-4">
+                  <div className="col-12">
+                    <textarea
+                      id="message"
+                      className="form-control shadow-none"
+                      rows={4}
+                      placeholder="Message"
+                      value={formData.message}
+                      onChange={handleChange}
+                    ></textarea>
+                  </div>
                 </div>
-              </div>
-            </form>
+
+                {/* CAPTCHA */}
+                <div className="row mb-4">
+                  <div className="col-12">
+                    <label className="form-label fw-semibold">
+                      Please type the characters *
+                    </label>
+                    <div className="d-flex align-items-center mb-2">
+                      <span
+                        className="me-3 px-3 py-1 rounded fw-bold text-dark"
+                        style={{
+                          backgroundColor: "#e9ecef",
+                          fontSize: "1.2rem",
+                          letterSpacing: "3px",
+                          userSelect: "none",
+                          border: "1px solid #ced4da",
+                          textDecoration: "line-through",
+                        }}
+                      >
+                        {captchaText}
+                      </span>
+                      <input
+                        type="text"
+                        id="userCaptcha"
+                        className={`form-control shadow-none flex-grow-1 ${
+                          errors.userCaptcha ? "is-invalid" : ""
+                        }`}
+                        placeholder="Enter characters"
+                        value={formData.userCaptcha}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <small className="text-muted d-block mb-2">
+                      This helps us prevent spam, thank you.
+                    </small>
+                    {errors.userCaptcha && (
+                      <div className="invalid-feedback d-block">
+                        {errors.userCaptcha}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Submit */}
+                <div className="row">
+                  <div className="col-12">
+                    <button
+                      type="submit"
+                      className="btn btn-primary px-5 py-2 fw-bold"
+                      disabled={isSubmitting}
+                      style={{ backgroundColor: "#1a237e", border: "none" }}
+                    >
+                      {isSubmitting ? "SENDING..." : "Submit ✉️"}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
