@@ -7,7 +7,6 @@ import ResortDescription from "@/src/components/SingleResort/ResortDescription";
 import ResortFacilities from "@/src/components/SingleResort/ResortFacilities";
 import ResortTimings from "@/src/components/SingleResort/ResortTimings";
 import Breadcrumb from "@/src/components/SingleResort/Breadcrumb";
-import ResortPolicyTable from "@/src/components/SingleResort/ResortPolicyTable";
 import ResortBelowTabs from "@/src/components/SingleResort/ResortBelowTabs";
 
 const SingleResortInfo = ({ resortData }) => {
@@ -30,7 +29,7 @@ const SingleResortInfo = ({ resortData }) => {
       {/* Gallery */}
       <ResortGallery resort={resort} />
 
-
+      <ResortDescription resort={resortData} mapUrl={mapUrl} />
 
       {/* Facilities */}
       {resort?.facilities?.length > 0 && (

@@ -8,7 +8,6 @@ import HotelRoomFacilities from "./tab/HotelRoomFacilities";
 import Map from "./tab/Map";
 import Review from "./Review";
 import { ResortContext } from "@/src/app/hooks/api/ResortContext";
-import ResortDescription from "./ResortDescription";
 
 const ResortBelowTabs = ({ resortData, mapUrl }) => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -111,18 +110,22 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
   return (
     <>
       {/* Sticky Tab Header */}
-      <section style={{background: '#f0f0f0'}} className="overflow-x-hidden sticky-top shadow-sm zindex-10">
+      <section
+        style={{ background: "#f0f0f0" }}
+        className="overflow-x-hidden sticky-top shadow-sm zindex-10"
+      >
         <div className="container">
-            <div className="row">
-          <div className="col-12">
-            <div className="custom-tab-header">
-              
+          <div className="row">
+            <div className="col-12">
+              <div className="custom-tab-header">
                 <nav className="nav-container d-flex overflow-auto">
                   {tabs.map((tab) => (
                     <Link
                       key={tab}
                       href={`#${tab}`}
-                      className={`nav-link ${activeTab === tab ? "active" : ""}`}
+                      className={`nav-link ${
+                        activeTab === tab ? "active" : ""
+                      }`}
                       onClick={(e) => handleScroll(e, tab)}
                       ref={(el) => (tabRefs.current[tab] = el)}
                     >
@@ -130,12 +133,10 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
                     </Link>
                   ))}
                 </nav>
-              
+              </div>
             </div>
           </div>
         </div>
-        </div>
-      
       </section>
 
       {/* Main Sections */}
@@ -143,13 +144,8 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              {/* Overview */}
-              <div id="overview">
-                <ResortDescription resort={resortData} mapUrl={mapUrl} />
-              </div>
-
               {/* Rooms */}
-              <div id="rooms" >
+              <div id="rooms">
                 {resortData?.rooms?.length > 0 ? (
                   resortData.rooms.map((room) => (
                     <Room
@@ -164,7 +160,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
               </div>
 
               {/* Amenities */}
-              <div id="amenities" >
+              <div id="amenities">
                 {resortData?.facilities?.length > 0 ? (
                   <HotelRoomFacilities resortData={resortData} />
                 ) : (
@@ -173,7 +169,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
               </div>
 
               {/* Location */}
-              <div id="location" >
+              <div id="location">
                 {mapUrl ? (
                   <Map mapUrl={mapUrl} sectionTitle="Explore The Neighbour" />
                 ) : (
@@ -182,7 +178,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
               </div>
 
               {/* Policies */}
-              <div id="policies" >
+              <div id="policies">
                 {resortData ? (
                   <ResortPolicyTable
                     resort={resortData}
@@ -194,7 +190,7 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
               </div>
 
               {/* Reviews */}
-              <div id="reviews" >
+              <div id="reviews">
                 <Review
                   resortData={resortData}
                   reviews={reviews}
