@@ -73,7 +73,7 @@ export default function ImageSliderModal({
 
         {/* Image Slider */}
         <div className="slider-container">
-          <button className="nav-btn prev" onClick={prevImage}>
+          <button className="nav-btn left prev me-3" onClick={prevImage}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -103,7 +103,7 @@ export default function ImageSliderModal({
             />
           </div>
 
-          <button className="nav-btn next" onClick={nextImage}>
+          <button className="nav-btn right next ms-3" onClick={nextImage}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -129,7 +129,6 @@ export default function ImageSliderModal({
       </div>
 
       <style jsx>{`
-
         /* Overlay background */
         .modal-overlay {
           position: fixed;
@@ -194,7 +193,6 @@ export default function ImageSliderModal({
           min-width: 50px;
           height: 50px;
           border-radius: 50%;
-          margin: 0 15px;
           transition: all 0.3s ease;
           display: flex;
           justify-content: center;
@@ -255,11 +253,40 @@ export default function ImageSliderModal({
             width: 90vw;
             height: 55vh;
           }
-          .nav-btn {
-            width: 40px;
-            height: 40px;
+          .nav-btn,
+          .close-btn {
+            width: 30px;
+            min-width: 30px;
+            height: 30px;
             font-size: 1.6rem;
           }
+          .close-btn svg,
+          .nav-btn svg {
+            width: 20px;
+          }
+          .modal-content {
+            padding: 10px;
+          }
+          .close-btn {
+            right: 15px;
+          }
+          .nav-btn,
+          .close-btn {
+            position: absolute;
+            z-index: 111;
+            background: #000000c9;
+          }
+          .nav-btn:hover,
+          .close-btn:hover {
+            background: #000;
+          }
+          .nav-btn.right {
+            right: 0;
+          }
+          .nav-btn.left {
+            left: 0;
+          }
+
         }
       `}</style>
     </div>

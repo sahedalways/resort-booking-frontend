@@ -34,12 +34,12 @@ const AboutUs = () => {
       />
 
       {/* ====== About Content Section ====== */}
-      <section className="section-gap-sm about-sec py-5">
+      <section className="section-gap-sm py-5">
         <div className="container">
           <div className="row">
-            <div className="col-10 mx-auto">
-              <div className=" border-0 shadow-sm">
-                <div className=" p-4 p-md-5">
+            <div className="col-md-10 col-12 mx-auto">
+              <div>
+                <div>
                   {/* About Description */}
                   <div className="mb-4">
                     <h3 className="text-block-24 fw-bold mb-3 primary-color">

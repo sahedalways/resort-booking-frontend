@@ -16,7 +16,7 @@ export default function EventPage({ eventData }) {
 
       <section className="service-section">
         <div className="container">
-          <div className="row align-items-center">
+        <div className="row align-items-center flex-column-reverse flex-lg-row">
             <div className="col-lg-8">
               <div className="row g-4">
                 <div className="col-6 col-md-4 text-center">
@@ -58,7 +58,7 @@ export default function EventPage({ eventData }) {
               </div>
             </div>
 
-            <div className="col-lg-4 text-center text-lg-start mt-5 mt-lg-0">
+            <div className="col-lg-4 text-center text-lg-start mb-5 mt-lg-0">
               <h2 className="main-title">
                 What we <br className="d-lg-block d-none" /> offer
               </h2>
