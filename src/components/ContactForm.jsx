@@ -10,22 +10,22 @@ import {
   faMapMarkerAlt,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-
-// --- CAPTCHA UTILITY ---
-const generateCaptcha = () => {
-  const chars = "abcdefghjkmnpqrstuvwxyz23456789";
-  let captcha = "";
-  for (let i = 0; i < 5; i++) {
-    captcha += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return captcha;
-};
-// -----------------------
+import { useSiteData } from "../app/hooks/SiteDataContext";
+import { generateCaptcha } from "../app/utils/GenerateCaptcha";
 
 const ContactForm = () => {
+  const { footerData } = useSiteData();
+
+  const contactInfo = footerData?.contact_info || {};
+  const dhakaAddress =
+    contactInfo?.dhaka_office_address ||
+    "6th Floor, House 168, Block B, Sayednagar, Gulshan, Dhaka 1212, Bangladesh";
+  const phone = contactInfo?.phone || "+8801877556633";
+  const email = contactInfo?.email || "info@bookingxpart.org";
+
   const [formData, setFormData] = useState({
     name: "",
-    email: "", // ✅ new field added
+    email: "",
     phone: "",
     date_of_function: "",
     gathering_size: "",
@@ -143,7 +143,7 @@ const ContactForm = () => {
           {/* LEFT PANEL */}
           <div
             className="col-md-5"
-            style={{ backgroundColor: "#1a237e", color: "#ffffff" }}
+            style={{ backgroundColor: "#1a227eef", color: "#ffffff" }}
           >
             <div className="p-4 p-md-5 h-100">
               <h3
@@ -156,36 +156,31 @@ const ContactForm = () => {
               <ContactInfoCard
                 icon={<FontAwesomeIcon icon={faPhone} />}
                 title="Phone Number"
-                content={["+91 80004 36640"]}
+                content={[phone || "N/A"]}
               />
 
               <ContactInfoCard
                 icon={<FontAwesomeIcon icon={faEnvelope} />}
                 title="Email"
-                content={[
-                  "info@expertwebdesigning.com",
-                  "sales@expertwebdesigning.com",
-                ]}
+                content={[email || "N/A"]}
               />
 
               <ContactInfoCard
                 icon={<FontAwesomeIcon icon={faMapMarkerAlt} />}
                 title="Location"
-                content={[
-                  "518, Rhythm Plaza, Amar Javan Circle, Nikal, Ahmedabad, Gujarat - 382350",
-                ]}
+                content={[dhakaAddress || "N/A"]}
               />
 
               <ContactInfoCard
                 icon={<FontAwesomeIcon icon={faClock} />}
                 title="Working Hours"
-                content={["Monday To Saturday", "09:00 AM To 06:00 PM"]}
+                content={["Saturday To Thursday", "09:00 AM To 06:00 PM"]}
               />
             </div>
           </div>
 
           {/* RIGHT PANEL */}
-          <div className="col-md-7" style={{ backgroundColor: "#f8f9fa" }}>
+          <div className="col-md-7 mt-5" style={{ backgroundColor: "#f8f9fa" }}>
             <div className="p-4 p-md-5 h-100">
               <h3 className="mb-4 fw-bold text-dark border-bottom pb-3">
                 Contact Us

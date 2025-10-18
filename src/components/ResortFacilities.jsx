@@ -22,12 +22,12 @@ export default function ResortFacilities({ facilities }) {
       {/* Hoverable "+ more" Button */}
       {hiddenFacilities.length > 0 && (
         <span
-          className="fw-semibold position-relative"
+          className="fw-semibold position-relative d-inline-block"
           style={{
-            cursor: "pointer",
             fontSize: "0.85rem",
             color: "#0f3a63",
             userSelect: "none",
+            cursor: "pointer",
           }}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
