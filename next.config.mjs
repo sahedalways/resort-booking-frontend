@@ -1,16 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: "export",
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "127.0.0.1",
-        port: "8000",
+        protocol: "https",
+        hostname: "buzzhiring.shopsatkhira.com",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "buzzhiring.shopsatkhira.com",
+        hostname: "admin.bookingxpert.org",
         pathname: "/**",
       },
     ],
@@ -19,6 +19,9 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  experimental: {
+    appDir: true,
   },
 };
 
