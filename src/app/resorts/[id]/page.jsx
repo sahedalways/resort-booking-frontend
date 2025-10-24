@@ -1,6 +1,15 @@
 import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
-import { fetchResortById } from "../../services/resortService";
+import fetchResortData, {
+  fetchResortById,
+} from "../../services/resortService";
 import SingleResortsServerWrapper from "./SingleResortsServerWrapper";
+
+export async function generateStaticParams() {
+  const resorts = await fetchResortData();
+  return resorts.resort_info.map((resort) => ({
+    id: resort.id.toString(),
+  }));
+}
 
 const page = ({ params }) => {
   return <SingleResortsServerWrapper params={params} />;
