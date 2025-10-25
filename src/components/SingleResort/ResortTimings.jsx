@@ -2,14 +2,14 @@ import Image from "next/image";
 
 export default function ResortTimings({ resort }) {
   return (
-    <section className="section-gap-sm">
+    <section className="section-gap-sm" style={{ gap: "12px" }}>
       <div className="container">
         <div className="row">
           {/* Night Stay */}
           <div className="col-md-6 mb-4">
             <h6 className="text-block-14 primary-color mb-2">Night Stay</h6>{" "}
             {/* smaller */}
-            <div className="row gx-2">
+            <div className="row gx-4">
               <TimeBox label="Check-in" time={resort.n_check_in} smallText />{" "}
               {/* pass a prop */}
               <TimeBox label="Check-out" time={resort.n_check_out} smallText />
@@ -19,7 +19,7 @@ export default function ResortTimings({ resort }) {
           {/* Day Long */}
           <div className="col-md-6 mb-4">
             <h6 className="text-block-14 primary-color mb-2">Day Long</h6>
-            <div className="row gx-2">
+            <div className="row gx-4">
               <TimeBox label="Check-in" time={resort.d_check_in} smallText />
               <TimeBox label="Check-out" time={resort.d_check_out} smallText />
             </div>
@@ -31,7 +31,7 @@ export default function ResortTimings({ resort }) {
 }
 
 // Reusable single time box
-function TimeBox({ label, time }) {
+function TimeBox({ label, time, smallText }) {
   const formatTime12Hour = (time24) => {
     if (!time24) return "N/A";
     const [hours, minutes] = time24.split(":");
@@ -41,19 +41,29 @@ function TimeBox({ label, time }) {
     return `${hour12}:${minutes} ${ampm}`;
   };
 
+  const labelStyle = smallText ? { fontSize: "0.75rem" } : {};
+  const timeStyle = smallText ? { fontSize: "0.8rem" } : {};
+
   return (
-    <div className="col-6">
-      <div className="custom-time-box">
+    <div style={{ flex: "1 1 0", maxWidth: "30%" }}>
+      <div
+        className="custom-time-box"
+        style={{ gap: "8px", padding: "4px 6px", height: "60px" }}
+      >
         <Image
-          width={30}
-          height={30}
+          width={20}
+          height={20}
           src="/img/door.png"
           alt=""
           className="time-box-img"
         />
         <div>
-          <span className="icon-text">{label}</span>
-          <div className="time-text">{formatTime12Hour(time)}</div>
+          <span className="icon-text" style={labelStyle}>
+            {label}
+          </span>
+          <div className="time-text" style={timeStyle}>
+            {formatTime12Hour(time)}
+          </div>
         </div>
       </div>
     </div>
