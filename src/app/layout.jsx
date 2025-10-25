@@ -20,18 +20,22 @@ import { HomeProvider } from "./hooks/api/HomeContext";
 import { ResortProvider } from "./hooks/api/ResortContext";
 import { ReduxProvider } from "../redux/provider";
 import { SiteDataProvider } from "./hooks/SiteDataContext";
+import Favicon from "./Favicon";
 
 export const revalidate = 300;
 
 export default async function RootLayout({ children }) {
   const [footerData] = await Promise.all([fetchFooterData()]);
   const headerData = await getSiteHeaderData();
-  const faviconUrl = headerData?.header_info?.favicon_url || "/favicon.ico";
 
   return (
     <html lang="en">
       <head>
-        {faviconUrl && <link rel="icon" href={faviconUrl} />}
+        {headerData?.header_info?.favicon_url && (
+          <>
+            <Favicon url={headerData?.header_info?.favicon_url} />
+          </>
+        )}
 
         {/* Fonts & icons */}
         <link

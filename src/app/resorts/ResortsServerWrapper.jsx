@@ -1,4 +1,4 @@
-import fetchResortData from "../services/resortService";
+import { fetchResortData } from "../services/resortService";
 import ResortsPage from "./ResortsPage";
 
 export const revalidate = 100;

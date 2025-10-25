@@ -5,21 +5,22 @@ export default function ResortTimings({ resort }) {
     <section className="section-gap-sm" style={{ gap: "12px" }}>
       <div className="container">
         <div className="row">
-          {/* Night Stay */}
-          <div className="col-md-6 mb-4">
-            <h6 className="text-block-14 primary-color mb-2">Night Stay</h6>{" "}
-            {/* smaller */}
-            <div className="row gx-4">
-              <TimeBox label="Check-in" time={resort.n_check_in} smallText />{" "}
-              {/* pass a prop */}
+          <div className="col-md-6 col-lg-4 mb-4">
+            {" "}
+            <h6 className="text-block-14 primary-color mb-2">Night Stay</h6>
+            <div className="row gx-3">
+              {" "}
+              <TimeBox label="Check-in" time={resort.n_check_in} smallText />
               <TimeBox label="Check-out" time={resort.n_check_out} smallText />
             </div>
           </div>
 
-          {/* Day Long */}
-          <div className="col-md-6 mb-4">
+          <div className="col-md-6 col-lg-4 mb-4">
+            {" "}
+            {/* col-lg-4 makes it one-third width on large screens */}
             <h6 className="text-block-14 primary-color mb-2">Day Long</h6>
-            <div className="row gx-4">
+            <div className="row gx-3">
+              {" "}
               <TimeBox label="Check-in" time={resort.d_check_in} smallText />
               <TimeBox label="Check-out" time={resort.d_check_out} smallText />
             </div>
@@ -30,7 +31,7 @@ export default function ResortTimings({ resort }) {
   );
 }
 
-// Reusable single time box
+// Reusable single time box (No changes needed here)
 function TimeBox({ label, time, smallText }) {
   const formatTime12Hour = (time24) => {
     if (!time24) return "N/A";
@@ -45,7 +46,7 @@ function TimeBox({ label, time, smallText }) {
   const timeStyle = smallText ? { fontSize: "0.8rem" } : {};
 
   return (
-    <div style={{ flex: "1 1 0", maxWidth: "30%" }}>
+    <div style={{ minWidth: "120px", maxWidth: "45%" }}>
       <div
         className="custom-time-box"
         style={{ gap: "8px", padding: "4px 6px", height: "60px" }}

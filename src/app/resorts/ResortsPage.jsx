@@ -4,7 +4,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Skeleton from "@/src/components/Skeleton";
-import fetchResortData from "../services/resortService";
+import { fetchResortData } from "../services/resortService";
 import ResortFacilities from "@/src/components/ResortFacilities";
 import ResortFilter from "@/src/components/ResortFilter";
 
