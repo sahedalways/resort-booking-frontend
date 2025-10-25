@@ -36,6 +36,11 @@ const Footer = ({ data }) => {
                   Privacy Policy
                 </Link>
               </li>
+              <li>
+                <Link href="/refund-policy" className="text-dark">
+                  Refund Policy
+                </Link>
+              </li>
               {isLoggedInToken && (
                 <li>
                   <Link href="/user/dashboard" className="text-dark">

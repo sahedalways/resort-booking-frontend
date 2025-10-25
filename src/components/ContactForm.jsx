@@ -38,8 +38,16 @@ const ContactForm = () => {
   const [captchaText, setCaptchaText] = useState(generateCaptcha());
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
-    setErrors({ ...errors, [e.target.id]: "" });
+    const { id, value } = e.target;
+
+    if (id === "gathering_size") {
+      const numericValue = value.replace(/\D/g, "");
+      setFormData({ ...formData, [id]: numericValue });
+    } else {
+      setFormData({ ...formData, [id]: value });
+    }
+
+    setErrors({ ...errors, [id]: "" });
   };
 
   const validateForm = () => {
@@ -54,12 +62,6 @@ const ContactForm = () => {
     if (!formData.phone) newErrors.phone = "Phone number is required.";
     else if (!/^[0-9+\-\s()]+$/.test(formData.phone))
       newErrors.phone = "Please enter a valid phone number.";
-
-    if (!formData.date_of_function)
-      newErrors.date_of_function = "Date of function is required.";
-
-    if (!formData.gathering_size)
-      newErrors.gathering_size = "Gathering size is required.";
 
     if (!formData.userCaptcha) {
       newErrors.userCaptcha = "The characters are required.";
@@ -180,7 +182,7 @@ const ContactForm = () => {
           </div>
 
           {/* RIGHT PANEL */}
-          <div className="col-md-7 mt-5" style={{ backgroundColor: "#f8f9fa" }}>
+          <div className="col-md-7 " style={{ backgroundColor: "#f8f9fa" }}>
             <div className="p-4 p-md-5 h-100">
               <h3 className="mb-4 fw-bold text-dark border-bottom pb-3">
                 Contact Us
@@ -242,35 +244,22 @@ const ContactForm = () => {
                     <input
                       type="text"
                       id="date_of_function"
-                      className={`form-control shadow-none ${
-                        errors.date_of_function ? "is-invalid" : ""
-                      }`}
-                      placeholder="Date of Function *"
+                      className="form-control shadow-none"
+                      placeholder="Date of Function (optional)"
                       value={formData.date_of_function}
                       onChange={handleChange}
                     />
-                    {errors.date_of_function && (
-                      <div className="invalid-feedback">
-                        {errors.date_of_function}
-                      </div>
-                    )}
                   </div>
                   <div className="col-md-6">
                     <input
-                      type="number"
+                      type="text"
                       id="gathering_size"
-                      className={`form-control shadow-none ${
-                        errors.gathering_size ? "is-invalid" : ""
-                      }`}
-                      placeholder="Gathering Size *"
+                      className="form-control shadow-none"
+                      placeholder="Gathering Size (optional)"
                       value={formData.gathering_size}
                       onChange={handleChange}
+                      inputMode="numeric"
                     />
-                    {errors.gathering_size && (
-                      <div className="invalid-feedback">
-                        {errors.gathering_size}
-                      </div>
-                    )}
                   </div>
                 </div>
 

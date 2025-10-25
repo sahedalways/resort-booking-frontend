@@ -1,9 +1,7 @@
-import Link from "next/link";
 import Skeleton from "@/src/components/Skeleton";
 import EventHero from "@/src/components/EventHero";
 import EventServices from "@/src/components/EventServices";
-import Contact from "../contact/page";
-import ContactForm from "@/src/components/ContactForm";
+import EventContactForm from "@/src/components/EventContactForm";
 
 export default function EventPage({ eventData }) {
   if (!eventData) return <Skeleton type="eventList" />;
@@ -16,7 +14,7 @@ export default function EventPage({ eventData }) {
 
       <section className="service-section">
         <div className="container">
-        <div className="row align-items-center flex-column-reverse flex-lg-row">
+          <div className="row align-items-center flex-column-reverse flex-lg-row">
             <div className="col-lg-8">
               <div className="row g-4">
                 <div className="col-6 col-md-4 text-center">
@@ -66,7 +64,7 @@ export default function EventPage({ eventData }) {
           </div>
         </div>
       </section>
-      <ContactForm />
+      <EventContactForm />
     </>
   );
 }
