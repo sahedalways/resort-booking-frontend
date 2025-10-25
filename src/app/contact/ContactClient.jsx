@@ -7,7 +7,7 @@ import ContactForm from "@/src/components/ContactForm";
 const ContactClient = () => {
   const { headerData, footerData } = useSiteData();
 
-  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
+  const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
 
   // 🧩 UI
   return (

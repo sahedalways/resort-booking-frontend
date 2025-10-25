@@ -9,7 +9,7 @@ export default function Register() {
     const fetchTitle = async () => {
       const data = await getSiteHeaderData();
       document.title = `${
-        data?.header_info?.site_title || "BookingXpart"
+        data?.header_info?.site_title || "BookingXpert"
       } | Register`;
     };
 

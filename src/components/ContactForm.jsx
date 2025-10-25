@@ -21,7 +21,7 @@ const ContactForm = () => {
     contactInfo?.dhaka_office_address ||
     "6th Floor, House 168, Block B, Sayednagar, Gulshan, Dhaka 1212, Bangladesh";
   const phone = contactInfo?.phone || "+8801877556633";
-  const email = contactInfo?.email || "info@bookingxpart.org";
+  const email = contactInfo?.email || "info@BookingXpert.org";
 
   const [formData, setFormData] = useState({
     name: "",

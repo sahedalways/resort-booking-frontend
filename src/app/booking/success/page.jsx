@@ -8,7 +8,7 @@ export default BookingSuccessPage;
 
 export async function generateMetadata() {
   return {
-    title: "BookingXpart | Booking Success",
+    title: "BookingXpert | Booking Success",
     description: "Booking success page",
   };
 }

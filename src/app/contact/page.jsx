@@ -7,7 +7,7 @@ import { useSiteData } from "../hooks/SiteDataContext";
 const page = () => {
   const { headerData } = useSiteData();
 
-  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
+  const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
 
   useEffect(() => {
     document.title = `${siteTitle} | Contact Us`;

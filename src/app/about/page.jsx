@@ -8,7 +8,7 @@ import ParallaxHero from "@/src/components/ParallaxHero";
 const AboutUs = () => {
   const { headerData, footerData } = useSiteData();
 
-  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
+  const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
   const contactInfo = footerData?.contact_info || {};
   const dhakaAddress =
     contactInfo?.dhaka_office_address ||
@@ -17,7 +17,7 @@ const AboutUs = () => {
     contactInfo?.gazipur_office_address ||
     "Plot 12, Shafipur Main Road, Kaliakoir, Gazipur, Bangladesh";
   const phone = contactInfo?.phone || "+8801877556633";
-  const email = contactInfo?.email || "info@bookingxpart.org";
+  const email = contactInfo?.email || "info@BookingXpert.org";
   const website = "https://www.bookingxpert.org";
 
   useEffect(() => {

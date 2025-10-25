@@ -1,7 +1,5 @@
 import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
-import fetchResortData, {
-  fetchResortById,
-} from "../../services/resortService";
+import fetchResortData, { fetchResortById } from "../../services/resortService";
 import SingleResortsServerWrapper from "./SingleResortsServerWrapper";
 
 export async function generateStaticParams() {
@@ -11,16 +9,17 @@ export async function generateStaticParams() {
   }));
 }
 
-const page = ({ params }) => {
-  return <SingleResortsServerWrapper params={params} />;
+const page = async ({ params }) => {
+  return <SingleResortsServerWrapper params={await params} />;
 };
 
 export default page;
 
 export async function generateMetadata({ params }) {
-  const resort = await fetchResortById(params.id);
+  const { id } = await params;
+  const resort = await fetchResortById(id);
   const headerData = await getSiteHeaderData();
-  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
+  const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
 
   if (!resort) {
     return {

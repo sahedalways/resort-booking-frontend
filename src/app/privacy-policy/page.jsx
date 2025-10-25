@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const PrivacyPolicy = () => {
   const { headerData, footerData } = useSiteData();
-  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
+  const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
   const sitePhone = footerData?.contact_info?.phone || "+8801877556633";
   const siteEmail =
     footerData?.contact_info?.email ||

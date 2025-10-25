@@ -19,7 +19,7 @@ export default function EventDetails({ params }) {
 
 export async function generateMetadata() {
   const headerData = await getSiteHeaderData();
-  const siteTitle = headerData?.header_info?.site_title || "BookingXpart";
+  const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
 
   return {
     title: `${siteTitle} | Event Services`,

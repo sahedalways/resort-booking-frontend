@@ -34,7 +34,7 @@ const Header = ({ data }) => {
   const handleClose = () => setShowMenu(false);
 
   useEffect(() => {
-    const title = data?.site_title || "BookingXpart";
+    const title = data?.site_title || "BookingXpert";
     localStorage.setItem("siteTitle", title);
   }, [data]);
 
@@ -51,10 +51,10 @@ const Header = ({ data }) => {
           <Link href="/" className="navbar-brand d-flex align-items-center">
             <img
               src={data?.logo_url || "/default-logo.png"}
-              alt={data?.site_title || "BookingXpart"}
+              alt={data?.site_title || "BookingXpert"}
               style={{ height: "40px", marginRight: "10px" }}
             />
-            <span>{data?.site_title || "BookingXpart"}</span>
+            <span>{data?.site_title || "BookingXpert"}</span>
           </Link>
 
           <button
@@ -233,14 +233,14 @@ const Header = ({ data }) => {
           <Link href="/" className="navbar-brand d-flex align-items-center">
             <img
               src={data?.logo_url || "/default-logo.png"}
-              alt={data?.site_title || "BookingXpart"}
+              alt={data?.site_title || "BookingXpert"}
               style={{ height: "30px", marginRight: "8px" }}
             />
             <span
               className="offcanvas-title"
               style={{ fontSize: "14px", fontWeight: "500" }}
             >
-              {data?.site_title || "BookingXpart"}
+              {data?.site_title || "BookingXpert"}
             </span>
           </Link>
 

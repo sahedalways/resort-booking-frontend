@@ -11,7 +11,7 @@ const CheckoutPage = () => {
     const fetchTitle = async () => {
       const data = await fetchHeaderData();
       document.title = `${
-        data?.header_info?.site_title || "BookingXpart"
+        data?.header_info?.site_title || "BookingXpert"
       } | Checkout`;
     };
 
