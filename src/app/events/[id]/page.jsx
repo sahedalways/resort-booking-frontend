@@ -1,28 +1,31 @@
 import { getSiteHeaderData } from "../../helper/getSiteHeaderData";
-import fetchEventData from "../../services/eventService";
+import { fetchEventServiceById } from "../../services/eventService";
 import SingleEventsServerWrapper from "./SingleEventsServerWrapper";
 
-export async function generateStaticParams() {
-  const events = await fetchEventData();
-  return events.event_services.map((event) => ({
-    id: event.id.toString(),
-  }));
+export default async function EventDetails({ params }) {
+  return <SingleEventsServerWrapper params={await params} />;
 }
 
-export default function EventDetails({ params }) {
-  return (
-    <>
-      <SingleEventsServerWrapper params={params} />
-    </>
-  );
-}
-
-export async function generateMetadata() {
+export async function generateMetadata({ params }) {
   const headerData = await getSiteHeaderData();
   const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
 
+  const eventData = await fetchEventServiceById(params.id);
+
   return {
-    title: `${siteTitle} | Event Services`,
-    description: `Explore our event services on ${siteTitle}. Find and book services for your events easily and conveniently.`,
+    title: `${siteTitle} | ${eventData?.title || "Event Service"}`,
+    description:
+      eventData?.description || `Explore this event service on ${siteTitle}.`,
+
+    openGraph: {
+      images: [
+        {
+          url: eventData?.thumbnail_url || "/img/default-image.jpg",
+          width: 800,
+          height: 600,
+          alt: eventData?.title || "Event Service",
+        },
+      ],
+    },
   };
 }

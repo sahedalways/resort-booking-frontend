@@ -1,16 +1,28 @@
+"use client";
+
 import Skeleton from "@/src/components/Skeleton";
 import EventHero from "@/src/components/EventHero";
 import EventServices from "@/src/components/EventServices";
 import EventContactForm from "@/src/components/EventContactForm";
+import { useContext, useEffect } from "react";
+import { EventContext } from "../hooks/api/EventContext";
 
-export default function EventPage({ eventData }) {
-  if (!eventData) return <Skeleton type="eventList" />;
+export default function EventPage() {
+  const { eventList, isEventLoading, fetchAllEvents } =
+    useContext(EventContext);
+
+  useEffect(() => {
+    fetchAllEvents().catch(console.error);
+  }, [fetchAllEvents]);
+
+  if (isEventLoading || eventList.length === 0)
+    return <Skeleton type="eventList" />;
 
   return (
     <>
-      <EventHero eventData={eventData} />
+      <EventHero eventData={eventList} />
 
-      <EventServices eventData={eventData} />
+      <EventServices eventData={eventList} />
 
       <section className="service-section">
         <div className="container">

@@ -19,6 +19,7 @@ import { ReduxProvider } from "../redux/provider";
 import { FooterProvider } from "./hooks/api/FooterContext";
 import { HeaderProvider } from "./hooks/api/HeaderContext";
 import { getSiteHeaderData } from "./helper/getSiteHeaderData";
+import { EventProvider } from "./hooks/api/EventContext";
 
 export default async function RootLayout({ children }) {
   const headerData = await getSiteHeaderData();
@@ -53,35 +54,37 @@ export default async function RootLayout({ children }) {
       <body>
         <ReduxProvider>
           <LocalStoreProvider>
-            <ResortProvider>
-              <HomeProvider>
-                <CheckoutProvider>
-                  <DashboardProvider>
-                    <AuthProvider>
-                      <HeaderProvider>
-                        <Header />
-                        <ToastContainer
-                          position="top-center"
-                          autoClose={3000}
-                          hideProgressBar={false}
-                          newestOnTop={false}
-                          closeOnClick
-                          rtl={false}
-                          pauseOnFocusLoss
-                          draggable
-                          pauseOnHover
-                          theme="colored"
-                        />
-                        <FooterProvider>
-                          {children}
-                          <Footer />
-                        </FooterProvider>
-                      </HeaderProvider>
-                    </AuthProvider>
-                  </DashboardProvider>
-                </CheckoutProvider>
-              </HomeProvider>
-            </ResortProvider>
+            <EventProvider>
+              <ResortProvider>
+                <HomeProvider>
+                  <CheckoutProvider>
+                    <DashboardProvider>
+                      <AuthProvider>
+                        <HeaderProvider>
+                          <Header />
+                          <ToastContainer
+                            position="top-center"
+                            autoClose={3000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="colored"
+                          />
+                          <FooterProvider>
+                            {children}
+                            <Footer />
+                          </FooterProvider>
+                        </HeaderProvider>
+                      </AuthProvider>
+                    </DashboardProvider>
+                  </CheckoutProvider>
+                </HomeProvider>
+              </ResortProvider>
+            </EventProvider>
           </LocalStoreProvider>
         </ReduxProvider>
         <BootstrapClient />

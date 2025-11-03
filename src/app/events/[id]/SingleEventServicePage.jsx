@@ -7,12 +7,20 @@ import Image from "next/image";
 import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
-import Contact from "../../contact/page";
 import ImageGallery from "@/src/components/ImageGallery";
 import ContactForm from "@/src/components/ContactForm";
+import { EventContext } from "../../hooks/api/EventContext";
+import { useContext, useEffect } from "react";
 
-export default function SingleEventServicePage({ eventData }) {
-  if (!eventData) return <Skeleton type="singleEvent" />;
+export default function SingleEventServicePage({ id }) {
+  const { fetchEventById, eventDetails, isEventLoading } =
+    useContext(EventContext);
+
+  useEffect(() => {
+    fetchEventById(id).catch(console.error);
+  }, [id, fetchEventById]);
+
+  if (isEventLoading || !eventDetails) return <Skeleton type="singleEvent" />;
 
   return (
     <>
@@ -35,14 +43,14 @@ export default function SingleEventServicePage({ eventData }) {
             <div className="col-md-8">
               <div>
                 <h3 className="text-block-32 position-relative underLine primary-color">
-                  {eventData.title}
+                  {eventDetails.title}
                   <span className=""></span>
                 </h3>
 
                 <div className="mt-4">
-                  <h2 className="text-block-20">{eventData.title}</h2>
+                  <h2 className="text-block-20">{eventDetails.title}</h2>
                   <p className="paragraph-sm fw-normal text-dark">
-                    {eventData.description}
+                    {eventDetails.description}
                   </p>
                 </div>
 
@@ -72,8 +80,8 @@ export default function SingleEventServicePage({ eventData }) {
 
             <div className="col-md-4">
               <Image
-                src={eventData.thumbnail_url}
-                alt={eventData.title}
+                src={eventDetails.thumbnail_url}
+                alt={eventDetails.title}
                 className="img-fluid"
                 width={500}
                 height={500}
@@ -98,7 +106,7 @@ export default function SingleEventServicePage({ eventData }) {
             </div>
 
             <div className="col-12">
-              <ImageGallery images={eventData.images} />
+              <ImageGallery images={eventDetails.images} />
             </div>
           </div>
         </div>
