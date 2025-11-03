@@ -9,17 +9,6 @@ const Discount = ({ couponData, onClaim }) => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("success");
 
-  const copyCode = (code) => {
-    try {
-      navigator.clipboard.writeText(code);
-      setToastMessage(`Copied: ${code}`);
-      setToastType("success");
-    } catch (error) {
-      setToastMessage("Failed to copy!");
-      setToastType("error", error);
-    }
-  };
-
   if (!couponData || couponData.length === 0) return null;
 
   // Randomly select one coupon

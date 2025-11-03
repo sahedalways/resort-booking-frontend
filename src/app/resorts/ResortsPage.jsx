@@ -1,38 +1,61 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useContext, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Skeleton from "@/src/components/Skeleton";
-import { fetchResortData } from "../services/resortService";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import ResortFacilities from "@/src/components/ResortFacilities";
 import ResortFilter from "@/src/components/ResortFilter";
+import { ResortContext } from "../hooks/api/ResortContext";
 
-export default function ResortsPage({ resortData: initialData }) {
-  const [resorts, setResorts] = useState(initialData.resort_info);
-  const [currentPage, setCurrentPage] = useState(
-    initialData.pagination.current_page
-  );
-  const [lastPage, setLastPage] = useState(initialData.pagination.last_page);
+export default function ResortsPage() {
+  const { resortsInfo, isResortLoading, fetchAllResorts } =
+    useContext(ResortContext);
+
+  // ✅ Safe default states
+  const [resorts, setResorts] = useState([]);
+  const [filteredResorts, setFilteredResorts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [filteredResorts, setFilteredResorts] = useState(
-    initialData.resort_info
-  );
 
   const observer = useRef();
 
+  // ✅ Fetch once on mount
+  useEffect(() => {
+    fetchAllResorts().catch(console.error);
+  }, []);
+
+  // ✅ Sync context data to local state
+  useEffect(() => {
+    if (resortsInfo?.resort_info?.length) {
+      setResorts(resortsInfo.resort_info);
+      setFilteredResorts(resortsInfo.resort_info);
+      setCurrentPage(resortsInfo.pagination?.current_page || 1);
+      setLastPage(resortsInfo.pagination?.last_page || 1);
+    }
+  }, [resortsInfo]);
+
+  // ✅ Infinite scroll
   const lastResortRef = useCallback(
     (node) => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
+
       observer.current = new IntersectionObserver(async (entries) => {
         if (entries[0].isIntersecting && currentPage < lastPage) {
           setLoading(true);
           try {
-            const newData = await fetchResortData(currentPage + 1);
-            setResorts((prev) => [...prev, ...newData.resort_info]);
-            setFilteredResorts((prev) => [...prev, ...newData.resort_info]);
-            setCurrentPage(newData.pagination.current_page);
+            const newData = await fetchAllResorts(currentPage + 1);
+            if (newData?.resort_info?.length) {
+              setResorts((prev) => [...prev, ...newData.resort_info]);
+              setFilteredResorts((prev) => [...prev, ...newData.resort_info]);
+              setCurrentPage(
+                newData.pagination?.current_page || currentPage + 1
+              );
+              setLastPage(newData.pagination?.last_page || lastPage);
+            }
           } catch (err) {
             console.error(err.message);
           } finally {
@@ -40,20 +63,21 @@ export default function ResortsPage({ resortData: initialData }) {
           }
         }
       });
+
       if (node) observer.current.observe(node);
     },
     [loading, currentPage, lastPage]
   );
 
-  // ✅ Handle filter change
+  // ✅ Filter handler
   const handleFilterChange = (selectedRanges) => {
-    if (selectedRanges.length === 0) {
+    if (!selectedRanges?.length) {
       setFilteredResorts(resorts);
       return;
     }
 
     const filtered = resorts.filter((resort) => {
-      const price = resort.lowest_price || 0;
+      const price = parseFloat(resort.lowest_price) || 0;
       return selectedRanges.some((range) => {
         const [min, max] = range.split("-").map(Number);
         return price >= min && price <= max;
@@ -63,8 +87,30 @@ export default function ResortsPage({ resortData: initialData }) {
     setFilteredResorts(filtered);
   };
 
-  if (!resorts || (loading && resorts.length === 0))
-    return <Skeleton type="resorts" />;
+  if (isResortLoading && resorts.length === 0)
+    return (
+      <div className="container">
+        {[...Array(5)].map((_, i) => (
+          <div key={i} className="resort-card row mb-4 p-3 border rounded">
+            <div className="col-lg-3">
+              <Skeleton height={180} />
+            </div>
+            <div className="col-lg-7">
+              <Skeleton height={25} width={`60%`} className="mb-2" />
+              <Skeleton height={20} width={`40%`} className="mb-2" />
+              <Skeleton height={15} count={3} />
+            </div>
+            <div className="col-lg-2 text-end">
+              <Skeleton height={25} width={80} className="mb-2" />
+              <Skeleton height={30} width={100} />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+
+  if (!resorts.length)
+    return <p className="text-center mt-5 text-muted">No resorts found.</p>;
 
   const lowestPrice = Math.min(
     ...resorts.map((r) => parseFloat(r.lowest_price || 0))
@@ -171,8 +217,6 @@ export default function ResortsPage({ resortData: initialData }) {
               ) : (
                 <p className="text-center mt-5 text-muted">No resorts found.</p>
               )}
-
-              {loading && <Skeleton type="resorts" />}
             </div>
           </div>
         </div>

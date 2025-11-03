@@ -16,7 +16,7 @@ const Header = () => {
   const { authUserData } = useContext(LocalStoreContext);
   const { handleLogout } = useContext(AuthContext);
   const isLoggedInToken = isLoggedIn();
-  console.log("headerData", headerData);
+
   const router = useRouter();
   const pathname = usePathname();
   const [showMenu, setShowMenu] = useState(false);

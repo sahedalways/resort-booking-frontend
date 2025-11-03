@@ -6,11 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { EffectCoverflow, Pagination, Autoplay } from "swiper/modules";
-import Skeleton from "@/src/components/Skeleton";
 
 const Slider = ({ resortData }) => {
-  if (!resortData) return <Skeleton type="slider" />;
-
   return (
     <section className="slider-section section-gap">
       <div className="container">

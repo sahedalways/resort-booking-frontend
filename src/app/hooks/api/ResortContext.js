@@ -10,6 +10,9 @@ export const ResortContext = createContext();
 export const ResortProvider = ({ children }) => {
   const isLoggedInToken = isLoggedIn();
   const [isLoadingSubmitting, setIsLoadingSubmitting] = useState(false);
+  const [isResortLoading, setIsResortLoading] = useState(false);
+  const [resortsInfo, setResortsInfo] = useState();
+  const [resortDetails, setResortDetails] = useState(null);
 
   const saveReview = async (reviewData, resortId) => {
     setIsLoadingSubmitting(true);
@@ -175,6 +178,55 @@ export const ResortProvider = ({ children }) => {
     }
   };
 
+  // ✅ Fetch all resorts (pagination handled automatically)
+  const fetchAllResorts = async (page = 1) => {
+    setIsResortLoading(true);
+
+    try {
+      const response = await http.get(`resort-data?page=${page}`);
+      const data = response.data.data;
+
+      setResortsInfo((prev) => {
+        if (page === 1 || !prev) {
+          return data;
+        } else {
+          return {
+            resort_info: [...prev.resort_info, ...data.resort_info],
+            pagination: data.pagination,
+          };
+        }
+      });
+
+      return data;
+    } catch (error) {
+      console.error("Failed to fetch resort data:", error.message);
+      return {
+        resort_info: [],
+        pagination: { current_page: page, last_page: 1 },
+      };
+    } finally {
+      setIsResortLoading(false);
+    }
+  };
+
+  // ✅ Fetch single resort by ID
+  const fetchResortById = async (id) => {
+    setIsResortLoading(true);
+    try {
+      const response = await http.get(`single-resort-data/${id}`);
+      setResortDetails(response.data.data);
+      console.log("response.data.data", response.data.data);
+      return response.data.data;
+    } catch (error) {
+      const message =
+        error.response?.data?.message || "Failed to fetch resort details";
+      toast.error(message, { theme: "colored" });
+      return null;
+    } finally {
+      setIsResortLoading(false);
+    }
+  };
+
   return (
     <ResortContext.Provider
       value={{
@@ -183,6 +235,11 @@ export const ResortProvider = ({ children }) => {
         getReviews,
         updateReview,
         deleteReview,
+        resortsInfo,
+        resortDetails,
+        isResortLoading,
+        fetchAllResorts,
+        fetchResortById,
       }}
     >
       {children}

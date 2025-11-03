@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { http } from "../../services/httpService";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,8 @@ export const HomeProvider = ({ children }) => {
   const router = useRouter();
 
   const [isLoadingSubmitting, setIsLoadingSubmitting] = useState(false);
+  const [homeData, setHomeData] = useState(null);
+  const [homeLoading, setHomeLoading] = useState(true);
 
   const searchResort = async (data) => {
     setIsLoadingSubmitting(true);
@@ -24,14 +26,10 @@ export const HomeProvider = ({ children }) => {
       });
 
       if (response.data.success) {
-        toast.success(
-          `Resort & Room found! You can now view and book your stay.`
-        );
+        toast.success(`Resort & Room found! `);
 
-        const searchData = encodeURIComponent(
-          JSON.stringify(response.data.data)
-        );
-        router.push(`/resorts/search?results=${searchData}`);
+        const searchData = response.data.data;
+        router.push(`/resorts/${searchData}`);
       } else {
         toast.error(response.data.message || "No resorts found.");
       }
@@ -48,11 +46,35 @@ export const HomeProvider = ({ children }) => {
     }
   };
 
+  const fetchHomeData = async () => {
+    try {
+      setHomeLoading(true);
+      const response = await http.get("home-data");
+      if (response.data?.data) {
+        setHomeData(response.data.data);
+      } else {
+        toast.error("Failed to load home data.");
+      }
+    } catch (error) {
+      console.error("Home Data Fetch Error:", error);
+      toast.error("Failed to fetch home data.");
+    } finally {
+      setHomeLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchHomeData();
+  }, []);
+
   return (
     <HomeContext.Provider
       value={{
         isLoadingSubmitting,
         searchResort,
+        homeData,
+        homeLoading,
+        refetchHomeData: fetchHomeData,
       }}
     >
       {children}

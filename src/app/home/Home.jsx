@@ -16,7 +16,10 @@ export default function Home({ homeData }) {
   return (
     <>
       {showModal && homeData?.coupons && (
-        <CouponModal onClose={handleCloseModal} couponData={homeData.coupons} />
+        <CouponModal
+          onClose={handleCloseModal}
+          couponData={homeData?.coupons}
+        />
       )}
 
       <div

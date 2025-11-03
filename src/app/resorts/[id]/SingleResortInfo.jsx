@@ -8,35 +8,44 @@ import ResortFacilities from "@/src/components/SingleResort/ResortFacilities";
 import ResortTimings from "@/src/components/SingleResort/ResortTimings";
 import Breadcrumb from "@/src/components/SingleResort/Breadcrumb";
 import ResortBelowTabs from "@/src/components/SingleResort/ResortBelowTabs";
+import { ResortContext } from "../../hooks/api/ResortContext";
+import { useContext, useEffect } from "react";
 
-const SingleResortInfo = ({ resortData }) => {
-  const resort = resortData;
-  const location = resort.location;
+const SingleResortInfo = ({ id }) => {
+  const { fetchResortById, isResortLoading, resortDetails } =
+    useContext(ResortContext);
+
+  useEffect(() => {
+    fetchResortById(id);
+  }, [id]);
+
+  if (isResortLoading || !resortDetails) {
+    return <ResortSkeleton type="resorts" />;
+  }
+
+  // ✅ Safe to access properties now
+  const location = resortDetails.location;
   const mapUrl = `https://www.google.com/maps?q=${encodeURIComponent(
     location
   )}&output=embed`;
 
-  if (!resortData) return <ResortSkeleton type="resorts" />;
-
   return (
     <div className="resort-details">
       <div className="breadcrumb-container">
-        <Breadcrumb resort={resort} />
+        <Breadcrumb resort={resortDetails} />
       </div>
 
-      <ResortInfo resort={resort} />
+      <ResortInfo resort={resortDetails} />
 
       {/* Gallery */}
-      <ResortGallery resort={resort} />
+      <ResortGallery resort={resortDetails} />
 
-      <ResortDescription resort={resortData} mapUrl={mapUrl} />
+      <ResortDescription resort={resortDetails} mapUrl={mapUrl} />
 
       {/* Facilities */}
-      {resort?.facilities?.length > 0 && (
-        <ResortFacilities facilities={resort.facilities} />
+      {resortDetails?.facilities?.length > 0 && (
+        <ResortFacilities facilities={resortDetails.facilities} />
       )}
-
-      {/* <ResortPolicyTable resort={resortData} sectionTitle="Resort Policy" /> */}
 
       <div className="container">
         <div className="row">
@@ -47,9 +56,11 @@ const SingleResortInfo = ({ resortData }) => {
       </div>
 
       {/* Night & Day Stay */}
-      <ResortTimings resort={resort} />
+      <ResortTimings resort={resortDetails} />
 
-      <ResortBelowTabs resortData={resortData} mapUrl={mapUrl} />
+      {resortDetails && (
+        <ResortBelowTabs resortData={resortDetails} mapUrl={mapUrl} id={id} />
+      )}
     </div>
   );
 };

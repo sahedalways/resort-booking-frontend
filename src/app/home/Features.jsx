@@ -2,11 +2,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import Image from "next/image";
-import Skeleton from "@/src/components/Skeleton";
 
 const Features = ({ featuresData }) => {
-  if (featuresData === undefined) return <Skeleton type="features" />;
-
   if (!featuresData || Object.keys(featuresData).length === 0) {
     return (
       <section className="features-section section-gap overflowX-hidden">

@@ -9,7 +9,7 @@ import Map from "./tab/Map";
 import Review from "./Review";
 import { ResortContext } from "@/src/app/hooks/api/ResortContext";
 
-const ResortBelowTabs = ({ resortData, mapUrl }) => {
+const ResortBelowTabs = ({ resortData, mapUrl, id }) => {
   const [activeTab, setActiveTab] = useState("overview");
   const { getReviews } = useContext(ResortContext);
   const [reviews, setReviews] = useState([]);
@@ -21,11 +21,11 @@ const ResortBelowTabs = ({ resortData, mapUrl }) => {
   // Fetch reviews
   useEffect(() => {
     const fetchReviews = async () => {
-      const reviewList = await getReviews(resortData.id);
+      const reviewList = await getReviews(id);
       setReviews(reviewList);
     };
     fetchReviews();
-  }, [resortData.id, getReviews]);
+  }, [id, getReviews]);
 
   // Intersection Observer for all sections including overview
   useEffect(() => {

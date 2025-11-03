@@ -6,18 +6,19 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import Link from "next/link";
 import Image from "next/image";
-import Skeleton from "@/src/components/Skeleton";
 import { toast } from "react-toastify";
 import { HomeContext } from "../hooks/api/HomeContext";
 
 const SearchForm = ({ resortData }) => {
   const { isLoadingSubmitting, searchResort } = useContext(HomeContext);
 
-  if (!resortData) return <Skeleton type="searchForm" />;
-
   // ✅ Separate states for check-in and check-out
   const [checkInDate, setCheckInDate] = useState(new Date());
-  const [checkOutDate, setCheckOutDate] = useState(new Date());
+  const [checkOutDate, setCheckOutDate] = useState(() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow;
+  });
   const [checkInOpen, setCheckInOpen] = useState(false);
   const [checkOutOpen, setCheckOutOpen] = useState(false);
 
