@@ -1,5 +1,3 @@
-"use client";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
@@ -19,15 +17,19 @@ import { HomeProvider } from "./hooks/api/HomeContext";
 import { ResortProvider } from "./hooks/api/ResortContext";
 import { ReduxProvider } from "../redux/provider";
 import { FooterProvider } from "./hooks/api/FooterContext";
-import { HeaderProvider, HeaderContext } from "./hooks/api/HeaderContext";
-import { useContext } from "react";
-import { Favicon } from "./utils/Favicon";
+import { HeaderProvider } from "./hooks/api/HeaderContext";
+import { getSiteHeaderData } from "./helper/getSiteHeaderData";
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const headerData = await getSiteHeaderData();
+  const faviconUrl = headerData?.header_info?.favicon_url || "/favicon.ico";
+
   return (
     <html lang="en">
       <head>
         {/* Fonts & icons */}
+        {faviconUrl && <link rel="icon" href={faviconUrl} />}
+
         <link
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
@@ -57,7 +59,6 @@ export default function RootLayout({ children }) {
                   <DashboardProvider>
                     <AuthProvider>
                       <HeaderProvider>
-                        <Favicon />
                         <Header />
                         <ToastContainer
                           position="top-center"
@@ -88,5 +89,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
-// Wrapper component to inject favicon dynamically
