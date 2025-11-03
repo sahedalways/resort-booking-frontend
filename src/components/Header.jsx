@@ -9,52 +9,44 @@ import { LocalStoreContext } from "../app/hooks/localstorage/LocalStoreContext";
 import { AuthContext } from "../app/hooks/api/AuthContext";
 import { isLoggedIn } from "../app/helper/auth";
 import CartBadge from "./CartIcon";
+import { HeaderContext } from "../app/hooks/api/HeaderContext";
 
-const Header = ({ data }) => {
+const Header = () => {
+  const { headerData, loading } = useContext(HeaderContext);
   const { authUserData } = useContext(LocalStoreContext);
   const { handleLogout } = useContext(AuthContext);
   const isLoggedInToken = isLoggedIn();
-
+  console.log("headerData", headerData);
   const router = useRouter();
-
-  const handleClick = () => {
-    router.push("/user/dashboard");
-  };
-
-  const logoutSubmit = () => {
-    handleLogout();
-  };
-
-  if (!data) return <Skeleton type="header" />;
-
   const pathname = usePathname();
   const [showMenu, setShowMenu] = useState(false);
 
+  const handleClick = () => router.push("/user/dashboard");
+  const logoutSubmit = () => handleLogout();
   const handleShow = () => setShowMenu(true);
   const handleClose = () => setShowMenu(false);
 
   useEffect(() => {
-    const title = data?.site_title || "BookingXpert";
-    localStorage.setItem("siteTitle", title);
-  }, [data]);
+    if (headerData?.site_title) {
+      localStorage.setItem("siteTitle", headerData.header_info?.site_title);
+    }
+  }, [headerData]);
 
-  // ✅ Default profile image
   const profileImage = authUserData?.profile?.avatar_url;
+
+  if (loading || !headerData) return <Skeleton type="header" />;
 
   return (
     <>
-      <nav
-        id="main-navbar"
-        className="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm"
-      >
+      <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
         <div className="container">
           <Link href="/" className="navbar-brand d-flex align-items-center">
             <img
-              src={data?.logo_url || "/default-logo.png"}
-              alt={data?.site_title || "BookingXpert"}
+              src={headerData?.header_info?.logo_url || "/default-logo.png"}
+              alt={headerData?.header_info?.site_title || "BookingXpert"}
               style={{ height: "40px", marginRight: "10px" }}
             />
-            <span>{data?.site_title || "BookingXpert"}</span>
+            <span>{headerData?.header_info?.site_title || "BookingXpert"}</span>
           </Link>
 
           <button
@@ -67,10 +59,7 @@ const Header = ({ data }) => {
             </span>
           </button>
 
-          <div
-            className="collapse navbar-collapse d-none d-lg-block"
-            id="navbarNav"
-          >
+          <div className="collapse navbar-collapse d-none d-lg-block">
             <ul className="navbar-nav mx-auto">
               <li className="nav-item">
                 <Link
@@ -120,29 +109,22 @@ const Header = ({ data }) => {
                   Contact
                 </Link>
               </li>
-
-              {/* Dashboard + User name */}
               {isLoggedInToken && authUserData && (
-                <>
-                  <li className="nav-item">
-                    <Link
-                      href="/user/dashboard"
-                      className={`nav-link ${
-                        pathname === "/user/dashboard" ? "active" : ""
-                      }`}
-                    >
-                      Dashboard
-                    </Link>
-                  </li>
-                </>
+                <li className="nav-item">
+                  <Link
+                    href="/user/dashboard"
+                    className={`nav-link ${
+                      pathname === "/user/dashboard" ? "active" : ""
+                    }`}
+                  >
+                    Dashboard
+                  </Link>
+                </li>
               )}
             </ul>
 
-            {/* ✅ Right-side buttons */}
             <div className="d-flex justify-content-center align-items-center gap-3">
-              {/* ✅ Cart Icon for logged-in user */}
               {isLoggedInToken && <CartBadge handleClose={handleClose} />}
-
               {isLoggedInToken ? (
                 <>
                   <button
@@ -154,7 +136,6 @@ const Header = ({ data }) => {
                   >
                     Logout
                   </button>
-
                   {authUserData && (
                     <div className="d-flex align-items-center ms-3">
                       {profileImage ? (
@@ -179,7 +160,6 @@ const Header = ({ data }) => {
                           style={{ fontSize: "35px", color: "#7f8a96d8" }}
                         ></i>
                       )}
-
                       <span
                         className="nav-link"
                         style={{
@@ -190,7 +170,7 @@ const Header = ({ data }) => {
                         onClick={handleClick}
                         onMouseEnter={(e) =>
                           (e.currentTarget.style.color = "#000080")
-                        } // navy blue
+                        }
                         onMouseLeave={(e) =>
                           (e.currentTarget.style.color = "#7f8a96d8")
                         }
@@ -203,10 +183,7 @@ const Header = ({ data }) => {
               ) : (
                 <>
                   <Link href="/auth/signup">
-                    <button
-                      className="btn secondary-bg me-2 custom-btn-style"
-                      type="button"
-                    >
+                    <button className="btn secondary-bg me-2 custom-btn-style">
                       Sign Up
                     </button>
                   </Link>
@@ -222,28 +199,25 @@ const Header = ({ data }) => {
         </div>
       </nav>
 
-      {/* ✅ Mobile Offcanvas */}
+      {/* Mobile Offcanvas */}
       <div
         className={`offcanvas offcanvas-start ${showMenu ? "show" : ""}`}
         tabIndex="-1"
-        id="offcanvasExample"
-        aria-labelledby="offcanvasExampleLabel"
       >
         <div className="offcanvas-header">
           <Link href="/" className="navbar-brand d-flex align-items-center">
             <img
-              src={data?.logo_url || "/default-logo.png"}
-              alt={data?.site_title || "BookingXpert"}
+              src={headerData?.logo_url || "/default-logo.png"}
+              alt={headerData?.site_title || "BookingXpert"}
               style={{ height: "30px", marginRight: "8px" }}
             />
             <span
               className="offcanvas-title"
               style={{ fontSize: "14px", fontWeight: "500" }}
             >
-              {data?.site_title || "BookingXpert"}
+              {headerData?.site_title || "BookingXpert"}
             </span>
           </Link>
-
           <button
             type="button"
             className="btn-close text-reset shadow-none"
@@ -301,7 +275,6 @@ const Header = ({ data }) => {
                 Contact
               </Link>
             </li>
-
             {isLoggedInToken && authUserData && (
               <>
                 <li className="nav-item">
@@ -315,84 +288,12 @@ const Header = ({ data }) => {
                     Dashboard
                   </Link>
                 </li>
-                {/* ✅ Cart icon in mobile menu */}
                 <li className="nav-item mt-2 text-center">
                   <CartBadge handleClose={handleClose} />
                 </li>
               </>
             )}
           </ul>
-
-          <div className="mt-3 text-center">
-            {isLoggedInToken ? (
-              <>
-                <button
-                  className="btn secondary-bg custom-btn-style"
-                  onClick={logoutSubmit}
-                >
-                  Logout
-                </button>
-
-                {authUserData && (
-                  <div className="d-flex flex-column align-items-center mt-3">
-                    {profileImage ? (
-                      <img
-                        src={profileImage}
-                        alt="Profile"
-                        className="rounded-circle mb-2"
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          objectFit: "cover",
-                        }}
-                      />
-                    ) : authUserData?.profile?.gender === "male" ? (
-                      <i
-                        className="bi bi-person-fill avatar-icon mb-2"
-                        style={{ fontSize: "50px", color: "#7f8a96d8" }}
-                      ></i>
-                    ) : (
-                      <i
-                        className="bi bi-person-fill-up avatar-icon mb-2"
-                        style={{ fontSize: "50px", color: "#7f8a96d8" }}
-                      ></i>
-                    )}
-
-                    <span
-                      className="nav-link"
-                      style={{
-                        color: "#7f8a96d8",
-                        cursor: "pointer",
-                        transition: "color 0.3s",
-                      }}
-                      onClick={handleClick}
-                      onMouseEnter={(e) =>
-                        (e.currentTarget.style.color = "#000080")
-                      }
-                      onMouseLeave={(e) =>
-                        (e.currentTarget.style.color = "#7f8a96d8")
-                      }
-                    >
-                      {authUserData?.f_name} {authUserData?.l_name}
-                    </span>
-                  </div>
-                )}
-              </>
-            ) : (
-              <>
-                <Link href="/auth/signup" onClick={handleClose}>
-                  <button className="btn secondary-bg me-2 custom-btn-style">
-                    Sign Up
-                  </button>
-                </Link>
-                <Link href="/auth/login" onClick={handleClose}>
-                  <button className="btn primary-bg custom-btn-style">
-                    Log In
-                  </button>
-                </Link>
-              </>
-            )}
-          </div>
         </div>
       </div>
 

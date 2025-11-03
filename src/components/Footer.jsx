@@ -1,13 +1,21 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import Skeleton from "./Skeleton";
 import { isLoggedIn } from "../app/helper/auth";
 
-const Footer = ({ data }) => {
-  if (!data) return <Skeleton type="footer" />;
-  const isLoggedInToken = isLoggedIn();
+import { useContext } from "react";
+import { FooterContext } from "../app/hooks/api/FooterContext";
 
-  const { site_info, contact_info, social_info } = data;
+const Footer = () => {
+  const { footerData, loading } = useContext(FooterContext);
+
+  if (loading) return <Skeleton type="footer" />;
+  const contact_info = footerData?.contact_info;
+  const social_info = footerData?.social_info;
+  const site_info = footerData?.site_info;
+  const isLoggedInToken = isLoggedIn();
 
   return (
     <footer className="footer text-center text-lg-start mt-auto">
