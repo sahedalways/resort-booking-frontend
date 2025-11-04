@@ -28,12 +28,13 @@ const WhyChooseUs = () => {
             <div className="feature-item">
               <div className="feature-content">
                 <div className="icon-box color-red">
-                  <FontAwesomeIcon icon={faHandshake}  />
+                  <FontAwesomeIcon icon={faHandshake} />
                 </div>
                 <h5 className="text-block-24 fw-bold mt-2">You Can Trust</h5>
                 <p className="text-secondary">
-                  With over <strong>[X]</strong> years of experience, our team of
-                  travel experts has traversed the globe.
+                  Our reliable and transparent service ensures every booking is
+                  handled with care and confidence — so you can relax and
+                  enjoy the moment.
                 </p>
               </div>
               <div className="feature-number">01</div>
@@ -45,12 +46,12 @@ const WhyChooseUs = () => {
             <div className="feature-item mt-lg-5">
               <div className="feature-content">
                 <div className="icon-box color-blue middle-icon">
-                  <FontAwesomeIcon icon={faShieldHeart}  />
+                  <FontAwesomeIcon icon={faShieldHeart} />
                 </div>
                 <h5 className="text-block-24 fw-bold mt-2">Tailored for You</h5>
                 <p className="text-secondary">
-                  We believe in the power of personalized travel. Your journey
-                  should reflect your unique desires and interests.
+                  We believe in the power of personalized vacation. Your journey
+                  should reflect your unique desires and interests.
                 </p>
               </div>
               <div className="feature-number">02</div>
@@ -64,7 +65,9 @@ const WhyChooseUs = () => {
                 <div className="icon-box color-green">
                   <FontAwesomeIcon icon={faStar} />
                 </div>
-                <h5 className="text-block-24 fw-bold mt-2">Safety and Quality</h5>
+                <h5 className="text-block-24 fw-bold mt-2">
+                  Safety and Quality
+                </h5>
                 <p className="text-secondary">
                   Your well-being is at the heart of everything we do. We adhere
                   to the highest safety and quality standards.

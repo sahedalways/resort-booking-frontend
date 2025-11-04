@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { http } from "../app/services/httpService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,18 +10,16 @@ import {
   faMapMarkerAlt,
   faClock,
 } from "@fortawesome/free-solid-svg-icons";
-import { useSiteData } from "../app/hooks/SiteDataContext";
 import { generateCaptcha } from "../app/utils/GenerateCaptcha";
+import { FooterContext } from "../app/hooks/api/FooterContext";
 
 const ContactForm = () => {
-  const { footerData } = useSiteData();
+  const { footerData } = useContext(FooterContext);
 
   const contactInfo = footerData?.contact_info || {};
-  const dhakaAddress =
-    contactInfo?.dhaka_office_address ||
-    "6th Floor, House 168, Block B, Sayednagar, Gulshan, Dhaka 1212, Bangladesh";
-  const phone = contactInfo?.phone || "+8801877556633";
-  const email = contactInfo?.email || "info@BookingXpert.org";
+  const dhakaAddress = contactInfo?.dhaka_office_address || "N/A";
+  const phone = contactInfo?.phone || "N/A";
+  const email = contactInfo?.email ?? "N/A";
 
   const [formData, setFormData] = useState({
     name: "",
@@ -54,10 +52,10 @@ const ContactForm = () => {
     const newErrors = {};
 
     if (!formData.name) newErrors.name = "Your Name is required.";
-
-    if (!formData.email) newErrors.email = "Email is required.";
-    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email))
-      newErrors.email = "Please enter a valid email address.";
+    if (formData.email) {
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email))
+        newErrors.email = "Please enter a valid email address.";
+    }
 
     if (!formData.phone) newErrors.phone = "Phone number is required.";
     else if (!/^[0-9+\-\s()]+$/.test(formData.phone))
@@ -152,7 +150,7 @@ const ContactForm = () => {
                 className="mb-4 fw-bold text-center border-bottom pb-3"
                 style={{ borderColor: "#3d4a8e" }}
               >
-                Get In Touch With Us Now!
+                Get in Touch With Us
               </h3>
 
               <ContactInfoCard
@@ -169,14 +167,17 @@ const ContactForm = () => {
 
               <ContactInfoCard
                 icon={<FontAwesomeIcon icon={faMapMarkerAlt} />}
-                title="Location"
+                title="Office Location"
                 content={[dhakaAddress || "N/A"]}
               />
 
               <ContactInfoCard
                 icon={<FontAwesomeIcon icon={faClock} />}
                 title="Working Hours"
-                content={["Saturday To Thursday", "09:00 AM To 06:00 PM"]}
+                content={[
+                  "Available 24/7 — our team is always ready to assist you.",
+                  "Reach out via Messenger, email, or call anytime you need support.",
+                ]}
               />
             </div>
           </div>
@@ -213,7 +214,7 @@ const ContactForm = () => {
                       className={`form-control shadow-none ${
                         errors.email ? "is-invalid" : ""
                       }`}
-                      placeholder="Your Email *"
+                      placeholder="Your Email (optional)"
                       value={formData.email}
                       onChange={handleChange}
                     />
@@ -235,31 +236,6 @@ const ContactForm = () => {
                     {errors.phone && (
                       <div className="invalid-feedback">{errors.phone}</div>
                     )}
-                  </div>
-                </div>
-
-                {/* Date & Gathering */}
-                <div className="row mb-3">
-                  <div className="col-md-6 mb-3 mb-md-0">
-                    <input
-                      type="text"
-                      id="date_of_function"
-                      className="form-control shadow-none"
-                      placeholder="Date of Function (optional)"
-                      value={formData.date_of_function}
-                      onChange={handleChange}
-                    />
-                  </div>
-                  <div className="col-md-6">
-                    <input
-                      type="text"
-                      id="gathering_size"
-                      className="form-control shadow-none"
-                      placeholder="Gathering Size (optional)"
-                      value={formData.gathering_size}
-                      onChange={handleChange}
-                      inputMode="numeric"
-                    />
                   </div>
                 </div>
 

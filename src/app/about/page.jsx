@@ -1,23 +1,21 @@
 "use client";
 
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Link from "next/link";
-import { useSiteData } from "../hooks/SiteDataContext";
 import ParallaxHero from "@/src/components/ParallaxHero";
+import { HeaderContext } from "../hooks/api/HeaderContext";
+import { FooterContext } from "../hooks/api/FooterContext";
 
 const AboutUs = () => {
-  const { headerData, footerData } = useSiteData();
+  const { headerData } = useContext(HeaderContext);
+  const { footerData } = useContext(FooterContext);
 
   const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
   const contactInfo = footerData?.contact_info || {};
-  const dhakaAddress =
-    contactInfo?.dhaka_office_address ||
-    "6th Floor, House 168, Block B, Sayednagar, Gulshan, Dhaka 1212, Bangladesh";
-  const gazipurAddress =
-    contactInfo?.gazipur_office_address ||
-    "Plot 12, Shafipur Main Road, Kaliakoir, Gazipur, Bangladesh";
-  const phone = contactInfo?.phone || "+8801877556633";
-  const email = contactInfo?.email || "info@BookingXpert.org";
+  const dhakaAddress = contactInfo?.dhaka_office_address || "N/A";
+  const gazipurAddress = contactInfo?.gazipur_office_address || "N/A";
+  const phone = contactInfo?.phone || "N/A";
+  const email = contactInfo?.email || "N/A";
   const website = "https://www.bookingxpert.org";
 
   useEffect(() => {

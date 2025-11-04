@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import ContactClient from "./ContactClient";
-import { useSiteData } from "../hooks/SiteDataContext";
+import { HeaderContext } from "../hooks/api/HeaderContext";
 
 const page = () => {
-  const { headerData } = useSiteData();
+  const { headerData } = useContext(HeaderContext);
 
   const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
 

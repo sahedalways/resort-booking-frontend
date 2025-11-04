@@ -12,12 +12,27 @@ export const FooterProvider = ({ children }) => {
   // footer data fetch function
   const fetchFooterData = async () => {
     try {
+      const cached = localStorage.getItem("footerData");
+      const cachedTime = localStorage.getItem("footerDataTime");
+
+      const now = Date.now();
+      const maxAge = 300 * 1000;
+
+      if (cached && cachedTime && now - cachedTime < maxAge) {
+        setFooterData(JSON.parse(cached));
+        setLoading(false);
+        return;
+      }
+
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/footer-data`
       );
 
-      setFooterData(response.data.data);
-      setLoading(false);
+      const data = response.data.data;
+      setFooterData(data);
+
+      localStorage.setItem("footerData", JSON.stringify(data));
+      localStorage.setItem("footerDataTime", now.toString());
     } catch (error) {
       console.error("Footer Fetch Error:", error);
     } finally {

@@ -14,6 +14,7 @@ const EventContactForm = () => {
     gathering_size: "",
     message: "",
     userCaptcha: "",
+    isEvent: true,
   });
 
   const [errors, setErrors] = useState({});
@@ -38,9 +39,10 @@ const EventContactForm = () => {
 
     if (!formData.name.trim()) newErrors.name = "Your Name is required.";
 
-    if (!formData.email.trim()) newErrors.email = "Email is required.";
-    else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email))
-      newErrors.email = "Please enter a valid email address.";
+    if (formData.email) {
+      if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email))
+        newErrors.email = "Please enter a valid email address.";
+    }
 
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required.";
     else if (!/^[0-9+\-\s()]+$/.test(formData.phone))
@@ -82,6 +84,7 @@ const EventContactForm = () => {
           gathering_size: "",
           message: "",
           userCaptcha: "",
+          isEvent: true,
         });
         setErrors({});
       } else {
@@ -137,7 +140,7 @@ const EventContactForm = () => {
                   className={`form-control shadow-none ${
                     errors.email ? "is-invalid" : ""
                   }`}
-                  placeholder="Your Email *"
+                  placeholder="Your Email (optional)"
                   value={formData.email}
                   onChange={handleChange}
                 />

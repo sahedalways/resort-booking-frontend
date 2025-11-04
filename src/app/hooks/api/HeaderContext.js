@@ -11,12 +11,32 @@ export const HeaderProvider = ({ children }) => {
 
   const fetchHeaderData = async () => {
     try {
+      const cacheKey = "headerData";
+      const cacheTimeKey = "headerDataTime";
+
+      const cachedData = localStorage.getItem(cacheKey);
+      const cachedTime = localStorage.getItem(cacheTimeKey);
+
+      const now = Date.now();
+      const maxAge = 300 * 1000;
+
+      if (cachedData && cachedTime && now - cachedTime < maxAge) {
+        setHeaderData(JSON.parse(cachedData));
+        setLoading(false);
+        return;
+      }
+
       const res = await axios.get(
         `${
           process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api"
         }/header-data`
       );
-      setHeaderData(res.data.data);
+
+      const data = res.data.data;
+      setHeaderData(data);
+
+      localStorage.setItem(cacheKey, JSON.stringify(data));
+      localStorage.setItem(cacheTimeKey, now.toString());
     } catch (error) {
       console.error("Header Fetch Error:", error);
     } finally {

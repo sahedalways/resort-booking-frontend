@@ -1,13 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
-import { useSiteData } from "../hooks/SiteDataContext";
+import { useContext, useEffect } from "react";
 import Link from "next/link";
+import { HeaderContext } from "../hooks/api/HeaderContext";
+import { FooterContext } from "../hooks/api/FooterContext";
 
 const PrivacyPolicy = () => {
-  const { headerData, footerData } = useSiteData();
+  const { headerData } = useContext(HeaderContext);
+  const { footerData } = useContext(FooterContext);
+
   const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
-  const sitePhone = footerData?.contact_info?.phone || "+8801877556633";
+  const sitePhone = footerData?.contact_info?.phone || "N/A";
   const siteEmail =
     footerData?.contact_info?.email ||
     `support@${siteTitle.toLowerCase().replace(/\s+/g, "")}.com`;

@@ -8,9 +8,9 @@ import "lightgallery/css/lightgallery.css";
 import "lightgallery/css/lg-zoom.css";
 import "lightgallery/css/lg-thumbnail.css";
 import ImageGallery from "@/src/components/ImageGallery";
-import ContactForm from "@/src/components/ContactForm";
 import { EventContext } from "../../hooks/api/EventContext";
 import { useContext, useEffect } from "react";
+import EventContactForm from "@/src/components/EventContactForm";
 
 export default function SingleEventServicePage({ id }) {
   const { fetchEventById, eventDetails, isEventLoading } =
@@ -112,7 +112,7 @@ export default function SingleEventServicePage({ id }) {
         </div>
       </section>
 
-      <ContactForm />
+      <EventContactForm />
     </>
   );
 }

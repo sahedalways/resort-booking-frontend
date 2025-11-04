@@ -1,11 +1,12 @@
 "use client";
 
 import ParallaxHero from "@/src/components/ParallaxHero";
-import { useSiteData } from "../hooks/SiteDataContext";
 import ContactForm from "@/src/components/ContactForm";
+import { HeaderContext } from "../hooks/api/HeaderContext";
+import { useContext } from "react";
 
 const ContactClient = () => {
-  const { headerData, footerData } = useSiteData();
+  const { headerData } = useContext(HeaderContext);
 
   const siteTitle = headerData?.header_info?.site_title || "BookingXpert";
 

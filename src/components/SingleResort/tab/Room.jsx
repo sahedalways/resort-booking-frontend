@@ -71,10 +71,16 @@ const RoomContent = ({ room, resortName }) => {
           <div className="col-xl-4 col-lg-5">
             <div className="card shadow border-0 overflow-hidden">
               <div className="p-3">
-                <div className="main-img w-100 overflow-hidden rounded-3 mb-2">
+                <div
+                  className="main-img w-100 overflow-hidden rounded-3 mb-2 mx-auto"
+                  style={{
+                    maxWidth: "350px",
+                    height: "170px",
+                  }}
+                >
                   <Image
-                    width={300}
-                    height={300}
+                    width={350}
+                    height={170}
                     src={room.images[0]}
                     alt={room.name}
                     className="w-100 h-100 object-fit-cover"
@@ -83,15 +89,21 @@ const RoomContent = ({ room, resortName }) => {
                   />
                 </div>
 
-                <div className="row g-2">
+                <div
+                  className="row g-2 justify-content-center"
+                  style={{ maxWidth: "350px", margin: "0 auto" }}
+                >
                   {room.images.slice(1, 3).map((img, idx) => {
                     const imageIndex = idx + 1;
                     return (
                       <div key={idx} className="col-6">
-                        <div className="thumb-img overflow-hidden rounded-3">
+                        <div
+                          className="thumb-img overflow-hidden rounded-3"
+                          style={{ height: "90px" }}
+                        >
                           <Image
-                            width={300}
-                            height={300}
+                            width={175}
+                            height={90}
                             src={img}
                             alt={`${room.name} image ${imageIndex + 1}`}
                             onClick={() => handleImageClick(imageIndex)}
