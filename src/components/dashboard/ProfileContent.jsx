@@ -26,6 +26,11 @@ const ProfileContent = React.forwardRef(
       religion: "Islam",
     });
 
+    const colors = {
+      primary: "linear-gradient(90deg, #164f84 0%, #0083bb 100%)",
+      danger: "linear-gradient(90deg, #d32f2f 0%, #f44336 100%)",
+    };
+
     useEffect(() => {
       if (authUserData) {
         setProfileData({
@@ -83,21 +88,21 @@ const ProfileContent = React.forwardRef(
           <h3 className="card-title fw-bold mb-0">{title}</h3>
           <p className="text-muted mb-0 small">{subtitle}</p>
         </div>
-        <div>
+        <div className="d-flex flex-wrap gap-2 justify-content-end mt-2">
           {isEditMode ? (
             <>
               <button
-                className="btn btn-sm me-2"
+                className="btn btn-sm flex-grow-1 flex-md-grow-0"
                 onClick={saveProfile}
-                style={{
-                  backgroundColor: "#164f84",
-                  borderColor: "#218838",
-                  color: "#fff",
-                }}
                 disabled={isLoadingSubmitting}
+                style={{
+                  background: colors.primary,
+                  color: "#fff",
+                  border: "none",
+                }}
               >
                 {isLoadingSubmitting ? (
-                  <span className="d-flex align-items-center">
+                  <span className="d-flex align-items-center justify-content-center">
                     <span
                       className="spinner-border spinner-border-sm me-2"
                       role="status"
@@ -111,8 +116,13 @@ const ProfileContent = React.forwardRef(
               </button>
 
               <button
-                className="btn btn-secondary btn-sm"
+                className="btn btn-sm flex-grow-1 flex-md-grow-0"
                 onClick={toggleEditMode}
+                style={{
+                  background: colors.danger,
+                  color: "#fff",
+                  border: "none",
+                }}
               >
                 Cancel
               </button>
@@ -122,9 +132,9 @@ const ProfileContent = React.forwardRef(
               className="btn btn-sm"
               onClick={toggleEditMode}
               style={{
-                backgroundColor: "#0083bb",
-                borderColor: "#164f84",
+                background: colors.primary,
                 color: "#fff",
+                border: "none",
               }}
             >
               Edit
