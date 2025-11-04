@@ -16,6 +16,7 @@ const DashboardSidebar = ({
   userImage,
   setAvatarPreview,
   avatarPreview,
+  authUserData,
 }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -98,19 +99,48 @@ const DashboardSidebar = ({
               }}
               onClick={handleAvatarClick}
             >
-              {!avatarPreview && (
-                <i
-                  className="bi bi-person-fill avatar-icon"
-                  style={{
-                    fontSize: "60px",
-                    color: "#ccc",
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                ></i>
-              )}
+              {!avatarPreview &&
+                (authUserData?.profile?.gender === "Male" ? (
+                  <img
+                    src="/img/male-profile.png"
+                    alt="Male Profile"
+                    className="rounded-circle"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                    }}
+                  />
+                ) : authUserData?.profile?.gender === "Female" ? (
+                  <img
+                    src="/img/female-profile.png"
+                    alt="Female Profile"
+                    className="rounded-circle"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                    }}
+                  />
+                ) : (
+                  <i
+                    className="bi bi-person-fill avatar-icon"
+                    style={{
+                      fontSize: "60px",
+                      color: "#ccc",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  ></i>
+                ))}
 
               <button
                 type="button"

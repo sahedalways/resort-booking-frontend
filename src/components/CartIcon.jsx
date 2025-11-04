@@ -1,21 +1,31 @@
 "use client";
 
-import { Provider, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { store } from "../redux/store/store";
+import { usePathname } from "next/navigation";
 
-const CartIcon = ({ handleClose }) => {
+const CartIcon = ({ setShowMenu }) => {
   const cartItems = useSelector((state) => state.cart.items);
   const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
+  const pathname = usePathname(); // get current route
+  const isActive = pathname.replace(/\/$/, "") === "/user/cart";
+
   return (
-    <Link href="/user/cart" onClick={handleClose} className="position-relative">
+    <Link
+      href="/user/cart"
+      onClick={() => setShowMenu(false)}
+      className="position-relative"
+    >
       <Icon
         icon="mdi:cart-outline"
         width="30"
         height="30"
-        className="text-secondary"
+        style={{
+          color: isActive ? "#0d6efd" : "#6c757d",
+          transition: "color 0.3s",
+        }}
       />
       {totalQuantity > 0 && (
         <span
@@ -36,10 +46,6 @@ const CartIcon = ({ handleClose }) => {
   );
 };
 
-export default function CartBadge() {
-  return (
-    <Provider store={store}>
-      <CartIcon />
-    </Provider>
-  );
+export default function CartBadge({ setShowMenu }) {
+  return <CartIcon setShowMenu={setShowMenu} />;
 }

@@ -12,7 +12,7 @@ const CheckoutClient = () => {
   const { isLoadingSubmitting, saveBookingInfo, isLoadingAnimation } =
     useContext(CheckoutContext);
   const isLoggedInToken = isLoggedIn();
-  const { authUserData, authUserProfile } = useContext(LocalStoreContext);
+  const { authUserData } = useContext(LocalStoreContext);
   const [bookingFor, setBookingFor] = useState("me");
   const cart = useSelector((state) => state.cart);
   const { resortName, items, bookingDetails, resortId } = cart;
@@ -60,8 +60,8 @@ const CheckoutClient = () => {
         lastName: authUserData.l_name || "",
         email: authUserData.email || "",
         mobile: authUserData.phone_no || "",
-        gender: authUserProfile?.gender || "",
-        dob: authUserProfile?.date_of_birth || "",
+        gender: authUserData?.profile?.gender || "",
+        dob: authUserData?.profile?.date_of_birth || "",
       }));
     }
   }, [authUserData]);
@@ -153,7 +153,8 @@ const CheckoutClient = () => {
     e.preventDefault();
     if (!code) return;
 
-    const storedCoupons = JSON.parse(localStorage.getItem("coupons")) || [];
+    const storedCoupons = JSON.parse(localStorage.getItem("bx_coupons")) || [];
+
     const coupon = storedCoupons.find(
       (c) =>
         c.code.toLowerCase() === code.toLowerCase() && c.status === "active"
@@ -315,9 +316,11 @@ const CheckoutClient = () => {
                         </label>
                         <select
                           name="gender"
-                          disabled={!!authUserProfile?.gender}
+                          disabled={!!authUserData?.profile?.gender}
                           value={
-                            authUserProfile?.gender || formData.gender || ""
+                            authUserData?.profile?.gender ||
+                            formData.gender ||
+                            ""
                           }
                           onChange={(e) =>
                             setFormData({ ...formData, gender: e.target.value })
@@ -343,7 +346,7 @@ const CheckoutClient = () => {
                           Date of Birth <span className="text-danger">*</span>
                         </label>
                         <input
-                          readOnly={!!authUserProfile?.date_of_birth}
+                          readOnly={!!authUserData?.profile?.date_of_birth}
                           type="date"
                           name="dob"
                           value={formData.dob}

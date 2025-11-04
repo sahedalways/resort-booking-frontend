@@ -51,7 +51,15 @@ export const HomeProvider = ({ children }) => {
       setHomeLoading(true);
       const response = await http.get("home-data");
       if (response.data?.data) {
+        console.log("response.data.data", response.data.data);
         setHomeData(response.data.data);
+
+        if (response.data.data?.coupons) {
+          localStorage.setItem(
+            "bx_coupons",
+            JSON.stringify(response.data.data.coupons)
+          );
+        }
       } else {
         toast.error("Failed to load home data.");
       }

@@ -13,6 +13,7 @@ import { DashboardContext } from "../../hooks/api/DashboardContext";
 export function DashboardWrapper() {
   const { getProfileOverview, bookingData, profileData, isLoading } =
     useContext(DashboardContext);
+
   const { authUserData } = useContext(LocalStoreContext);
   const { isLoginSuccessMsg, setIsLoginSuccessMsg } = useContext(AuthContext);
   const [activeSection, setActiveSection] = useState("profile");
@@ -27,6 +28,7 @@ export function DashboardWrapper() {
 
   const [avatarPreview, setAvatarPreview] = useState(null);
   const userImage = authUserData?.profile?.avatar_url;
+
   useEffect(() => {
     if (userImage) {
       setAvatarPreview(userImage);
@@ -77,6 +79,7 @@ export function DashboardWrapper() {
           userImage={userImage}
           setAvatarPreview={setAvatarPreview}
           avatarPreview={avatarPreview}
+          authUserData={authUserData}
         />
 
         {/* Right Content */}
@@ -84,7 +87,6 @@ export function DashboardWrapper() {
           {/* Profile Section */}
           <ProfileContent
             ref={profileRef}
-            userData={authUserData}
             savedProfileInfo={profileData}
             isLoading={isLoading}
           />

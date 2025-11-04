@@ -97,6 +97,7 @@ export const LocalStoreProvider = ({ children }) => {
     }
   }, [
     authUserData,
+    authUserProfile,
     userId,
     forgotPasswordIdentifier,
     authIdentifier,

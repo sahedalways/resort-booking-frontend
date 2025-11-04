@@ -1,14 +1,16 @@
 "use client";
 import { DashboardContext } from "@/src/app/hooks/api/DashboardContext";
+import { LocalStoreContext } from "@/src/app/hooks/localstorage/LocalStoreContext";
 import React, { useContext, useEffect, useState } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
 // eslint-disable-next-line react/display-name
 const ProfileContent = React.forwardRef(
-  ({ userData, savedProfileInfo, isLoading }, ref) => {
+  ({ savedProfileInfo, isLoading }, ref) => {
     const { saveProfileData, isLoadingSubmitting } =
       useContext(DashboardContext);
+    const { authUserData } = useContext(LocalStoreContext);
 
     const [isEditMode, setIsEditMode] = useState(false);
     const [profileData, setProfileData] = useState({
@@ -25,10 +27,10 @@ const ProfileContent = React.forwardRef(
     });
 
     useEffect(() => {
-      if (userData) {
+      if (authUserData) {
         setProfileData({
-          f_name: userData?.f_name || "",
-          l_name: userData?.l_name || "",
+          f_name: authUserData?.f_name || "",
+          l_name: authUserData?.l_name || "",
           gender: savedProfileInfo?.gender || "",
           present_address: savedProfileInfo?.present_address || "",
           permanent_address: savedProfileInfo?.permanent_address || "",
@@ -39,7 +41,7 @@ const ProfileContent = React.forwardRef(
           religion: savedProfileInfo?.religion || "Islam",
         });
       }
-    }, [userData, savedProfileInfo]);
+    }, [authUserData, savedProfileInfo]);
     const [errors, setErrors] = useState({});
 
     const MAX_CHAR = {

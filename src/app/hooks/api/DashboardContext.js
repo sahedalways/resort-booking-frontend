@@ -63,6 +63,8 @@ export const DashboardProvider = ({ children }) => {
     setIsSuccessMsg("");
     setIsErrorMsg("");
     setIsLoadingSubmitting(true);
+    setAuthUserProfile(null);
+    setProfileData(null);
 
     try {
       const formData = new FormData();
@@ -84,10 +86,14 @@ export const DashboardProvider = ({ children }) => {
 
       setIsLoadingSubmitting(false);
 
-      if (response.data.data) {
-        setProfileData(response.data.data.profile);
-        setAuthUserProfile(response.data.data.profile);
-      }
+      const updatedProfile = response.data.data.profile;
+
+      setProfileData(updatedProfile);
+      setAuthUserProfile(response.data.data);
+
+      setAuthUserData((prev) =>
+        prev ? { ...prev, ...response.data.data } : response.data.data
+      );
     } catch (error) {
       const errorData = error.response?.data;
       if (errorData?.error) {
