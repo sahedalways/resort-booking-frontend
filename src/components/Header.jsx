@@ -73,7 +73,7 @@ const Header = () => {
                 <Link
                   href="/resorts"
                   className={`nav-link ${
-                    pathname === "/resorts" ? "active" : ""
+                    pathname === "/resorts/" ? "active" : ""
                   }`}
                 >
                   Resorts
@@ -83,7 +83,7 @@ const Header = () => {
                 <Link
                   href="/events"
                   className={`nav-link ${
-                    pathname === "/events" ? "active" : ""
+                    pathname === "/events/" ? "active" : ""
                   }`}
                 >
                   Events
@@ -93,7 +93,7 @@ const Header = () => {
                 <Link
                   href="/about"
                   className={`nav-link ${
-                    pathname === "/about" ? "active" : ""
+                    pathname === "/about/" ? "active" : ""
                   }`}
                 >
                   About
@@ -103,7 +103,7 @@ const Header = () => {
                 <Link
                   href="/contact"
                   className={`nav-link ${
-                    pathname === "/contact" ? "active" : ""
+                    pathname === "/contact/" ? "active" : ""
                   }`}
                 >
                   Contact
@@ -114,7 +114,7 @@ const Header = () => {
                   <Link
                     href="/user/dashboard"
                     className={`nav-link ${
-                      pathname === "/user/dashboard" ? "active" : ""
+                      pathname === "/user/dashboard/" ? "active" : ""
                     }`}
                   >
                     Dashboard
@@ -207,15 +207,15 @@ const Header = () => {
         <div className="offcanvas-header">
           <Link href="/" className="navbar-brand d-flex align-items-center">
             <img
-              src={headerData?.logo_url || "/default-logo.png"}
-              alt={headerData?.site_title || "BookingXpert"}
+              src={headerData?.header_info?.logo_url || "/default-logo.png"}
+              alt={headerData?.header_info?.site_title || "BookingXpert"}
               style={{ height: "30px", marginRight: "8px" }}
             />
             <span
               className="offcanvas-title"
               style={{ fontSize: "14px", fontWeight: "500" }}
             >
-              {headerData?.site_title || "BookingXpert"}
+              {headerData?.header_info?.site_title || "BookingXpert"}
             </span>
           </Link>
           <button
@@ -239,7 +239,7 @@ const Header = () => {
               <Link
                 href="/resorts"
                 className={`nav-link ${
-                  pathname === "/resorts" ? "active" : ""
+                  pathname === "/resorts/" ? "active" : ""
                 }`}
                 onClick={handleClose}
               >
@@ -249,7 +249,9 @@ const Header = () => {
             <li className="nav-item">
               <Link
                 href="/events"
-                className={`nav-link ${pathname === "/events" ? "active" : ""}`}
+                className={`nav-link ${
+                  pathname === "/events/" ? "active" : ""
+                }`}
                 onClick={handleClose}
               >
                 Events
@@ -258,7 +260,7 @@ const Header = () => {
             <li className="nav-item">
               <Link
                 href="/about"
-                className={`nav-link ${pathname === "/about" ? "active" : ""}`}
+                className={`nav-link ${pathname === "/about/" ? "active" : ""}`}
                 onClick={handleClose}
               >
                 About
@@ -268,7 +270,7 @@ const Header = () => {
               <Link
                 href="/contact"
                 className={`nav-link ${
-                  pathname === "/contact" ? "active" : ""
+                  pathname === "/contact/" ? "active" : ""
                 }`}
                 onClick={handleClose}
               >
@@ -281,7 +283,7 @@ const Header = () => {
                   <Link
                     href="/user/dashboard"
                     className={`nav-link ${
-                      pathname === "/user/dashboard" ? "active" : ""
+                      pathname === "/user/dashboard/" ? "active" : ""
                     }`}
                     onClick={handleClose}
                   >
