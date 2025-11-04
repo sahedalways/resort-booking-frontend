@@ -132,7 +132,7 @@ const CartComponent = () => {
         <div className="row">
           <div className="col-xl-9 col-lg-8">
             {cartItems.map((item, index) => {
-              const { adultGuests, childGuests, nightStay } = guestData[index];
+              const { adultGuests, nightStay } = guestData[index];
               const toDate = new Date(today);
               toDate.setDate(today.getDate() + nightStay);
 
@@ -200,7 +200,7 @@ const CartComponent = () => {
                                   />
                                 </div>
 
-                                <div className="d-flex align-items-center border rounded-2 px-3 py-2 bg-white shadow-sm mt-2">
+                                <div className="d-flex align-items-center border rounded-2 px-3 py-2 bg-white shadow-sm mt-3">
                                   <div className="text-center me-3">
                                     <span className="d-block fw-semibold text-dark small">
                                       {formatDate(today)}
@@ -237,63 +237,40 @@ const CartComponent = () => {
                             {/* Adults & Children */}
                             <div className="d-flex align-items-center mb-2 mt-4 gap-2">
                               {/* Adult input */}
-                              <div className="border d-flex rounded-2 align-items-center px-2">
-                                <label
-                                  htmlFor={`adultNo-${index}`}
-                                  className="me-2 item-label"
-                                >
-                                  Adults
-                                </label>
-                                <input
-                                  min={1}
-                                  type="number"
-                                  id={`adultNo-${index}`}
-                                  className="form-control item-input shadow-none"
-                                  value={adultGuests}
-                                  onChange={(e) =>
-                                    handleNumberInput(
-                                      e.target.value,
-                                      1,
-                                      item.adult_cap,
-                                      index,
-                                      "adultGuests",
-                                      item
-                                    )
-                                  }
-                                />
-                              </div>
-
-                              {/* Child input */}
-                              <div className="border d-flex rounded-2 align-items-center px-2">
-                                <label
-                                  htmlFor={`childNo-${index}`}
-                                  className="me-2 item-label"
-                                >
-                                  Children
-                                </label>
-                                <input
-                                  type="number"
-                                  id={`childNo-${index}`}
-                                  className="form-control item-input shadow-none"
-                                  value={childGuests}
-                                  onChange={(e) =>
-                                    handleNumberInput(
-                                      e.target.value,
-                                      0,
-                                      item.child_cap,
-                                      index,
-                                      "childGuests"
-                                    )
-                                  }
-                                />
-                              </div>
+                              {item.is_daylong == true && (
+                                <div className="border d-flex rounded-2 align-items-center px-2">
+                                  <label
+                                    htmlFor={`adultNo-${index}`}
+                                    className="me-2 item-label"
+                                  >
+                                    Adults
+                                  </label>
+                                  <input
+                                    min={1}
+                                    type="number"
+                                    id={`adultNo-${index}`}
+                                    className="form-control item-input shadow-none"
+                                    value={adultGuests}
+                                    onChange={(e) =>
+                                      handleNumberInput(
+                                        e.target.value,
+                                        1,
+                                        item.adult_cap,
+                                        index,
+                                        "adultGuests",
+                                        item
+                                      )
+                                    }
+                                  />
+                                </div>
+                              )}
                             </div>
 
-                            <p className="max-persons mt-3">
-                              {item?.is_daylong
-                                ? "Unlimited guests can be added."
-                                : `Maximum ${item.adult_cap} Adult(s) and ${item.child_cap} Child(ren) can stay in this Room.`}
-                            </p>
+                            {Boolean(item?.is_daylong) && (
+                              <p className="max-persons mt-3">
+                                Unlimited guests can be added.
+                              </p>
+                            )}
 
                             {item?.is_daylong == 1 && (
                               <DaylongDatePicker
