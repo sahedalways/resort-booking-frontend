@@ -77,10 +77,16 @@ export default function ResortsPage() {
     }
 
     const filtered = resorts.filter((resort) => {
-      const price = parseFloat(resort.lowest_price) || 0;
+      const low = parseFloat(resort.lowest_price) || 0;
+      const high = parseFloat(resort.highest_price) || 0;
+
       return selectedRanges.some((range) => {
         const [min, max] = range.split("-").map(Number);
-        return price >= min && price <= max;
+
+        const isLowInRange = low >= min && low <= max;
+        const isHighInRange = high >= min && high <= max;
+
+        return isLowInRange || isHighInRange;
       });
     });
 

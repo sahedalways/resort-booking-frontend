@@ -217,7 +217,9 @@ const RoomContent = ({ room, resortName }) => {
                         <span className="secondary-color">
                           BDT {room.price ?? "N/A"}
                         </span>{" "}
-                        {room.is_daylong ? "per person" : "per night/room"}
+                        {room.is_daylong == true
+                          ? "per person"
+                          : "per night/room"}
                       </p>
 
                       <p className="text-block-14-fw-md gray-text mt-1">

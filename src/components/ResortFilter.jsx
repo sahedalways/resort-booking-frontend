@@ -15,21 +15,42 @@ const ResortFilter = ({ onFilterChange, maxPrice, minPrice }) => {
 
   const toggleFilter = () => setShowFilter((prev) => !prev);
 
-  // Generate price ranges dynamically by 500
   useEffect(() => {
+    if (minPrice == null || maxPrice == null || maxPrice <= minPrice) return;
+
     const ranges = [];
-    let start = minPrice;
-    while (start < maxPrice) {
-      const end = Math.min(start + 499, maxPrice);
+    const totalSteps = 5;
+    const rawStep = (maxPrice - minPrice) / totalSteps;
+
+    const step = Math.ceil(rawStep / 500) * 500;
+
+    let start = Math.floor(minPrice / 500) * 500;
+
+    for (let i = 0; i < totalSteps; i++) {
+      let end = start + step;
+
+      // Make sure last range ends exactly at maxPrice
+      if (i === totalSteps - 1 || end > maxPrice) {
+        end = maxPrice;
+      } else {
+        end = Math.floor(end / 500) * 500;
+      }
+
       ranges.push([start, end]);
-      start += 500;
+      start = end + 1;
     }
+
     setPriceRanges(ranges);
 
-    // Set initial custom range in middle
+    // Set initial custom range in middle (rounded to 500)
+    const middleMin =
+      Math.floor((minPrice + (maxPrice - minPrice) / 4) / 500) * 500;
+    const middleMax =
+      Math.ceil((minPrice + ((maxPrice - minPrice) * 3) / 4) / 500) * 500;
+
     setCustomRange({
-      min: Math.floor(minPrice + (maxPrice - minPrice) / 4),
-      max: Math.ceil(minPrice + ((maxPrice - minPrice) * 3) / 4),
+      min: middleMin,
+      max: middleMax,
       enabled: false,
     });
   }, [minPrice, maxPrice]);
@@ -92,9 +113,12 @@ const ResortFilter = ({ onFilterChange, maxPrice, minPrice }) => {
             </div>
 
             {/* Preset Price Ranges */}
-            {!customRange.enabled && (
+            {!customRange.enabled && priceRanges.length > 0 && maxPrice > 0 && (
               <div className="price-options d-flex flex-column gap-1">
                 {priceRanges.map(([min, max]) => {
+                  // Skip invalid ranges
+                  if (min >= max || max <= 0) return null;
+
                   const range = `${min}-${max}`;
                   return (
                     <label key={range} className="d-flex align-items-center">
