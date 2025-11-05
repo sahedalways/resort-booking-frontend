@@ -16,7 +16,11 @@ const SingleResortInfo = ({ id }) => {
     useContext(ResortContext);
 
   useEffect(() => {
-    fetchResortById(id);
+    if (!id) return;
+
+    if (!resortDetails || resortDetails.id !== id) {
+      fetchResortById(id);
+    }
   }, [id]);
 
   if (isResortLoading || !resortDetails) {

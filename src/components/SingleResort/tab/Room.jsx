@@ -23,6 +23,8 @@ const RoomContent = ({ room, resortName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const isDayLong = room.is_daylong === 1 || room.is_daylong === true;
+
   const handleImageClick = (index) => {
     setSelectedIndex(index);
     setIsModalOpen(true);
@@ -135,10 +137,9 @@ const RoomContent = ({ room, resortName }) => {
                       Bed Type
                     </span>
                     <span className="text-muted">:</span>
+
                     <span className="text-block-14-fw-md gray-text">
-                      {room.is_daylong
-                        ? "N/A"
-                        : room.bed_type?.type_name || "N/A"}
+                      {isDayLong ? "N/A" : room.bed_type?.type_name || "N/A"}
                     </span>
                   </div>
 
@@ -148,7 +149,7 @@ const RoomContent = ({ room, resortName }) => {
                     </span>
                     <span className="text-muted">:</span>
                     <span className="text-block-14-fw-md gray-text">
-                      {room.is_daylong
+                      {isDayLong
                         ? "0"
                         : `Adult x ${room.adult_cap || 0}, Child x ${
                             room.child_cap || 0
@@ -161,8 +162,9 @@ const RoomContent = ({ room, resortName }) => {
                       View Type
                     </span>
                     <span className="text-muted">:</span>
+
                     <span className="text-block-14-fw-md gray-text">
-                      {room.is_daylong
+                      {isDayLong
                         ? "Full View"
                         : room.view_type?.type_name || "N/A"}
                     </span>
@@ -172,7 +174,7 @@ const RoomContent = ({ room, resortName }) => {
                     <span className="text-block-14-fw-md gray-text">Area</span>
                     <span className="text-muted">:</span>
                     <span className="text-block-14-fw-md gray-text">
-                      {room.is_daylong ? "N/A" : `${room.area || "N/A"} sqm`}
+                      {isDayLong ? "N/A" : `${room.area || "N/A"} sqm`}
                     </span>
                   </div>
                 </div>
