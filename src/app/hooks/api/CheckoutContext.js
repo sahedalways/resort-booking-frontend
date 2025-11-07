@@ -33,7 +33,6 @@ export const CheckoutProvider = ({ children }) => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log("response.data", response.data.data.booking_id);
 
       setIsLoadingSubmitting(false);
       setIsLoadingAnimation(true);
@@ -46,7 +45,7 @@ export const CheckoutProvider = ({ children }) => {
 
       setTimeout(() => {
         checkBookingStatus(bookingId, isLoggedInToken);
-      }, 20000);
+      }, 120000);
     } catch (error) {
       setIsLoadingAnimation(false);
 

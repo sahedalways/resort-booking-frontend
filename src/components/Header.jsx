@@ -110,18 +110,6 @@ const Header = () => {
                   Contact
                 </Link>
               </li>
-              {isLoggedInToken && authUserData && (
-                <li className="nav-item">
-                  <Link
-                    href="/user/dashboard"
-                    className={`nav-link ${
-                      pathname === "/user/dashboard/" ? "active" : ""
-                    }`}
-                  >
-                    Dashboard
-                  </Link>
-                </li>
-              )}
             </ul>
 
             <div className="d-flex justify-content-center align-items-center gap-3">
@@ -279,19 +267,6 @@ const Header = () => {
 
             {isLoggedInToken && authUserData && (
               <>
-                {/* Dashboard Link */}
-                <li className="nav-item mt-3">
-                  <Link
-                    href="/user/dashboard"
-                    className={`nav-link ${
-                      pathname === "/user/dashboard/" ? "active" : ""
-                    }`}
-                    onClick={handleClose}
-                  >
-                    Dashboard
-                  </Link>
-                </li>
-
                 {/* Cart */}
                 <li className="nav-item mt-3 text-center">
                   <div
